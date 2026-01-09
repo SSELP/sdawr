@@ -1,5 +1,5 @@
 name: "sdawr-course"
-output_dir: "docs"
+output_dir: "."
 navbar:
   title: "Spatial Data Analysis with R, 2026 Spring"
   left:
