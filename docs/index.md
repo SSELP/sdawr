@@ -1,14 +1,14 @@
 
-# Geospatial Analysis with R <img src="https://www.neche.org/wp-content/uploads/2023/06/CU_Seal_Red_SM-768x768.webp" align="right" width="120"/>
+# Spatial Data Analysis with R <img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="120"/>
 
-## Fall 2025
+## Spring 2026
 
-Updated on: 2025-11-12
+Updated on: 2026-01-08
 
-|                    |                   |
-|:-------------------|:------------------|
-| Instructor         | Lyndon Estes      |
-| Teaching assistant | Elisabeth Tappert |
+|                    |          |
+|:-------------------|:---------|
+| Instructor         | Lei Song |
+| Teaching assistant | TBD      |
 
 ## Resources
 
