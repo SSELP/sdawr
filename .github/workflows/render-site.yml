@@ -41,12 +41,12 @@ jobs:
 
       - name: Build Site
         run: |
-          Rscript -e 'rmarkdown::render_site()'
+          Rscript -e 'rmarkdown::render_site(input = "docs")'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs' 
+          path: 'docs/' 
 
   deploy:
     environment:
