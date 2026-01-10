@@ -28,11 +28,23 @@ output: html_document
 **Teaching Assistant:** TBD   
 **Time:** Mon and Wed, 3:50PM - 5:10PM   
 **Location:** Lucy Stone Hall (LSH-B266), Livingston campus
-::: 
+:::
+
+## Important notes
+
+**Course Materials:** All lecture materials and assignments will be hosted exclusively on this site. Canvas will be used only for posting grades.
+
+**Communication:** We will use Google Chat for all course-related correspondence, including both direct messages and group discussions.
+
+## Need Help?
+
+* **Office Hours:** Mon and Wed, 2:50PM - 3:50PM (or by appointment).
+* **Location:** Lucy Stone Hall (B249), Livingston campus.
+* **Technical Issues:** Post in the Google Chat.
 
 ## Getting start!
 
-Please read the Syllabus to get yourself familiar with this course, and read the tutorials to set yourself up for the course.
+Please review the Syllabus to familiarize yourself with the course requirements and follow the Tutorials to complete your initial setup.
 
 -   [Syllabus](syllabus.html)
 -   [Assessment Criteria](assessment.html)
@@ -41,7 +53,7 @@ Please read the Syllabus to get yourself familiar with this course, and read the
 
 ## Resources
 
-These resources are helpful that you will reference back and forth for the whole semester.
+"These resources are helpful references that you will return to throughout the semester.
 
 -   [Helpful functions](helpful_functions.html)
 -   [Cheatsheets](cheatsheets.html)
@@ -81,7 +93,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">1</td>
       <td>Jan 21</td>
       <td>Setup</td>
-      <td>[Class 1](class1.html)</td>
+      <td>Class 1</td>
       <td></td>
     </tr>
     <tr>
@@ -163,14 +175,17 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td>Class 20, Class 21</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 5</td>
     </tr>
+    <tr style="background-color: #f8f9fa; font-weight: bold;">
+      <td colspan="5" style="text-align: center; border-bottom: 2px solid #cc0033; padding-top: 20px;">UNIT 3: FINAL PROJECT</td>
+    </tr>
     <tr>
       <td style="text-align: center;">13</td>
       <td>Apr 13</td>
-      <td>Oral defense</td>
+      <td>Project oral defense</td>
       <td>Project Drafts</td>
       <td></td>
     </tr>
-    <tr class="text-muted">
+    <tr>
       <td style="text-align: center;">13-15</td>
       <td>Apr 15 onwards</td>
       <td colspan="3" style="text-align: center; letter-spacing: 5px;">FINAL PROJECT CONSULTATION</td>
@@ -184,3 +199,61 @@ The class materials were designed by Lyndon Estes and Lei Song.
     </tr>
   </tbody>
 </table>
+
+## More useful resources
+### Books etc
+- [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf)
+- [Efficient R Programming](https://csgillespie.github.io/efficientR/index.html#building-the-book)
+- [Swirl Stats](http://swirlstats.com) and the `swirl` package
+
+### The intertubes
+#### R general
+    
+- [CRAN](https://cran.r-project.org), particularly an [Introduction to R](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) the Task view [Analysis of Spatial Data](https://cran.r-project.org/web/views/Spatial.html)
+- [R Exercises](http://www.r-exercises.com)
+- [ROpenSci](https://ropensci.org)
+- [Kelly Black's R tutorial](http://www.cyclismo.org/tutorial/R/#)
+- [Creating reproducible examples](https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example) (read this before posting to one of the mailing lists)
+- [R mailing lists/listservs](https://www.r-project.org/mail.html)
+- [Speeding up R](http://www.noamross.net/blog/2013/4/25/faster-talk.html)
+- [tidyverse tutorial video](https://www.youtube.com/watch?v=9q7gssUP8UA)
+
+#### Advanced analytics
+- [Generalized Additive Models](http://multithreaded.stitchfix.com/blog/2015/07/30/gam/)
+- [Regression Trees, Random Forests, Gradient Boosting](https://www.analyticsvidhya.com/blog/2016/04/complete-tutorial-tree-based-modeling-scratch-in-python/)
+- [Support Vector Machines](https://eight2late.wordpress.com/2017/02/07/a-gentle-introduction-to-support-vector-machines-using-r/)
+- [Change point detection](https://www.r-bloggers.com/change-point-detection-in-time-series-with-r-and-tableau/)
+- [Deep learning in R, 1](https://blog.rstudio.com/2018/02/06/tensorflow-for-r/)
+- [Deep learning in R, 2](https://datascienceplus.com/deep-learning-with-r/)
+- [R and DuckDB](https://borkar.substack.com/p/r-workflows-with-duckdb)
+
+#### Reproducibility
+- [Add citations to an Rmarkdown document](https://www.rdocumentation.org/packages/citr/versions/0.2.0)
+- [Rmarkdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+- [Tools for Reproducible Research](http://kbroman.org/Tools4RR/)
+- [manuscriptPackage](https://github.com/jhollist/manuscriptPackage): An R package that provides a package template for ___writing a Latex manuscript using Rmarkdown___, complete with citations. 
+
+#### R versus python
+
+This is a big topic, but here are a few links to get started. Lately the two seem to be converging in terms of usage (i.e. there is a trend towards using both together, read the latest news from Rstudio--see the first link)
+
+- [*Posit – Why RStudio Is Changing Its Name*](https://appsilon.com/posit-rstudio-rebrands/)
+- [*R Vs Python: What’s the Difference?*](https://www.guru99.com/r-vs-python.html)
+- [*R vs. Python: Which is a better programming language for data science?*](https://www.techrepublic.com/article/r-vs-python-which-is-a-better-programming-language-for-data-science/)
+- [*Why I'll stick with R*](https://md.ekstrandom.net/blog/2016/04/using-r/)
+- [Why not both?](https://www.r-bloggers.com/the-best-of-both-worlds-r-meets-python-via-reticulate/)
+
+#### R spatial
+- [A short R spatial tutorial](https://pakillo.github.io/R-GIS-tutorial/), with some good examples for connecting to Google Maps. 
+- [Another R spatial tutorial](https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf), with `ggplot2` and `tmap`
+
+#### Blogs/twitter to follow
+- [R-Ladies](https://rladies.org/)
+- [R-bloggers](https://www.r-bloggers.com/)
+- [R-spatial](http://r-spatial.org/)
+- [\@RLangTip](https://twitter.com/RLangTip)
+
+***
+<p style="text-align: center;" class="text-muted">
+  <small>Last updated on `r Sys.Date()` | Spatial Data Analysis with R (SDAWR) 2026</small>
+</p>
