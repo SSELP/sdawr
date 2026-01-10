@@ -1,6 +1,6 @@
 ---
 title: Spatial Data Analysis with R
-output: github_document
+output: html_document
 ---
 
 <style>
@@ -81,7 +81,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">1</td>
       <td>Jan 21</td>
       <td>Setup</td>
-      <td>Class 1</td>
+      <td>[Class 1](class1.html)</td>
       <td></td>
     </tr>
     <tr>
