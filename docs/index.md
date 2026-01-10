@@ -1,24 +1,49 @@
+Spatial Data Analysis with R
+================
 
-# Spatial Data Analysis with R <img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="120"/>
+<style>
+  .btn-danger { background-color: #cc0033; border-color: #990022; }
+  .label-danger { background-color: #cc0033; }
+  table { width: 100%; margin-bottom: 20px; border: 1px solid #eee; }
+  th { background-color: #f8f8f8; padding: 12px !important; }
+  td { padding: 12px !important; vertical-align: middle !important; }
+</style>
 
-## Spring 2026
+<style>
+  /* This targets any paragraph inside your custom boxes */
+  div[style*="border-left"] p {
+    margin: 0;
+  }
+</style>
 
-Updated on: 2026-01-08
+<img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="110"/>
+<img src="figures/logo.png" align="right" width="110" style="margin-left: 10px;"/>
 
-|                    |          |
-|:-------------------|:---------|
-| Instructor         | Lei Song |
-| Teaching assistant | TBD      |
+### 01:450:320 \| Spring 2026 \| Updated on: 2026-01-10
 
-## Resources
+<div style="padding: 5px 15px; background: #f8f9fa; border-left: 5px solid #cc0033; width: fit-content; margin-bottom: 20px;">
+
+**Instructor:** [Lei Song](mailto:your-email@rutgers.edu)  
+**Teaching Assistant:** TBD  
+**Time:** Mon and Wed, 3:50PM - 5:10PM  
+**Location:** Lucy Stone Hall (LSH-B266), Livingston campus
+
+</div>
+
+## Getting start!
+
+Please read the Syllabus to get yourself familiar with this course, and
+read the tutorials to set yourself up for the course.
 
 - [Syllabus](syllabus.html)
 - [Assessment Criteria](assessment.html)
 - [Software installation](software-installation.html)
 - [Git/GitHub](git-github.html)
-- [Known bugs and fixes](bugs-fixes.html)
 
-## Links
+## Resources
+
+These resources are helpful that you will reference back and forth for
+the whole semester.
 
 - [Helpful functions](helpful_functions.html)
 - [Cheatsheets](cheatsheets.html)
@@ -27,91 +52,483 @@ Updated on: 2026-01-08
 
 The class materials were designed by Lyndon Estes and Lei Song.
 
-- [Unit 1](unit1.html) - Overview
+- [Unit 1](unit1.html) - Fundamentals of R programming
   - [Module 1](unit1-module1.html) - Reproducibility and related R
     skills
   - [Module 2](unit1-module2.html) - R and R fundamentals
   - [Module 3](unit1-module3.html) - Data preparation and operation
   - [Module 4](unit1-module4.html) - Data manipulation and visualization
-- [Unit 2](unit2.html) - Overview
+- [Unit 2](unit2.html) - Handling and analyzing spatial data
   - [Module 1](unit2-module1.html) - Vector data
   - [Module 2a](unit2-module2a.html) - Raster data, part 1
   - [Module 2b](unit2-module2b.html) - Raster data, part 2
 - [Potential Projects](projects.html)
 
-## Course content
+## Course Schedule (Subject to change)
 
-### Week 1 (Aug 25)
+<table class="table" style="width:100%;">
 
-- Setup
-- [Class 1 slides](class1.html)
-- [Class 2 slides](class2.html)
+<thead>
 
-### Week 2 (Sept 3)
+<tr>
 
-- Using git and Github; R packages;
-- [Class 3 slides](class3.html)
+<th style="width: 75px; text-align: center;">
 
-### Week 3 (Sept 8)
+Week
+</th>
 
-- Continued setup work, RMarkdown, R ecosystem
-- Assignment 1 due (Unit 1 Module 1)
-- [Class 4 slides](class4.html)
-- [Class 5 slides](class5.html)
+<th style="width: 140px;">
 
-### Week 4 (Sept 15)
+Date
+</th>
 
-- R ecosystem, R data structures, OOP, Environments, Control flow
-- [Class 6 slides](class6.html)
-- [Class 7 slides](class7.html)
+<th style="width: 300px;">
 
-### Week 5 (Sept 22)
+Topic
+</th>
 
-- R data structures, OOP, Environments, Control flow
-- Assignment 2 due (Unit 1 Modules 2-3)
-- [Class 8 slides](class8.html)
-- [Class 9 slides](class9.html)
+<th style="width: 160px;">
 
-### Week 6 (Sept 29)
+Slides
+</th>
 
-- tidyverse, working with data
-- regression, plotting
-- [Class 10 slides](class10.html)
-- [Class 11 slides](class11.html)
+<th style="width: 220px;">
 
-### Week 7 (Oct 6)
+Deadlines
+</th>
 
-- tidyverse, data manipulation
-- Assignment 3 due (Unit 1 Module 4)
-- [Class 12 slides](class12.html)
+</tr>
 
-### Week 9 (Oct 15)
+</thead>
 
-- Working with vectors
-- [Class 13 slides](class13.html)
+<tbody>
 
-### Week 10 (Oct 20)
+<tr style="background-color: #f8f9fa; font-weight: bold;">
 
-- More on vectors
-- Assignment 4 due (Unit 2 Module 1)
-- [Class 14 slides](class14.html)
-- [Class 15 slides](class15.html)
+<td colspan="5" style="text-align: center; border-bottom: 2px solid #cc0033;">
 
-### Week 11 (Oct 27)
+UNIT 1: FUNDAMENTALS OF R PROGRAMMING
+</td>
 
-- Raster algebra, terrain, modeling
-- [Class 16 slides](class16.html)
-- [Class 17 slides](class17.html)
+</tr>
 
-### Week 12 (Nov 3)
+<tr>
 
-- Assignment 5 (Unit 2 Module 2)
-- [Class 18 slides](class18.html)
-- [Class 19 slides](class19.html)
+<td style="text-align: center;">
 
-### Week 13-15 (Nov 10 onwards)
+1
+</td>
 
-- Exam
-- Project Overview due (end week 13)
-- Final Projects due Dec 15
-- [Class 20 slides](class20.html)
+<td>
+
+Jan 21
+</td>
+
+<td>
+
+Setup
+</td>
+
+<td>
+
+Class 1
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+2
+</td>
+
+<td>
+
+Jan 26, 28
+</td>
+
+<td>
+
+Continued setup; Git & GitHub
+</td>
+
+<td>
+
+Class 2, Class 3
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+3
+</td>
+
+<td>
+
+Feb 2, 4
+</td>
+
+<td>
+
+R Ecosystem & R Markdown
+</td>
+
+<td>
+
+Class 4, Class 5
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Assignment 1
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+4
+</td>
+
+<td>
+
+Feb 9, 11
+</td>
+
+<td>
+
+Data structures, OOP, Env, Control flow
+</td>
+
+<td>
+
+Class 6, Class 7
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+5
+</td>
+
+<td>
+
+Feb 16, 18
+</td>
+
+<td>
+
+Week 4 continued
+</td>
+
+<td>
+
+Class 8, Class 9
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Assignment 2
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+6
+</td>
+
+<td>
+
+Feb 23, 25
+</td>
+
+<td>
+
+tidyverse, working with data
+</td>
+
+<td>
+
+Class 10, Class 11
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+7
+</td>
+
+<td>
+
+Mar 2, 4
+</td>
+
+<td>
+
+Data manipulation
+</td>
+
+<td>
+
+Class 12, Class 13
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Assignment 3
+</td>
+
+</tr>
+
+<tr style="background-color: #f8f9fa; font-weight: bold;">
+
+<td colspan="5" style="text-align: center; border-bottom: 2px solid #cc0033; padding-top: 20px;">
+
+UNIT 2: HANDLING AND ANALYZING SPATIAL DATA
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+8
+</td>
+
+<td>
+
+Mar 9, 11
+</td>
+
+<td>
+
+Working with vectors
+</td>
+
+<td>
+
+Class 14, Class 15
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr class="text-muted">
+
+<td style="text-align: center;">
+
+9
+</td>
+
+<td>
+
+Mar 16-20
+</td>
+
+<td colspan="3" style="text-align: center; letter-spacing: 5px;">
+
+SPRING BREAK - NO CLASS
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+10
+</td>
+
+<td>
+
+Mar 23, 25
+</td>
+
+<td>
+
+More on vectors
+</td>
+
+<td>
+
+Class 16, Class 17
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Assignment 4
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+11
+</td>
+
+<td>
+
+Mar 30, Apr 1
+</td>
+
+<td>
+
+Raster algebra, terrain
+</td>
+
+<td>
+
+Class 18, Class 19
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+12
+</td>
+
+<td>
+
+Apr 6, 8
+</td>
+
+<td>
+
+Raster algebra, terrain continued
+</td>
+
+<td>
+
+Class 20, Class 21
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Assignment 5
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+13
+</td>
+
+<td>
+
+Apr 13
+</td>
+
+<td>
+
+Oral defense
+</td>
+
+<td>
+
+Project Drafts
+</td>
+
+<td>
+
+</td>
+
+</tr>
+
+<tr class="text-muted">
+
+<td style="text-align: center;">
+
+13-15
+</td>
+
+<td>
+
+Apr 15 onwards
+</td>
+
+<td colspan="3" style="text-align: center; letter-spacing: 5px;">
+
+FINAL PROJECT CONSULTATION
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align: center;">
+
+16
+</td>
+
+<td>
+
+May 4
+</td>
+
+<td>
+
+Final project presentation
+</td>
+
+<td>
+
+Your slides!
+</td>
+
+<td style="color: #cc0033; font-weight: bold;">
+
+Final Project Due 11 May
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
