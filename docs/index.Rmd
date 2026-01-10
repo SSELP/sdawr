@@ -38,7 +38,7 @@ output: html_document
 
 ## Need Help?
 
-* **Office Hours:** Mon and Wed, 2:50PM - 3:50PM (or by appointment).
+* **Office Hours:** Mon and Wed, 2:50PM - 3:50PM (right before class or by appointment).
 * **Location:** Lucy Stone Hall (B249), Livingston campus.
 * **Technical Issues:** Post in the Google Chat.
 
@@ -53,7 +53,7 @@ Please review the Syllabus to familiarize yourself with the course requirements 
 
 ## Resources
 
-"These resources are helpful references that you will return to throughout the semester.
+These resources are helpful references that you will return to throughout the semester.
 
 -   [Helpful functions](helpful_functions.html)
 -   [Cheatsheets](cheatsheets.html)
@@ -200,7 +200,10 @@ The class materials were designed by Lyndon Estes and Lei Song.
   </tbody>
 </table>
 
-## More useful resources
+## More resources
+
+The following resources are helpful for deeper exploration. You may find them increasingly useful as the semester progresses and your R proficiency grows.
+
 ### Books etc
 - [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf)
 - [Efficient R Programming](https://csgillespie.github.io/efficientR/index.html#building-the-book)
