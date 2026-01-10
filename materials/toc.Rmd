@@ -1,0 +1,39 @@
+---
+title: "Guide to Vignettes"
+subtitle: "GEOG246-346"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: pygments
+    fig_caption: yes
+    number_sections: yes
+    toc_depth: 3
+    css: unit.css
+vignette: >
+  %\VignetteIndexEntry{Guide to Vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Organizational
+- [Syllabus](syllabus.html)
+- [Assessment Criteria](assessment.html)
+- [List of Potential Projects](projects.html)
+- [Installing Software](software-installation.html)
+- [git/GitHub](git-github.html)
+- [Known bugs and fixes](bugs-fixes.html)
+
+# Materials
+- [Unit 1](unit1.html) - Overview
+  - [Module 1](unit1-module1.html) - A general overview of R and an introduction to reproducibility tools
+  - [Module 2](unit1-module2.html) - Basic `R` programming concepts and skills
+  - [Module 3](unit1-module3.html) - Introduction to `R` programming
+  - [Module 4](unit1-module4.html) - Data analysis and visualization
+  - [Appendix](unit1-appendix.html) - Unit appendix
+
+- [Unit 2](unit2.html) - Overview
+  - [Module 1](unit2-module1.html) - Working with vector data
+  - [Module 2a](unit2-module2a.html) - Working with raster data
+  - [Module 2b](unit2-module2b.html) - Working with raster data
+  - [Module 3](unit2-module3.html) - Modeling [placeholder]
+  - [Appendix](unit2-appendix.html) - Unit appendix
