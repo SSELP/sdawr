@@ -3,6 +3,13 @@ title: Spatial Data Analysis with R
 output: html_document
 ---
 
+<style>
+.rutgers-bold {
+  color: #cc0033;
+  font-weight: bold;
+}
+</style>
+
 <img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="110"/>
 <img src="figures/logo.png" align="right" width="110" style="margin-left: 10px;"/>
 
@@ -31,8 +38,8 @@ output: html_document
 
 Please review the Syllabus to familiarize yourself with the course requirements and follow the Tutorials to complete your initial setup.
 
--   [Syllabus](syllabus.html)
--   [Assessment Criteria](assessment.html)
+-   [Syllabus](syllabus.html) (<span class="rutgers-bold">Important</span>)
+-   [Assessment Criteria](assessment.html) (<span class="rutgers-bold">Important</span>)
 -   [Software installation](software-installation.html)
 -   [Git/GitHub](git-github.html)
 
