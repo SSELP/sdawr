@@ -139,6 +139,26 @@ If in doubt, please consult the instructor. Please review the [Academic Integrit
 
 **Honor pledge:** All students will have to commit to the Rutgers Honor Pledge: **On my honor, I have neither received nor given any unauthorized assistance on this examination (assignment, paper, quiz, etc.).**
 
+## Generative AI Policy
+
+In this course, we recognize that Generative AI (e.g., ChatGPT or Gemini in Google Search) is an evolving part of the modern data science workflow. You are permitted to use these tools **but only** in an assistant capacity, provided you adhere to the following standards of Authentic Authorship:
+
+**Permitted Uses (the "Assistant" Model):**
+
+- Grammar and Composition: Refining the wording of your reports or clarifying the language in your project overview.
+
+- Brainstorming: Exploring potential research questions or identifying available spatial datasets.
+
+- Debugging: Inputting error messages to understand why a specific function failed and learning how to fix it.
+
+- Code Explanation: Asking an AI to explain a complex R function or a spatial concept in plain English.
+
+### The "Human-in-the-Loop" Expectation
+
+All submitted assignments and projects must be your **original** work. While AI can assist in the process, you **must** possess a deep and thorough understanding of every function, package, and spatial concept included in your submission.
+
+**Note:** If any AI-generated content in your submission is found (e.g., a non-existent function or a fabricated reference), a formal academic integrity report will be initiated immediately.
+
 ## Disability Accommodations
 
 Rutgers University welcomes students with disabilities into all of the University's educational programs. To receive consideration for reasonable accommodations, if you are a student with a disability, you must contact the appropriate disability services office at the campus where you are officially enrolled, participate in an intake interview, and provide [documentation](https://ods.rutgers.edu/students/documentation-guidelines). If the documentation supports your request for reasonable accommodations, your campus's disability services office will provide you with a Letter of Accommodations. Please share this letter with me and the teaching assistant and discuss the accommodations with us as early as possible. To begin this process, please complete the Registration on the [ODS web site](https://ods.rutgers.edu/students/getting-registered).
@@ -269,17 +289,3 @@ This is a big topic, but here are a few links to get started. Lately the two see
 - [R-bloggers](https://www.r-bloggers.com/)
 - [R-spatial](http://r-spatial.org/)
 - [\@RLangTip](https://twitter.com/RLangTip)
-
-***
-<center>
-[Back to home](index.html)
-</center>
-***
-
-
-
-
-
-
-
-
