@@ -1,6 +1,6 @@
 ---
 title: "Git/Github"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -152,9 +152,3 @@ include_graphics("fig/branches.png")
     ```
     
     Note the -u flag. That should fix it. 
-    
-***
-<center>
-[Back to home](index.html)
-</center>
-***

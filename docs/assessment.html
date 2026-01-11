@@ -6,7 +6,6 @@
     <meta name="generator" content="pandoc" />
 
     
-        <meta name="date" content="2025-08-25" />
     
     <title>Assessment</title>
 
@@ -1450,7 +1449,7 @@ margin-left: 0 !important;
    
         
       <h1 class="title">Assessment</h1>
-         <h1 class="subtitle">GEOG246-346</h1>
+         <h1 class="subtitle">Spatial Data Analysis with R</h1>
    
          <!-- readthedown authors -->
    <div id="sidebar">
@@ -1459,15 +1458,21 @@ margin-left: 0 !important;
       <ul>
       <li><a href="#grading" id="toc-grading">Overall Grades</a></li>
       <li><a href="#participation" id="toc-participation">Participation</a></li>
-      <li><a href="#exam" id="toc-exam">Exam</a></li>
-      <li><a href="#assignments" id="toc-assignments">Assignments</a></li>
+      <li><a href="#assignments" id="toc-assignments">Assignments</a>
+      <ul>
+      <li><a href="#quiz-based-grade-refinement" id="toc-quiz-based-grade-refinement">Quiz-Based Grade
+      Refinement</a></li>
+      </ul></li>
       <li><a href="#final-project-overview" id="toc-final-project-overview">Final project overview</a></li>
+      <li><a href="#final-project-oral-defense" id="toc-final-project-oral-defense">Final project oral
+      defense</a></li>
       <li><a href="#final-project" id="toc-final-project">Final
       project</a></li>
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2025-08-25</p>
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-10
+<a href="index.html">Back to home</a></p>
           </div>
    </div>
      
@@ -1477,11 +1482,6 @@ margin-left: 0 !important;
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
-<hr />
-<center>
-<a href="toc.html">Back to <strong>vignette index</strong></a>
-</center>
-<hr />
 <div id="grading" class="section level1">
 <h1>Overall Grades</h1>
 <p>Final letter grades will be assigned as follows</p>
@@ -1489,47 +1489,32 @@ margin-left: 0 !important;
 <tbody>
 <tr class="odd">
 <td align="left">lower</td>
-<td align="left">94</td>
 <td align="left">90</td>
-<td align="left">88</td>
-<td align="left">83</td>
+<td align="left">85</td>
 <td align="left">80</td>
-<td align="left">78</td>
-<td align="left">73</td>
+<td align="left">75</td>
 <td align="left">70</td>
-<td align="left">68</td>
-<td align="left">63</td>
 <td align="left">60</td>
 <td align="left">0</td>
 </tr>
 <tr class="even">
 <td align="left">upper</td>
 <td align="left">100</td>
-<td align="left">94</td>
 <td align="left">90</td>
-<td align="left">88</td>
-<td align="left">83</td>
+<td align="left">85</td>
 <td align="left">80</td>
-<td align="left">78</td>
-<td align="left">73</td>
+<td align="left">75</td>
 <td align="left">70</td>
-<td align="left">68</td>
-<td align="left">63</td>
 <td align="left">60</td>
 </tr>
 <tr class="odd">
 <td align="left">grade</td>
 <td align="left">A</td>
-<td align="left">A-</td>
 <td align="left">B+</td>
 <td align="left">B</td>
-<td align="left">B-</td>
 <td align="left">C+</td>
 <td align="left">C</td>
-<td align="left">C-</td>
-<td align="left">D+</td>
 <td align="left">D</td>
-<td align="left">D-</td>
 <td align="left">F</td>
 </tr>
 </tbody>
@@ -1555,11 +1540,6 @@ Students receiving 60% or higher on a quiz receive a “Complete”
 grade.</p></li>
 </ul>
 </div>
-<div id="exam" class="section level1">
-<h1>Exam</h1>
-<p>There will be an end of coursework coding concepts exam, worth 15% of
-the total grade.</p>
-</div>
 <div id="assignments" class="section level1">
 <h1>Assignments</h1>
 <p>Assessment: Can we load the data you used, run your code, and arrive
@@ -1568,84 +1548,236 @@ guide (note: we are a little obsessive about this)</p>
 <p>We will grade using this rubric (or one close to it that captures the
 results/style/reproducibility dimensions).</p>
 <table>
-<colgroup>
-<col width="23%" />
-<col width="7%" />
-<col width="20%" />
-<col width="8%" />
-<col width="33%" />
-<col width="7%" />
-</colgroup>
 <thead>
-<tr class="header">
-<th align="right">Accuracy</th>
-<th align="right">Acc. points</th>
-<th align="right">Reproducibility</th>
-<th align="right">Repro. points</th>
-<th align="right">Elegance</th>
-<th align="right">Ele. points</th>
+<tr>
+<th style="text-align:right;">
+Accuracy
+</th>
+<th style="text-align:right;">
+APts
+</th>
+<th style="text-align:right;">
+Reproducibility
+</th>
+<th style="text-align:right;">
+RPts
+</th>
+<th style="text-align:right;">
+Elegance
+</th>
+<th style="text-align:right;">
+EPts
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">Results all wrong (0-5%)</td>
-<td align="right">0</td>
-<td align="right">Can’t be made to run</td>
-<td align="right">0</td>
-<td align="right">Indecipherable code, no comments/documentation</td>
-<td align="right">0</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results all wrong (0-5%)
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+Can’t be made to run
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+Indecipherable code, no comments/documentation
+</td>
+<td style="text-align:right;">
+0
+</td>
 </tr>
-<tr class="even">
-<td align="right">Results mostly wrong (5-25%)</td>
-<td align="right">4</td>
-<td align="right">Doesn’t work</td>
-<td align="right">4</td>
-<td align="right">Indecipherable code, no comments/documentation</td>
-<td align="right">2</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results mostly wrong (5-25%)
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+Doesn’t work
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+Indecipherable code, no comments/documentation
+</td>
+<td style="text-align:right;">
+2
+</td>
 </tr>
-<tr class="odd">
-<td align="right">Results more wrong than right (25-50%)</td>
-<td align="right">8</td>
-<td align="right">Doesn’t run without numerous fixes</td>
-<td align="right">8</td>
-<td align="right">Code indecipherable/no comments/documentation</td>
-<td align="right">4</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results more wrong than right (25-50%)
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+Doesn’t run without numerous fixes
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+Code indecipherable/no comments/documentation
+</td>
+<td style="text-align:right;">
+4
+</td>
 </tr>
-<tr class="even">
-<td align="right">Results more right than wrong (50-75%)</td>
-<td align="right">12</td>
-<td align="right">Runs after a handful of fixes</td>
-<td align="right">12</td>
-<td align="right">Code readable but wrong style/some
-commenting/doc’tation</td>
-<td align="right">6</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results more right than wrong (50-75%)
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+Runs after a handful of fixes
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+Code readable but wrong style/some commenting/doc’tation
+</td>
+<td style="text-align:right;">
+6
+</td>
 </tr>
-<tr class="odd">
-<td align="right">Results almost entirely correct (75-95%)</td>
-<td align="right">16</td>
-<td align="right">Runs after some minor tweaks</td>
-<td align="right">16</td>
-<td align="right">Code mostly conformant/adequate
-commenting/documentation</td>
-<td align="right">8</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results almost entirely correct (75-95%)
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+Runs after some minor tweaks
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+Code mostly conformant/adequate commenting/documentation
+</td>
+<td style="text-align:right;">
+8
+</td>
 </tr>
-<tr class="even">
-<td align="right">Results all correct (95-100%)</td>
-<td align="right">20</td>
-<td align="right">Runs out of the box</td>
-<td align="right">20</td>
-<td align="right">Code conformant and stylish/well
-commented/documented</td>
-<td align="right">10</td>
+<tr>
+<td style="text-align:right;width: 20em; ">
+Results all correct (95-100%)
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+Runs out of the box
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+Code conformant and stylish/well commented/documented
+</td>
+<td style="text-align:right;">
+10
+</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<center>
-<a href="#grading">Back to top</a> || <a href="toc.html">Back to
-<strong>vignette index</strong></a>
-</center>
-<hr />
+<div style="padding: 15px; border: 1px solid #cc0033; background-color: #fdf2f2; border-radius: 5px;">
+<p><strong>⚠️ Important:</strong> Assignment grades are not final until
+the corresponding quiz is completed. The quiz score defines the maximum
+possible points you can receive for that assignment.</p>
+</div>
+<div id="quiz-based-grade-refinement" class="section level2">
+<h2>Quiz-Based Grade Refinement</h2>
+<p>Each assignment is followed by an in-class, closed-book quiz
+consisting of 10 questions directly related to the programming tasks you
+just completed. Your final score for the assignment will be determined
+by your quiz performance according to the following tiers:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Quiz Score
+</th>
+<th style="text-align:right;">
+Assignment credit
+</th>
+<th style="text-align:right;">
+Description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+8-10
+</td>
+<td style="text-align:right;">
+100%
+</td>
+<td style="text-align:right;">
+Mastery: Demonstrates clear conceptual understanding.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6-7
+</td>
+<td style="text-align:right;">
+85%
+</td>
+<td style="text-align:right;">
+Proficient: Demonstrates general understanding, with minor gaps in
+specific technical details.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4-5
+</td>
+<td style="text-align:right;">
+70%
+</td>
+<td style="text-align:right;">
+Developing: Significant gaps in understanding.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0-3
+</td>
+<td style="text-align:right;">
+60%
+</td>
+<td style="text-align:right;">
+Deficient: Inability to explain core components of the submitted work.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+No Quiz
+</td>
+<td style="text-align:right;">
+0%
+</td>
+<td style="text-align:right;">
+Unverified: No credit is awarded if the validation quiz is missed.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="final-project-overview" class="section level1">
 <h1>Final project overview</h1>
@@ -1670,7 +1802,7 @@ that the final project overview was completed and handed in.</p>
 <th align="right">Quality of Plan</th>
 <th align="right">QPts</th>
 <th align="right">Structure/completeness</th>
-<th align="right">Cpts</th>
+<th align="right">CPts</th>
 <th align="right">Reproducibility</th>
 <th align="right">RPts</th>
 </tr>
@@ -1729,12 +1861,103 @@ required information</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<center>
-<a href="#grading">Back to top</a> || <a href="toc.html">Back to
-<strong>vignette index</strong></a>
-</center>
-<hr />
+</div>
+<div id="final-project-oral-defense" class="section level1">
+<h1>Final project oral defense</h1>
+<p>The Oral Defense is a 10–15 minute technical briefing designed to
+validate the project plan submitted in your written report. This session
+serves as a “sanity check” to ensure your proposed workflow is
+technically sound and that you/your group have a complete command of the
+logic and tools required to execute the analysis.</p>
+<p>Assessment is out of 50 pts, and will be based on three
+categories:</p>
+<ul>
+<li><p><strong>Verification:</strong> To confirm that the project
+architecture and code selection were personally developed by the
+student/group.</p></li>
+<li><p><strong>Feasibility:</strong> To ensure the proposed packages and
+functions are appropriate for the research questions involved.</p></li>
+<li><p><strong>Clarity:</strong> To provide an opportunity for the
+student to articulate the “analytical bridge” between raw data and
+expected research outcomes.</p></li>
+</ul>
+<p>Note that the minimum number of points assigned per category assume
+that the student or group is present for the defense.</p>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="1%" />
+<col width="32%" />
+<col width="1%" />
+<col width="33%" />
+<col width="1%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Question handle</th>
+<th align="right">QPts</th>
+<th align="right">Technical literacy</th>
+<th align="right">LPts</th>
+<th align="right">Logic &amp; Outcome</th>
+<th align="right">OPts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">Unable to answer any questions; suggests a significant
+lack of preparation</td>
+<td align="right">4</td>
+<td align="right">Namedrops packages but unable to explain what they do
+or why they are needed</td>
+<td align="right">4</td>
+<td align="right">Unable to explain how the proposed analysis will lead
+to the intended result</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">Responses are vague, inconsistent with the report</td>
+<td align="right">8</td>
+<td align="right">Understands functions and packages but struggles to
+explain some of them</td>
+<td align="right">8</td>
+<td align="right">Describes outcomes that will not logically follow from
+the proposed analysis</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">Answers basic questions but struggles with technical
+“why” or “how” details</td>
+<td align="right">12</td>
+<td align="right">Understands general package use but cannot describe
+the specific necessity of functions</td>
+<td align="right">12</td>
+<td align="right">Describes expected maps/stats but struggles to connect
+how they will answer the research question</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">Answers most questions well; shows clear familiarity
+with only minor hesitations</td>
+<td align="right">16</td>
+<td align="right">Accurately describes the role of specific functions
+and the packages they intend to use</td>
+<td align="right">16</td>
+<td align="right">Explains the step-by-step logic of how processing will
+lead to a research result</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="right">Answers all questions thoroughly and fluently</td>
+<td align="right">20</td>
+<td align="right">Explains the underlying logic of chosen functions and
+justifies why alternatives were rejected</td>
+<td align="right">20</td>
+<td align="right">Articulates exactly what results will look like and
+how they will validate the thesis</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="final-project" class="section level1">
 <h1>Final project</h1>
@@ -1747,10 +1970,6 @@ the material in your package, focusing on the information and ideas
 conveyed in your descriptions, figures, and tables. How well did you
 understand and execute the project, and how well did you convey what you
 did?</li>
-<li><strong>Progress</strong> evaluates whether you achieved the
-objectives put forward in your Assignment 6 and final presentation,
-focusing more on the latter due to course corrections (and incorporating
-any necessary changes we discussed)</li>
 <li><strong>Clarity</strong> examines the clarity of the writing (is it
 easy to understand, no typos or missed words), the visual aspects of
 figures (does the color choice make sense, legend sensible, size
@@ -1760,197 +1979,111 @@ the stylistic components of your vignettes and code.</li>
 <li><strong>Reproducibility</strong> relates to the now familiar
 criteria about whether your package builds for another user without
 error, and with browsable vignettes.</li>
+<li><strong>Progress</strong> evaluates whether you achieved the
+objectives put forward in your Assignment 6 and final presentation,
+focusing more on the latter due to course corrections (and incorporating
+any necessary changes we discussed)</li>
 </ul>
 <p>Note that the minimum number of points assigned per category assume
 that the final project was completed and handed in.</p>
 <table>
+<colgroup>
+<col width="40%" />
+<col width="1%" />
+<col width="5%" />
+<col width="1%" />
+<col width="41%" />
+<col width="1%" />
+<col width="8%" />
+<col width="1%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-Quality
-</th>
-<th style="text-align:right;">
-QPts
-</th>
-<th style="text-align:left;">
-Progress
-</th>
-<th style="text-align:right;">
-PrPts
-</th>
-<th style="text-align:left;">
-Clarity
-</th>
-<th style="text-align:right;">
-Cpts
-</th>
-<th style="text-align:left;">
-Reproducbility
-</th>
-<th style="text-align:right;">
-RPts
-</th>
+<tr class="header">
+<th align="right">Quality</th>
+<th align="right">QPts</th>
+<th align="right">Progress</th>
+<th align="right">PrPts</th>
+<th align="right">Clarity</th>
+<th align="right">CPts</th>
+<th align="right">Reproducbility</th>
+<th align="right">RPts</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;width: 10em; ">
-Objectives/methods/results/interpretations unclear, poor understanding
-conveyed replete with analytical/methodological errors
-Findings/interpretations/examples absent
-</td>
-<td style="text-align:right;width: 10em; ">
-10
-</td>
-<td style="text-align:left;width: 10em; ">
-None since presentation
-</td>
-<td style="text-align:right;width: 10em; ">
-5.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Vignette(s) a complete mess, graphics absent/totally confusing, text a
-word salad, narrative impossible to follow code a mess/doesn’t follow
-style
-</td>
-<td style="text-align:right;width: 10em; ">
-5.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Can’t be built/no R package structure
-</td>
-<td style="text-align:right;width: 10em; ">
-3.0
-</td>
+<tr class="odd">
+<td align="right">Objectives/methods/results/interpretations unclear,
+poor understanding conveyed replete with analytical/methodological
+errors Findings/interpretations/examples absent</td>
+<td align="right">10</td>
+<td align="right">None since presentation</td>
+<td align="right">5.0</td>
+<td align="right">Vignette(s) a complete mess, graphics absent/totally
+confusing, text a word salad, narrative impossible to follow code a
+mess/doesn’t follow style</td>
+<td align="right">5.0</td>
+<td align="right">Can’t be built/no R package structure</td>
+<td align="right">3.0</td>
 </tr>
-<tr>
-<td style="text-align:left;width: 10em; ">
-Objectives/methods/results/interpretations cloudy, understanding of
-project less than half many analytical/methodological errors
-Findings/interpretations/examples present but weak/wrong
-</td>
-<td style="text-align:right;width: 10em; ">
-15
-</td>
-<td style="text-align:left;width: 10em; ">
-Only a little
-</td>
-<td style="text-align:right;width: 10em; ">
-7.5
-</td>
-<td style="text-align:left;width: 10em; ">
-Vignette(s) more unclear than clear; graphics present but hard to
-decipher; text somewhat confusing; narrative hard to follow code
-messy/mostly doesn’t follow style
-</td>
-<td style="text-align:right;width: 10em; ">
-7.5
-</td>
-<td style="text-align:left;width: 10em; ">
-Runs after many fixes
-</td>
-<td style="text-align:right;width: 10em; ">
-5.0
-</td>
+<tr class="even">
+<td align="right">Objectives/methods/results/interpretations cloudy,
+understanding of project less than half many analytical/methodological
+errors Findings/interpretations/examples present but weak/wrong</td>
+<td align="right">15</td>
+<td align="right">Only a little</td>
+<td align="right">7.5</td>
+<td align="right">Vignette(s) more unclear than clear; graphics present
+but hard to decipher; text somewhat confusing; narrative hard to follow
+code messy/mostly doesn’t follow style</td>
+<td align="right">7.5</td>
+<td align="right">Runs after many fixes</td>
+<td align="right">5.0</td>
 </tr>
-<tr>
-<td style="text-align:left;width: 10em; ">
-Objectives/methods/results/interpretations 50% clear, project about 50%
-understood some analytical/methodological errors
-Findings/interpretations/examples about half wrong
-</td>
-<td style="text-align:right;width: 10em; ">
-20
-</td>
-<td style="text-align:left;width: 10em; ">
-Modest progress
-</td>
-<td style="text-align:right;width: 10em; ">
-10.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Vignette(s) not unreasonable; graphics so-so, not spectacular, maybe
-hard to decipher; text still a bit distracting, causes some confusion;
-narrative mostly clear code sloppy/half follows style
-</td>
-<td style="text-align:right;width: 10em; ">
-10.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Runs after 4-6 fixes
-</td>
-<td style="text-align:right;width: 10em; ">
-7.0
-</td>
+<tr class="odd">
+<td align="right">Objectives/methods/results/interpretations 50% clear,
+project about 50% understood some analytical/methodological errors
+Findings/interpretations/examples about half wrong</td>
+<td align="right">20</td>
+<td align="right">Modest progress</td>
+<td align="right">10.0</td>
+<td align="right">Vignette(s) not unreasonable; graphics so-so, not
+spectacular, maybe hard to decipher; text still a bit distracting,
+causes some confusion; narrative mostly clear code sloppy/half follows
+style</td>
+<td align="right">10.0</td>
+<td align="right">Runs after 4-6 fixes</td>
+<td align="right">7.0</td>
 </tr>
-<tr>
-<td style="text-align:left;width: 10em; ">
-Objectives/methods/results/interpretations 75% clear, project about 75%
-understood few analytical/methodological errors
-Findings/interpretations/examples interesting/correct
-</td>
-<td style="text-align:right;width: 10em; ">
-25
-</td>
-<td style="text-align:left;width: 10em; ">
-Project mostly complete
-</td>
-<td style="text-align:right;width: 10em; ">
-12.5
-</td>
-<td style="text-align:left;width: 10em; ">
-Vignette(s) good; graphics mostly clear, no major questions; text
-understood and gets the job done; narrative clear code clear/mostly
-follows style
-</td>
-<td style="text-align:right;width: 10em; ">
-12.5
-</td>
-<td style="text-align:left;width: 10em; ">
-Runs after 1-3 fixes
-</td>
-<td style="text-align:right;width: 10em; ">
-8.5
-</td>
+<tr class="even">
+<td align="right">Objectives/methods/results/interpretations 75% clear,
+project about 75% understood few analytical/methodological errors
+Findings/interpretations/examples interesting/correct</td>
+<td align="right">25</td>
+<td align="right">Project mostly complete</td>
+<td align="right">12.5</td>
+<td align="right">Vignette(s) good; graphics mostly clear, no major
+questions; text understood and gets the job done; narrative clear code
+clear/mostly follows style</td>
+<td align="right">12.5</td>
+<td align="right">Runs after 1-3 fixes</td>
+<td align="right">8.5</td>
 </tr>
-<tr>
-<td style="text-align:left;width: 10em; ">
-Objectives/methods/results/interpretations crystal clear, project
-completely understood no obvious analytical/methodological errors
-Findings/interpretations/examples novel/really well done
-</td>
-<td style="text-align:right;width: 10em; ">
-30
-</td>
-<td style="text-align:left;width: 10em; ">
-Much greater than expected
-</td>
-<td style="text-align:right;width: 10em; ">
-15.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Vignette(s) outstanding; graphics spectacular, tell a clear and easily
-understood story supporting text; text crystal clear and right amount;
-gripping narrative code tight, perfect style
-</td>
-<td style="text-align:right;width: 10em; ">
-15.0
-</td>
-<td style="text-align:left;width: 10em; ">
-Runs out of the box/with no fixes needed
-</td>
-<td style="text-align:right;width: 10em; ">
-10.0
-</td>
+<tr class="odd">
+<td align="right">Objectives/methods/results/interpretations crystal
+clear, project completely understood no obvious
+analytical/methodological errors Findings/interpretations/examples
+novel/really well done</td>
+<td align="right">30</td>
+<td align="right">Much greater than expected</td>
+<td align="right">15.0</td>
+<td align="right">Vignette(s) outstanding; graphics spectacular, tell a
+clear and easily understood story supporting text; text crystal clear
+and right amount; gripping narrative code tight, perfect style</td>
+<td align="right">15.0</td>
+<td align="right">Runs out of the box/with no fixes needed</td>
+<td align="right">10.0</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<center>
-<a href="#grading">Back to top</a> || <a href="toc.html">Back to
-<strong>vignette index</strong></a>
-</center>
-<hr />
 </div>
 </div>
 

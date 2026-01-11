@@ -1,6 +1,6 @@
 ---
 title: "Helpful links"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -30,9 +30,3 @@ vignette: >
 - [Git/GitHub2](https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet)
 - [ggplot2](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)
 - [sf](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)
-
-***
-<center>
-[Back to home](index.html)
-</center>
-***
