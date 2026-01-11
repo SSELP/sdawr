@@ -1,6 +1,6 @@
 ---
 title: "Helpful functions"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -23,7 +23,6 @@ knitr::opts_chunk$set(
 library(knitr)
 ```
 
-
 # strings{#strings}
  
 ## paste, paste0{#paste}
@@ -45,7 +44,7 @@ From `stringr` package. Use to replace strings
 library(stringr)
 v <- "king phillip came over for good soup"
 print(v)
-w <- stringr::str_replace(v, "soup", "spaghetti" )
+w <- stringr::str_replace(v, "soup", "spaghetti")
 print(w)
 ```
 
@@ -127,16 +126,13 @@ b
 ```
 Commonly used with tibbles. Note that in `dplyr`, you don't need to use quotes for column names.
 
-Example below groups by "site_id" and summarizes the mean NDVI.
+Example below groups by "status" and summarizes the mean pressure.
 ```{r}
-library(geospaar)
-f <- system.file("extdata/FAOSTAT_maize.csv", package = "geospaar")
-maize <- read.csv(f)
-site_summary <- maize %>% 
-  filter(Element == "Production") %>% 
-  group_by(Area) %>% 
-  summarise(Value)
-site_summary
+storm_summary <- storms %>% 
+  filter(year >= 2000) %>% 
+  group_by(status) %>% 
+  summarise(pressure = mean(pressure))
+storm_summary
 ```
 
 You can use `.` to specify in which argument the ` %>% ` should go to.
@@ -154,8 +150,6 @@ tib <- tibble(a = 1:10, b = sample(1:100, 10))
 tib <- tib %>% mutate(product = a * b) ## new column is product of columns a, b
 tib
 ```
-
-
 
 ## dplyr::select{#dplyr::select}
 ```{r}
@@ -180,8 +174,6 @@ Use `-` for descending order
 tib_sorted <- tib %>% arrange(-product)
 tib_sorted
 ```
-
-
 
 # control structures{#string-functions}
 ## for loops{#for_loops}
@@ -254,7 +246,6 @@ colMax <- apply(DF, 2, FUN = max)
 colMax
 ```
 
-
 # sampling{#sampling}
 ## sample{#sample}
 `sample` is used for picking samples from a discrete object, like a vector.
@@ -283,14 +274,14 @@ v <- rnorm(5, mean = 10, sd = 3)
 v
 ```
 
-
 # read/write{#read_write}
 ## read/write csv's{#csv}
 You can use Base R `read.csv()`, or readr `read_csv()`
 ```{r}
-f <- system.file("extdata/FAOSTAT_maize.csv", package = "geospaar")
-maize <- read.csv(f)
-print(class(maize))
+library(readr)
+f <- readr_example("mtcars.csv") # an example csv file in readr package
+mtcars <- read.csv(f)
+print(class(mtcars))
 ```
 ```{r}
 maize2 <- readr::read_csv(f)
@@ -303,17 +294,16 @@ Saving and loading is used for `RData` objects. Use extension `.rda`.
 You can save any R object in this way (data frames, tibbles, lists, rasters etc)
 
 ```{r}
-f <- system.file("extdata/FAOSTAT_maize.csv", package = "geospaar")
-maize <- read.csv(f)
-save(maize, file = "~/maize.rda") ## save to your user home
+f <- readr_example("mtcars.csv") # an example csv file in readr package
+mtcars <- read.csv(f)
+save(mtcars, file = "~/mtcars.rda") ## save to your user home
 ```
 
 When you load data, it will retain the variable name it had.
 ```{r}
-maize <- NULL
-load(file = "~/maize.rda") ## data will be loaded into "maize" variable
+mtcars <- NULL
+load(file = "~/mtcars.rda") ## data will be loaded into "mtcars" variable
 ```
-
 
 # table indexes{#indexing}
 ## Base R{#index_base_R}
@@ -382,13 +372,11 @@ DF_tail <- DF %>% tail(2)
 DF_tail
 ```
 
-
 # table functions{#tables}
 ## cbind, rbind{#cbind_rbind}
 ## joins{#joins}
 ## pivot_longer{#pivot_longer}
 ## pivot_wider{#pivot_wider}
-
 
 
 # Other{#other}
@@ -428,8 +416,6 @@ print(distinct_birthdays)
 print(paste0(length(distinct_birthdays), " distinct birthdays"))
 ```
 
-
-
 # getting help{#help}
 ## ?{#help_function}
 Use `?` to load help for a function
@@ -437,12 +423,3 @@ Use `?` to load help for a function
 #?dplyr::mutate
 #?strptime
 ```
-
-
-
-
-***
-<center>
-[Back to home](index.html)
-</center>
-***

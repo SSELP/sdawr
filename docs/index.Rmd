@@ -3,21 +3,6 @@ title: Spatial Data Analysis with R
 output: html_document
 ---
 
-<style>
-  .btn-danger { background-color: #cc0033; border-color: #990022; }
-  .label-danger { background-color: #cc0033; }
-  table { width: 100%; margin-bottom: 20px; border: 1px solid #eee; }
-  th { background-color: #f8f8f8; padding: 12px !important; }
-  td { padding: 12px !important; vertical-align: middle !important; }
-</style>
-
-<style>
-  /* This targets any paragraph inside your custom boxes */
-  div[style*="border-left"] p {
-    margin: 0;
-  }
-</style>
-
 <img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="110"/>
 <img src="figures/logo.png" align="right" width="110" style="margin-left: 10px;"/>
 
@@ -79,10 +64,10 @@ The class materials were designed by Lyndon Estes and Lei Song.
   <thead>
     <tr>
       <th style="width: 75px; text-align: center;">Week</th>
-      <th style="width: 140px;">Date</th>
-      <th style="width: 300px;">Topic</th>
-      <th style="width: 160px;">Slides</th>
-      <th style="width: 220px;">Deadlines</th>
+      <th style="width: 140px; text-align: left;">Date</th>
+      <th style="width: 300px; text-align: left;">Topic</th>
+      <th style="width: 160px; text-align: left;">Slides</th>
+      <th style="width: 220px; text-align: left;">Deadlines</th>
     </tr>
   </thead>
   <tbody>
@@ -92,110 +77,103 @@ The class materials were designed by Lyndon Estes and Lei Song.
     <tr>
       <td style="text-align: center;">1</td>
       <td>Jan 21</td>
-      <td>Setup</td>
+      <td>Welcome, setup, Git & GitHub</td>
       <td>Class 1</td>
       <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">2</td>
       <td>Jan 26, 28</td>
-      <td>Continued setup; Git & GitHub</td>
+      <td>Reproducibility, R package and R markdown</td>
       <td>Class 2, Class 3</td>
-      <td></td>
+      <td style="color: #cc0033; font-weight: bold;">Assignment 1 (Jan 30)</td>
     </tr>
     <tr>
       <td style="text-align: center;">3</td>
       <td>Feb 2, 4</td>
-      <td>R Ecosystem & R Markdown</td>
+      <td>R data structure and environments</td>
       <td>Class 4, Class 5</td>
-      <td style="color: #cc0033; font-weight: bold;">Assignment 1</td>
+      <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">4</td>
       <td>Feb 9, 11</td>
-      <td>Data structures, OOP, Env, Control flow</td>
+      <td>Basic data operation and control flow</td>
       <td>Class 6, Class 7</td>
-      <td></td>
+      <td style="color: #cc0033; font-weight: bold;">Assignment 2 (Feb 13)</td>
     </tr>
     <tr>
       <td style="text-align: center;">5</td>
       <td>Feb 16, 18</td>
-      <td>Week 4 continued</td>
+      <td>tidyverse, working with data</td>
       <td>Class 8, Class 9</td>
-      <td style="color: #cc0033; font-weight: bold;">Assignment 2</td>
+      <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">6</td>
       <td>Feb 23, 25</td>
-      <td>tidyverse, working with data</td>
+      <td>Data manipulation and visualization</td>
       <td>Class 10, Class 11</td>
-      <td></td>
+      <td style="color: #cc0033; font-weight: bold;">Assignment 3 (Feb 27)</td>
     </tr>
-    <tr>
-      <td style="text-align: center;">7</td>
-      <td>Mar 2, 4</td>
-      <td>Data manipulation</td>
-      <td>Class 12, Class 13</td>
-      <td style="color: #cc0033; font-weight: bold;">Assignment 3</td>
-    </tr>
-
     <tr style="background-color: #f8f9fa; font-weight: bold;">
       <td colspan="5" style="text-align: center; border-bottom: 2px solid #cc0033; padding-top: 20px;">UNIT 2: HANDLING AND ANALYZING SPATIAL DATA</td>
     </tr>
     <tr>
+      <td style="text-align: center;">7</td>
+      <td>Mar 2, 4</td>
+      <td>Woking with vectors</td>
+      <td>Class 12, Class 13</td>
+      <td></td>
+    </tr>
+    <tr>
       <td style="text-align: center;">8</td>
       <td>Mar 9, 11</td>
-      <td>Working with vectors</td>
+      <td>More on vectors</td>
       <td>Class 14, Class 15</td>
-      <td></td>
+      <td style="color: #cc0033; font-weight: bold;">Assignment 4 (Mar 13)</td>
     </tr>
     <tr class="text-muted">
       <td style="text-align: center;">9</td>
       <td>Mar 16-20</td>
-      <td colspan="3" style="text-align: center; letter-spacing: 5px;">SPRING BREAK - NO CLASS</td>
+      <td colspan="3" style="text-align: left; letter-spacing: 5px;">SPRING BREAK - NO CLASS</td>
     </tr>
     <tr>
       <td style="text-align: center;">10</td>
       <td>Mar 23, 25</td>
-      <td>More on vectors</td>
+      <td>Working with rasters</td>
       <td>Class 16, Class 17</td>
-      <td style="color: #cc0033; font-weight: bold;">Assignment 4</td>
+      <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">11</td>
       <td>Mar 30, Apr 1</td>
-      <td>Raster algebra, terrain</td>
+      <td>More on rasters</td>
       <td>Class 18, Class 19</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="text-align: center;">12</td>
-      <td>Apr 6, 8</td>
-      <td>Raster algebra, terrain continued</td>
-      <td>Class 20, Class 21</td>
-      <td style="color: #cc0033; font-weight: bold;">Assignment 5</td>
+      <td style="color: #cc0033; font-weight: bold;">Assignment 5 (Apr 3)</td>
     </tr>
     <tr style="background-color: #f8f9fa; font-weight: bold;">
       <td colspan="5" style="text-align: center; border-bottom: 2px solid #cc0033; padding-top: 20px;">UNIT 3: FINAL PROJECT</td>
     </tr>
     <tr>
-      <td style="text-align: center;">13</td>
-      <td>Apr 13</td>
-      <td>Project oral defense</td>
-      <td>Project Drafts</td>
-      <td></td>
+      <td style="text-align: center;">12</td>
+      <td>Apr 6, 8</td>
+      <td>Final project setup</td>
+      <td>Class 20, Class 21</td>
+      <td style="color: #cc0033; font-weight: bold;">Project overview (Apr 10)</td>
     </tr>
     <tr>
       <td style="text-align: center;">13-15</td>
-      <td>Apr 15 onwards</td>
-      <td colspan="3" style="text-align: center; letter-spacing: 5px;">FINAL PROJECT CONSULTATION</td>
+      <td>Apr 13 onwards</td>
+      <td colspan="2" style="text-align: left; letter-spacing: 5px;">FINAL PROJECT CONSULTATION</td>
+      <td style="color: #cc0033; font-weight: bold;">Project oral defense (Apr 13)</td>
     </tr>
     <tr>
       <td style="text-align: center;">16</td>
       <td>May 4</td>
       <td>Final project presentation</td>
       <td>Your slides!</td>
-      <td style="color: #cc0033; font-weight: bold;">Final Project Due 11 May</td>
+      <td style="color: #cc0033; font-weight: bold;">Final Project (May 11)</td>
     </tr>
   </tbody>
 </table>

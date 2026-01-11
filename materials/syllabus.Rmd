@@ -1,5 +1,5 @@
 ---
-title: "Geography 246/346 Syllabus"
+title: "Spatial Data Analysis with R Syllabus"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -22,21 +22,27 @@ library(knitr)
 ```
 
 # Overview{#overview}
-Originally developed for statistics, free and open source R is now one of the most widely used programming languages in both industry and academia. Among its many applications, R is increasingly used for geospatial analyses, as evidenced by its growing ecosystem of spatial libraries (covering everything from basic vector and raster manipulation to advanced modeling and image processing), the evolution of classes for representing spatial data, its expanding capacity to interact with and leverage the capabilities of other geospatial libraries (GDAL) and GIS (e.g. GRASS, QGIS, PostGIS, SAGA).  Alongside its geospatial capabilities, there has been concurrent development of interactive development environments (IDEs) for R, which facilitate the creation, presentation, and reproducibility of analyses. R has therefore very close to being a one-stop shop for the modern GIScientist. This course will provide students with the skills they need to use R as a GIS. There will be additional emphases on programming, presentation, and reproducibility, which will entail learning to develop R libraries, development of presentations and reports using Rmarkdown, and using version control with github. Students will learn and apply R skills by working on a specific research problem. 
+
+Originally developed for statistics, [**R**](https://www.r-project.org) is a free and open-source programming language that has become a cornerstone of both industry and academia. Among its many applications, R is increasingly used for geospatial analyses, as evidenced by its growing ecosystem of spatial libraries (covering everything from basic vector and raster manipulation to advanced modeling and image processing), the evolution of classes for representing spatial data, its expanding capacity to interact with and leverage the capabilities of other geospatial libraries (GDAL) and GIS (e.g. GRASS, QGIS, PostGIS, SAGA).
+
+Alongside these spatial capabilities, the evolution of Integrated Development Environments (IDEs) has transformed R into a "one-stop shop" for the modern GIScientist, facilitating reproducible and interactive research. This course equips students with the skills to leverage R as a powerful Geographic Information System (GIS). Beyond spatial analysis, we will emphasize core programming proficiency, reproducibility, and professional presentation. Students will learn to develop R packages, author reports using [**R Markdown**](https://rmarkdown.rstudio.com), and manage workflows via [**Git/GitHub**](https://github.com), all while applying these skills to a specific, real-world research problem.
 
 ## Meeting Time/Place
-B124, MW 1615-1730
+
+Lucy Stone Hall (LSH-B266), MW 3:50PM - 5:10PM
 
 ## Office Hours
 Instructor | Office | Office hours
 ---------|------------------|------------------
-Lyndon Estes   | Jefferson 201C | Tuesday 1300-1500 
-Elisabeth Tappert | Geography M103  | TBD
+Lei Song   | Lucy Stone Hall (B249) | MW 2:50PM - 3:50PM
+TBD | TBD  | TBD
 
 ## Philosophy
+
 Although our primary focus is learning how to use `R` for geospatial analysis, the course also introduces additional skills and concepts related to ___reproducible___ research. 
 
 ## Caveats/things to consider
+
 Here are some other aspects regarding this course that you may wish to consider before committing: 
 
 1. ___Assignments in this class are problem-oriented, not recipe-based___: 
@@ -45,29 +51,31 @@ Here are some other aspects regarding this course that you may wish to consider 
     
     It can be very rewarding to figure out programming problems (I personally prefer programming to writing papers), but it can often be frustrating. Feeling frustrated is quite normal, and please don't take it as a sign that you are not good at programming, or that it is not for you. 
     
+    
 2. ___The order in which material is introduced will occasionally be non-linear___: 
 
     Primarily because we are introducing reproducibility concepts up front in this class, which entails learning about some things that people might ordinarily get around to after they know a bit of `R` code.  However, I believe that this order of things will enable you to learn `R` (or any other programming language) more rapidly. It might even make it more fun. 
+
 
 3. ___This is a flipped class___:
 
     Materials and problems are expected to be done before class. **This is particularly true this semester, when we are working more than half the time in an online mode.**  There will be some lecturing on key concepts, but class is intended to function more like a lab (and the lab period is intended for students seeking extra help), in which you work through practical problems, clarify concepts that are unclear, or  present your work to your peers. 
     
-## Required Texts, Reading, Exam, and Assignments
+## Required Texts, Reading, Quizzes, and Assignments
+
 There is no required textbook for this course. There is a huge amount of well-developed `R` material that is freely available on the web. We draw on and those resources for this class and integrate them into our own content (citing/linking to show where they come from). 
 
-__Readings and assignments__ should be completed ___before___ the class they are listed under. This is key to learning the language, ***as it is difficult to learn programming by just listening to lectures.*** 
+__Readings and practices__ should be completed ___before___ the class they are listed under. This is key to learning the language, ***as it is difficult to learn programming by just listening to lectures.*** 
 
-___Practical assignments___. During the first two units, there will be a total of 5 assignments (see links within the individual modules). The sixth assignment is your project overview. The week assignments are due is listed on the syllabus, to be submitted by midnight on the Friday of that week. You will undertake and submit your work through github repositories that exist under the Agricultural Impacts Research Group's github [organization](https://github.com/agroimpacts), where there is a [team](https://github.com/orgs/agroimpacts/teams/geog246346) setup for this class. You will need to join [GitHub](http://github.com) (it's free!) to be able to submit assignments, as we will need your github name to add you to the team. You will manage your individual assignments under private personal repositories that will be listed under your own individual sub-team. 
+___Practical assignments___. During the first two units, there will be a total of 5 assignments (see links within the individual modules). Deadlines are listed on the course schedule. All work must be submitted via GitHub by midnight on the Friday of the assigned week. You will need to join [GitHub](http://github.com) (it's free!) to be able to submit assignments. 
 
-___Exam___. At the end of the first two units, we will also give an in-class coding exam that covers some of the key programming and reproducibility concepts covered. 
+___Quizzes___. Following each assignment deadline, there will be an in-class, closed-book quiz covering the programming concepts from that assignment. While quiz scores do not directly add to your final grade, they act as a cap for the corresponding assignment grade. Check [Assessment](assessment.html) for more details.
 
 __Projects__ Each student will be required to undertake a final project. Please see the [projects](projects.html) page for more detail.
 
 ## Style
-There are many ways to write code and get the results you want. However, not all ways of writing code are equal. Some code is messy and hard to read. Other code is organized, clean, and easy to read. The latter is what we are aiming for, as it helps to foster reproducibility. In this class, we will follow [Hadley Wickham's style guide](http://adv-r.had.co.nz/Style.html). Please study it.    
 
-<a href="#top">Back to top</a>
+There are many ways to write code and get the results you want. However, not all ways of writing code are equal. Some code is messy and hard to read. Other code is organized, clean, and easy to read. The latter is what we are aiming for, as it helps to foster reproducibility. In this class, we will follow [Hadley Wickham's style guide](http://adv-r.had.co.nz/Style.html). Please study it.    
 
 ## Assessment and engaged time
 
@@ -76,56 +84,89 @@ Your progress in this class will be assessed as follows:
 ```{r, echo = FALSE}
 # a <- c(20, 30, 40)
 # a / sum(a)
-mat <- rbind(c("Practical assignments (n=5)", "40% of grade", "30% of grade"), 
-             c("Exam", "15% of grade", "15% of grade"),
-             c("Participation", "10% of grade", "10% of grade"),
-             c("Overview for final semester project", "10% of grade", 
-              "15% of grade"),
-             c("Final report on semester project", "25% of grade", 
-               "30% of grade"))
-colnames(mat) <- c("Component", "GEOG246", "GEOG346")
+mat <- rbind(c("Practical assignments (n = 5)", "40%"), 
+             c("Participation", "10%"),
+             c("Overview for final project", "10%"),
+             c("Oral defense for final project", "10%"),
+             c("Final project", "30%"))
+colnames(mat) <- c("Component", "Grade")
 kable(mat)                 
 ```
 
 Grading will be based on the rubrics found under the [Assessment](assessment.html) vignette.
 
-Courses at Clark are worth 4 credit hours, which equates to 180 hours of engaged academic time. The breakdown of that time is estimated to be: 
+Courses at Rutgers-New Brunswick are worth 3 credit hours, which equates to 135 hours of engaged academic time. The breakdown of that time is estimated to be: 
 
 ```{r, echo = FALSE}
-gr <- c(37, 12, 40, 65, 10, 16)
-ug <- c(37, 14, 50, 59, 8, 12)
-DF <- cbind.data.frame(c("Class meetings/exam", "Readings", "Practicals", 
-                         "Semester projects-analysis", 
-                         "Semester projects-presentation",
-                         "Semester projects-final report", "Total hours"), 
-                       c(gr, sum(gr)), c(ug, sum(ug)))
-colnames(DF) <- c("", "GEOG246 hours", "GEOG346 hours")
+hr <- c(37, 13, 30, 40, 5, 10)
+DF <- cbind(c("Class meetings", "Readings", "Practicals", 
+              "Semester projects-analysis", 
+              "Semester projects-presentation",
+              "Semester projects-final report", "Total hours"), 
+            c(hr, sum(hr)))
+colnames(DF) <- c("Component", "Hours")
 kable(DF)                 
-
 ```
 
 ## Expectations
+
 Since class is flipped, this is a time for questions and discussion, between us and you, and often between yourselves. However, please keep any conversations low and necessary to the task at hand if they are one-on-one.   
 
-Class attendance is expected. It is the primary time in which to get help on understanding reading materials and assignments (see next section on Communications). Late assignments (including presentations and final report) are not accepted, barring any emergency or reasonable conflicts that prevent on-time submissions. 
+Class attendance is expected. It is the primary time in which to get help on understanding reading materials and assignments (see next section on Communications). Late assignments (including presentations and final report) are **not** accepted, barring any emergency or reasonable conflicts that prevent on-time submissions. 
 
-For assignments in the first two units, students can work together to figure out coding problems and to understand the material, but final assignments should reflect each student's own work and coding effort (i.e. not copying code from someone else). For final projects, many, if not most, of the projects will be team-based (2-3 per team, depending on the nature of the assignment) on some if not all of the available topics.
+For practical assignments in the first two units, students can work together to figure out coding problems and to understand the material, but final assignments should reflect each student's own work and coding effort (i.e. not copying code from someone else). For final projects, many, if not most, of the projects will be team-based (2-3 per team, depending on the nature of the assignment) on some if not all of the available topics.
 
-We will follow the University's policies on plagiarism and cheating. Please familiarize yourself with the University's [policy](http://www2.clarku.edu/offices/aac/integrity.cfm) on academic integrity, particularly section I. 
+We will follow the University's policies on plagiarism and cheating. Please familiarize yourself with the University's [policy](https://nbacademicintegrity.rutgers.edu) on academic integrity. 
 
 ### Communications
-We will conduct class communications via a Slack channel that you should already be invited to. ***Please don't send emails as they will go unanswered***. Class-wide discussions will be conducted in the #fall2021 channel. Individual and restricted group messaging will be conducted via Slack direct messaging, e.g. grade reporting, confidential questions.  
 
-## Title IX
+We will conduct class communications via a Google chat that you should already be invited to. ***Please don't send emails as they will go unanswered***. Class-wide discussions will be conducted in the main channel. Individual and restricted group messaging will be conducted via direct messaging, e.g. grade reporting, confidential questions.
 
-Clark University and its faculty are committed to creating a safe and open learning environment for all students. Clark University encourages all members of the community to seek support and report incidents of sexual harassment to the Title IX office (titleix@clarku.edu). If you or someone you know has experienced any sexual harassment, including sexual assault, dating or domestic violence, or stalking, help and support is available.
+## Academic Integrity Policy
 
-Please be aware that all Clark University faculty and teaching assistants are considered responsible employees, which means that if you tell me about a situation involving the aforementioned offenses, I must share that information with the Title IX Coordinator, Brittany Rende (titleix@clarku.edu). Although I have to make that notification, you will, for the most part, control how your case will be handled, including whether or not you wish to pursue a formal complaint. Our goal is to make sure you are aware of the range of options available to you and have access to the resources you need.
+Rutgers University takes academic dishonesty very seriously. By enrolling in this course, you assume responsibility for familiarizing yourself with the Academic Integrity Policy and the possible penalties (including suspension and expulsion) for violating the policy. As per the policy, all suspected violations will be reported to the Office of Student Conduct. Academic dishonesty includes (but is not limited to):
 
-If you wish to speak to a confidential resource who does not have this reporting responsibility, you can contact Clark’s Center for Counseling and Professional Growth (508-793-7678), Clark’s Health Center (508-793-7467), or confidential resource providers on campus: Prof. Stewart (als.confidential@clarku.edu), Prof. Palm Reed (kpr.confidential@clarku.edu), and Prof. Cordova (jvc.confidential@clarku.edu).
+- Cheating. For example, use of external websites or other resources to obtain solutions to homework assignments, quizzes, or exams is cheating.
+- Plagiarism
+- Aiding others in committing a violation or allowing others to use your work. For example, posting homework assignments, or exams, to external sites without the instructor's permission.
+- Failure to cite sources correctly.
+- Fabrication
+- Using another person's ideas or words without attribution–re-using a previous assignment.
+- Unauthorized collaboration
+- Sabotaging another student's work.
+
+If in doubt, please consult the instructor. Please review the [Academic Integrity Policy](https://nbacademicintegrity.rutgers.edu/academic-integrity-policy) and the [resources for students](https://nbacademicintegrity.rutgers.edu/students).
+
+**Honor pledge:** All students will have to commit to the Rutgers Honor Pledge: **On my honor, I have neither received nor given any unauthorized assistance on this examination (assignment, paper, quiz, etc.).**
+
+## Disability Accommodations
+
+Rutgers University welcomes students with disabilities into all of the University's educational programs. To receive consideration for reasonable accommodations, if you are a student with a disability, you must contact the appropriate disability services office at the campus where you are officially enrolled, participate in an intake interview, and provide [documentation](https://ods.rutgers.edu/students/documentation-guidelines). If the documentation supports your request for reasonable accommodations, your campus's disability services office will provide you with a Letter of Accommodations. Please share this letter with me and the teaching assistant and discuss the accommodations with us as early as possible. To begin this process, please complete the Registration on the [ODS web site](https://ods.rutgers.edu/students/getting-registered).
+
+## Student Support and Mental Wellness
+
+The faculty and staff at Rutgers are committed to your success. Students who are successful tend to seek out resources that enable them to excel academically, maintain their health and wellness, prepare for future careers, navigate college life and finances, and connect with the RU community. Resources that can help you succeed and connect with the Rutgers community can be found at success.rutgers.edu, and nearly all services and resources that are typically provided in-person are now available remotely.
+
+You may also find these services useful:
+
+- [Student Success Essentials](https://success.rutgers.edu)
+- [Student Support Services](https://www.rutgers.edu/academics/student-support)
+- [The Learning Centers](https://rlc.rutgers.edu/)
+- [Rutgers Libraries](https://www.libraries.rutgers.edu/)
+- [Bias Incident Reporting](https://studentaffairs.rutgers.edu/bias-incident-reporting)
+- [Dean of Students – Student Support Office](https://success.rutgers.edu/resource/dean-students-student-support-office)
+- [Office of Veteran and Military Programs and Services](https://veterans.rutgers.edu)
+- [Student Health Services](http://health.rutgers.edu/)
+- [Counseling, Alcohol and Other Drug Assistance Program & Psychiatric Services (CAPS)](http://health.rutgers.edu/medical-counseling-services/counseling/)
+- [UWill](http://health.rutgers.edu/uwill/): free immediate access to teletherapy; you can choose a therapist based on your preferences including issue, gender, language, ethnicity.
+- [Office for Violence Prevention and Victim Assistance](https://vpva.rutgers.edu)
+- [Office of Disability Services](https://ods.rutgers.edu/)
+- [Basic Needs Assistance (food, housing, and other essentials)](https://ruoffcampus.rutgers.edu/basic-needs)
+- [Rutgers Student Food Pantry](https://ruoffcampus.rutgers.edu/food-pantry)
 
 # Course Structure{#structure}
-The following is an overview of the course structure, broken down by Unit, with a listing of the material to be covered each week, including the week in which unit assignments are due (assignments are due by midnight on Friday during the indicated week).
+
+The following is an overview of the course structure, broken down by Unit, with a listing of the material to be covered each week, including the week in which unit assignments are due (assignments are due by midnight on Friday during the indicated week). Note that the course schedule is subject to change, please check the alive course site for the most recent updates.
 
 ## Unit 1. An introduction to R and related reproducibility skills
 
@@ -133,15 +174,15 @@ In this first part of the course, we will learn the basics of working with `R`, 
 
 The detailed readings and assignments for each week and day can be found in the accompanying [Unit 1 vignette](unit1.html), as well as the overall learning goals for the unit.  
 
-### Week 1. Introduction/Overview of R and Reproducibility
+### Week 1. Welcome, setup and Git/GitHub
 
-### Week 2. Reproducibility Continued 
-- Module 1 assignment (#1) due
+### Week 2. Reproducibility, R package and R markdown
+- Unit 1 Module 1 assignment (#1) due
 
-### Week 3. R fundamentals and Skills
+### Week 3. R ecosystem & environments
 
-### Week 4. R fundamentals and Skills 
-- Module 2/3 assignment (#2) due
+### Week 4. R fundamentals and Skills
+- Unit 1 Module 2/3 assignment (#2) due
 
 ### Week 5. Data preparation and visualization / Basic analytics
 
@@ -154,20 +195,22 @@ In this part of the course we will start to learn to use R as a GIS.  The detail
 ### Week 7. Introduction, working with vector data
 
 ### Week 8. Vectors continued
-
 - Unit 2 Module 1 assignment (#4) due
 
-### Week 9. - Working with raster data
+### Week 9. SPRING BREAK - NO CLASS
 
-### Week 10-11. - Raster data continued
+### Week 10. Working with raster data
+
+### Week 11. Raster data continued
 - Unit 2 Module 2 assignment (#5) due
-- Exam
 
 ## Unit 3. Projects
-### Week 12 - Project selection
+### Week 12. Project selection
 - Final project overview due
 
 ### Weeks 13-15 - Project work
+- Project oral defense (Mon of Week 13)
+
 Students will spend this time working on their projects, with a particular focus on working with us to identify and trouble-shoot methods. 
 
 The class periods in this week can be used for continued project work. **The final project will be submitted during the exam week.** 

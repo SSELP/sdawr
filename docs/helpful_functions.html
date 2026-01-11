@@ -1111,6 +1111,7 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjwQAAAAQEdQT1MXWeoAAA
     
         <style type="text/css">code{white-space: pre;}</style>
     <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -1291,7 +1292,7 @@ margin-left: 0 !important;
    
         
       <h1 class="title">Helpful functions</h1>
-         <h1 class="subtitle">GEOG246-346</h1>
+         <h1 class="subtitle">Spatial Data Analysis with R</h1>
    
          <!-- readthedown authors -->
    <div id="sidebar">
@@ -1365,7 +1366,7 @@ margin-left: 0 !important;
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2024-01-17
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-10
 <a href="index.html">Back to home</a></p>
           </div>
    </div>
@@ -1397,7 +1398,7 @@ specific separator, like a space or hyphen.</p>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="st">&quot;king phillip came over for good soup&quot;</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">print</span>(v)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;king phillip came over for good soup&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>w <span class="ot">&lt;-</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(v, <span class="st">&quot;soup&quot;</span>, <span class="st">&quot;spaghetti&quot;</span> )</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>w <span class="ot">&lt;-</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(v, <span class="st">&quot;soup&quot;</span>, <span class="st">&quot;spaghetti&quot;</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">print</span>(w)</span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;king phillip came over for good spaghetti&quot;</span></span></code></pre></div>
 </div>
@@ -1441,18 +1442,12 @@ date.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:raster&#39;:</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;     intersect, union</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:terra&#39;:</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;     intersect, union</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;     date, intersect, setdiff, union</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">&quot;2020-11-01&quot;</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">print</span>(a)</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2020-11-01&quot;</span></span></code></pre></div>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;     date, intersect, setdiff, union</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">&quot;2020-11-01&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">print</span>(a)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2020-11-01&quot;</span></span></code></pre></div>
 <p>Dates in other formats may need the <code>format</code> parameter.
 See different format options <a href="https://epirhandbook.com/en/working-with-dates.html">here</a> or
 run <code>?strptime</code>.</p>
@@ -1461,8 +1456,10 @@ run <code>?strptime</code>.</p>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2022-03-01&quot;</span></span></code></pre></div>
 <p>Can also convert from date to character.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>date2_char <span class="ot">&lt;-</span> <span class="fu">as.character</span>(date2, <span class="at">format =</span> <span class="st">&quot;%A %B %d, %Y&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>date2_char</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Tuesday March 01, 2022&quot;</span></span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Warning in as.character.POSIXt(as.POSIXlt(x), ...): as.character(td, ..) no</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; longer obeys a &#39;format&#39; argument; use format(td, ..) ?</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>date2_char</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2022-03-01&quot;</span></span></code></pre></div>
 </div>
 <div id="as_datetime" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> as_datetime</h2>
@@ -1474,7 +1471,15 @@ run <code>?strptime</code>.</p>
 </div>
 <div id="dplyr" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> dplyr</h1>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
 <div id="pipe" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> pipe operator (
 %&gt;% )</h2>
@@ -1485,32 +1490,25 @@ run <code>?strptime</code>.</p>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; [1] 3 4 5</span></span></code></pre></div>
 <p>Commonly used with tibbles. Note that in <code>dplyr</code>, you
 don’t need to use quotes for column names.</p>
-<p>Example below groups by “site_id” and summarizes the mean NDVI.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(geospaar)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/FAOSTAT_maize.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;geospaar&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>maize <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>site_summary <span class="ot">&lt;-</span> maize <span class="sc">%&gt;%</span> </span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">filter</span>(Element <span class="sc">==</span> <span class="st">&quot;Production&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">group_by</span>(Area) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">summarise</span>(Value)</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; `summarise()` has grouped output by &#39;Area&#39;. You can override using the</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; `.groups` argument.</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>site_summary</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; # A tibble: 114 × 2</span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; # Groups:   Area [2]</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt;    Area           Value</span></span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;int&gt;</span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt;  1 South Africa 5293000</span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt;  2 South Africa 6024000</span></span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#&gt;  3 South Africa 6127000</span></span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co">#&gt;  4 South Africa 4310000</span></span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co">#&gt;  5 South Africa 4608000</span></span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co">#&gt;  6 South Africa 5161000</span></span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co">#&gt;  7 South Africa 9802000</span></span>
-<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt;  8 South Africa 5358000</span></span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt;  9 South Africa 5378000</span></span>
-<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt; 10 South Africa 6179000</span></span>
-<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co">#&gt; # … with 104 more rows</span></span></code></pre></div>
+<p>Example below groups by “status” and summarizes the mean
+pressure.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>storm_summary <span class="ot">&lt;-</span> storms <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">group_by</span>(status) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pressure =</span> <span class="fu">mean</span>(pressure))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>storm_summary</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 9 × 2</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;   status                 pressure</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;                     &lt;dbl&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 1 disturbance               1009.</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 2 extratropical              992.</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; 3 hurricane                  966.</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; 4 other low                 1009.</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; 5 subtropical depression    1006.</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt; 6 subtropical storm          998.</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt; 7 tropical depression       1007.</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; 8 tropical storm             999.</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#&gt; 9 tropical wave             1009.</span></span></code></pre></div>
 <p>You can use <code>.</code> to specify in which argument the
 <code>%&gt;%</code> should go to. Let’s say you want to take a sample of
 size 50 from the numbers 1:100.</p>
@@ -1756,51 +1754,48 @@ mean and standard deviation.</p>
 <h2><span class="header-section-number">6.1</span> read/write csv’s</h2>
 <p>You can use Base R <code>read.csv()</code>, or readr
 <code>read_csv()</code></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/FAOSTAT_maize.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;geospaar&quot;</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>maize <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(maize))</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.frame&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">readr_example</span>(<span class="st">&quot;mtcars.csv&quot;</span>) <span class="co"># an example csv file in readr package</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>mtcars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(mtcars))</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.frame&quot;</span></span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>maize2 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(f)</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co">#&gt; Rows: 228 Columns: 14</span></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt; ── Column specification ─────────────────────────────────────────────────────</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co">#&gt; Rows: 32 Columns: 11</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
 <span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt; chr (8): Domain Code, Domain, Area, Element, Item, Unit, Flag, Flag Descr...</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt; dbl (6): Area Code, Element Code, Item Code, Year Code, Year, Value</span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(maize2))</span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</span></span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>maize2</span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a><span class="co">#&gt; # A tibble: 228 × 14</span></span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="co">#&gt;    Domain …¹ Domain Area …² Area  Eleme…³ Element Item …⁴ Item  Year …⁵  Year</span></span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co">#&gt;  1 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1961  1961</span></span>
-<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a><span class="co">#&gt;  2 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1962  1962</span></span>
-<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="co">#&gt;  3 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1963  1963</span></span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="co">#&gt;  4 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1964  1964</span></span>
-<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a><span class="co">#&gt;  5 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1965  1965</span></span>
-<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a><span class="co">#&gt;  6 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1966  1966</span></span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a><span class="co">#&gt;  7 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1967  1967</span></span>
-<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a><span class="co">#&gt;  8 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1968  1968</span></span>
-<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a><span class="co">#&gt;  9 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1969  1969</span></span>
-<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a><span class="co">#&gt; 10 QC        Crops      202 Sout…    5312 Area h…      56 Maize    1970  1970</span></span>
-<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a><span class="co">#&gt; # … with 218 more rows, 4 more variables: Unit &lt;chr&gt;, Value &lt;dbl&gt;,</span></span>
-<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a><span class="co">#&gt; #   Flag &lt;chr&gt;, `Flag Description` &lt;chr&gt;, and abbreviated variable names</span></span>
-<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a><span class="co">#&gt; #   ¹​`Domain Code`, ²​`Area Code`, ³​`Element Code`, ⁴​`Item Code`,</span></span>
-<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a><span class="co">#&gt; #   ⁵​`Year Code`</span></span></code></pre></div>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt; dbl (11): mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">class</span>(maize2))</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>maize2</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="co">#&gt; # A tibble: 32 × 11</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a><span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="co">#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co">#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a><span class="co">#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="co">#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="co">#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a><span class="co">#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a><span class="co">#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a><span class="co">#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a><span class="co">#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a><span class="co">#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a><span class="co">#&gt; # ℹ 22 more rows</span></span></code></pre></div>
 </div>
 <div id="save_load" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> save/load</h2>
 <p>Saving and loading is used for <code>RData</code> objects. Use
 extension <code>.rda</code>. You can save any R object in this way (data
 frames, tibbles, lists, rasters etc)</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/FAOSTAT_maize.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;geospaar&quot;</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>maize <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">save</span>(maize, <span class="at">file =</span> <span class="st">&quot;~/maize.rda&quot;</span>) <span class="do">## save to your user home</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">readr_example</span>(<span class="st">&quot;mtcars.csv&quot;</span>) <span class="co"># an example csv file in readr package</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>mtcars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">save</span>(mtcars, <span class="at">file =</span> <span class="st">&quot;~/mtcars.rda&quot;</span>) <span class="do">## save to your user home</span></span></code></pre></div>
 <p>When you load data, it will retain the variable name it had.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>maize <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&quot;~/maize.rda&quot;</span>) <span class="do">## data will be loaded into &quot;maize&quot; variable</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>mtcars <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&quot;~/mtcars.rda&quot;</span>) <span class="do">## data will be loaded into &quot;mtcars&quot; variable</span></span></code></pre></div>
 </div>
 </div>
 <div id="indexing" class="section level1" number="7">
@@ -1947,14 +1942,14 @@ even if multiple values exist.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, <span class="dv">50</span>, <span class="at">replace =</span> T) <span class="do">## sample 100 birthdays</span></span>
 <span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a><span class="fu">print</span>(birthdays)</span>
-<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a><span class="co">#&gt;  [1] 341 198 262 273 349 204 297 178  75 131 306 311  63 136 231 289  54 361</span></span>
-<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a><span class="co">#&gt; [19] 112 171  38 361 110 144  45 238 208 134 339   9 350 130 244   3 129 304</span></span>
-<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a><span class="co">#&gt; [37] 297 301 289 274   8 164 350  37 226 149 205 327 242 358</span></span></code></pre></div>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a><span class="co">#&gt;  [1] 341 198 262 273 349 204 297 178  75 131 306 311  63 136 231 289  54 361 112</span></span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a><span class="co">#&gt; [20] 171  38 361 110 144  45 238 208 134 339   9 350 130 244   3 129 304 297 301</span></span>
+<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a><span class="co">#&gt; [39] 289 274   8 164 350  37 226 149 205 327 242 358</span></span></code></pre></div>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>distinct_birthdays <span class="ot">&lt;-</span> (<span class="fu">unique</span>(birthdays))</span>
 <span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a><span class="fu">print</span>(distinct_birthdays)</span>
-<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a><span class="co">#&gt;  [1] 341 198 262 273 349 204 297 178  75 131 306 311  63 136 231 289  54 361</span></span>
-<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a><span class="co">#&gt; [19] 112 171  38 110 144  45 238 208 134 339   9 350 130 244   3 129 304 301</span></span>
-<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a><span class="co">#&gt; [37] 274   8 164  37 226 149 205 327 242 358</span></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a><span class="co">#&gt;  [1] 341 198 262 273 349 204 297 178  75 131 306 311  63 136 231 289  54 361 112</span></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a><span class="co">#&gt; [20] 171  38 110 144  45 238 208 134 339   9 350 130 244   3 129 304 301 274   8</span></span>
+<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a><span class="co">#&gt; [39] 164  37 226 149 205 327 242 358</span></span>
 <span id="cb46-6"><a href="#cb46-6" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="fu">length</span>(distinct_birthdays), <span class="st">&quot; distinct birthdays&quot;</span>))</span>
 <span id="cb46-7"><a href="#cb46-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;46 distinct birthdays&quot;</span></span></code></pre></div>
 </div>
@@ -1966,11 +1961,6 @@ even if multiple values exist.</p>
 <p>Use <code>?</code> to load help for a function</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co">#?dplyr::mutate</span></span>
 <span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a><span class="co">#?strptime</span></span></code></pre></div>
-<hr />
-<center>
-<a href="index.html">Back to home</a>
-</center>
-<hr />
 </div>
 </div>
 </div>

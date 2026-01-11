@@ -1,7 +1,7 @@
 ---
 title: "Assessment"
-subtitle: "GEOG246-346"
-date: "`r Sys.Date()`"
+subtitle: "Spatial Data Analysis with R"
+date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
     highlight: pygments
@@ -19,21 +19,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 ```
 
-
-------------------------------------------------------------------------
-
-<center>[Back to **vignette index**](toc.html)</center>
-
-------------------------------------------------------------------------
-
 # Overall Grades {#grading}
 
 Final letter grades will be assigned as follows
 
 ```{r, echo = FALSE}
-gr <- rbind(c(94, 90, 88, 83, 80, 78, 73, 70, 68, 63, 60, 0), 
-            c(100, 94, 90, 88, 83, 80, 78, 73, 70, 68, 63, 60))
-lt <- c("A ", "A-", "B+", "B ", "B-", "C+", "C ", "C-", "D+", "D ", "D-", "F ")
+gr <- rbind(c(90, 85, 80, 75, 70, 60, 0), 
+            c(100, 90, 85, 80, 75, 70, 60))
+lt <- c("A ", "B+", "B ", "C+", "C ", "D ", "F ")
 DF <- cbind(c("lower", "upper", "grade"), rbind.data.frame(gr, lt))
 colnames(DF) <- rep("", ncol(DF))
 kable(DF)
@@ -48,10 +41,6 @@ Participation is worth 10% of your final grade and has two components.
 - Engagement with the course material, including any coding work assigned for homework. It is essential to read and work through the class material between classes. You will not be able to learn everything just from class. Additionally, you will at times be asked to work on practical problems between classes, for which you should be prepared to share your code and provide examples of errors/obstacles. 
 
 - Reading quizzes. Periodically, short quizzes may be given on core concepts from readings. These quizzes will be closed-book and not exceed 10 minutes. (e.g. explain in general terms how an apply function works). Students receiving 60% or higher on a quiz receive a "Complete" grade.
-
-# Exam
-
-There will be an end of coursework coding concepts exam, worth 15% of the total grade. 
 
 # Assignments
 
@@ -83,20 +72,31 @@ mat <- rbind(c("Results all wrong (0-5%)", 0,
                "Runs out of the box", 20,
                "Code conformant and stylish/well commented/documented", 10))
 DF <- as.data.frame(mat, stringsAsFactors = FALSE)
-colnames(DF) <- c("Accuracy", "Acc. points", "Reproducibility", 
-                  "Repro. points",
-                  "Elegance", "Ele. points")
+colnames(DF) <- c("Accuracy", "APts", "Reproducibility", 
+                  "RPts", "Elegance", "EPts")
 for(i in colnames(DF)[c(2, 4, 6)]) DF[, i] <- as.numeric(DF[, i])
-# reshape2::dcast(DF, Accuracy + Elegance + Reproducibility ~ Points)
-# DF2 <- rbind(t(DF[1:6, 1:3]), DF[1:6, 4])
-kable(DF, align = "r")
+y <- knitr::kable(DF, format = "html", align = "r")
+kableExtra::column_spec(y, column = 1, width = "20em")
 ```
 
-------------------------------------------------------------------------
+<div style="padding: 15px; border: 1px solid #cc0033; background-color: #fdf2f2; border-radius: 5px;">
+  <strong>⚠️ Important:</strong> Assignment grades are not final until the corresponding quiz is completed. The quiz score defines the maximum possible points you can receive for that assignment.
+</div>
 
-<center>[Back to top](#grading) \|\| [Back to **vignette index**](toc.html)</center>
+## Quiz-Based Grade Refinement
 
-------------------------------------------------------------------------
+Each assignment is followed by an in-class, closed-book quiz consisting of 10 questions directly related to the programming tasks you just completed. Your final score for the assignment will be determined by your quiz performance according to the following tiers:
+
+```{r, echo=FALSE}
+mat <- rbind(c("8-10", "100%", "Mastery: Demonstrates clear conceptual understanding."), 
+             c("6-7", "85%", "Proficient: Demonstrates general understanding, with minor gaps in specific technical details."), 
+             c("4-5", "70%", "Developing: Significant gaps in understanding."), 
+             c("0-3", "60%", "Deficient: Inability to explain core components of the submitted work."), 
+             c("No Quiz", "0%", "Unverified: No credit is awarded if the validation quiz is missed."))
+DF <- as.data.frame(mat, stringsAsFactors = FALSE)
+colnames(DF) <- c("Quiz Score", "Assignment credit", "Description")
+knitr::kable(DF, format = "html", align = "r")
+```
 
 # Final project overview
 
@@ -139,27 +139,67 @@ pts3 <- pts2
 
 DF <- data.frame(quality, pts1, struct, pts2, reproducibility, pts3)
 colnames(DF) <- c("Quality of Plan", "QPts", "Structure/completeness", 
-                  "Cpts", "Reproducibility", "RPts")
+                  "CPts", "Reproducibility", "RPts")
 for(i in colnames(DF)[c(2, 4, 6)]) DF[, i] <- as.numeric(DF[, i])
-# reshape2::dcast(DF, Accuracy + Elegance + Reproducibility ~ Points)
-# DF2 <- rbind(t(DF[1:6, 1:3]), DF[1:6, 4])
 kable(DF, align = "r")
 ```
 
-------------------------------------------------------------------------
+# Final project oral defense
 
-<center>[Back to top](#grading) \|\| [Back to **vignette index**](toc.html)</center>
+The Oral Defense is a 10–15 minute technical briefing designed to validate the project plan submitted in your written report. This session serves as a "sanity check" to ensure your proposed workflow is technically sound and that you/your group have a complete command of the logic and tools required to execute the analysis.
 
-------------------------------------------------------------------------
+Assessment is out of 50 pts, and will be based on three categories:
+
+- **Verification:** To confirm that the project architecture and code selection were personally developed by the student/group.
+
+- **Feasibility:** To ensure the proposed packages and functions are appropriate for the research questions involved.
+
+- **Clarity:** To provide an opportunity for the student to articulate the "analytical bridge" between raw data and expected research outcomes.
+
+Note that the minimum number of points assigned per category assume that the student or group is present for the defense.
+
+```{r, echo=FALSE}
+question <- c(
+  "Unable to answer any questions; suggests a significant lack of preparation",
+  "Responses are vague, inconsistent with the report",
+  'Answers basic questions but struggles with technical "why" or "how" details',
+  "Answers most questions well; shows clear familiarity with only minor hesitations",
+  "Answers all questions thoroughly and fluently")
+pts1 <- c(4, 8, 12, 16, 20)
+
+struct <- c(
+  "Namedrops packages but unable to explain what they do or why they are needed",
+  "Understands functions and packages but struggles to explain some of them",
+  "Understands general package use but cannot describe the specific necessity of functions",
+  "Accurately describes the role of specific functions and the packages they intend to use",
+  "Explains the underlying logic of chosen functions and justifies why alternatives were rejected")
+pts2 <- c(4, 8, 12, 16, 20)
+
+logic <- c(
+  "Unable to explain how the proposed analysis will lead to the intended result", 
+  "Describes outcomes that will not logically follow from the proposed analysis", 
+  "Describes expected maps/stats but struggles to connect how they will answer the research question",
+  "Explains the step-by-step logic of how processing will lead to a research result",
+  "Articulates exactly what results will look like and how they will validate the thesis"
+)
+pts3 <- c(2, 4, 6, 8, 10)
+
+
+DF <- data.frame(question, pts1, struct, pts2, logic, pts3)
+colnames(DF) <- c("Question handle", "QPts", "Technical literacy", 
+                  "LPts", "Logic & Outcome", "OPts")
+for(i in colnames(DF)[c(2, 4, 6)]) DF[, i] <- as.numeric(DF[, i])
+kable(DF, align = "r")
+```
 
 # Final project
 
 Assessment is out of 70 pts (note that there a minimum points floor, which assumes that a final project has been submitted), and will be based on four categories:
 
 -   **Quality** evaluates the **content** of the material in your package, focusing on the information and ideas conveyed in your descriptions, figures, and tables. How well did you understand and execute the project, and how well did you convey what you did?
--   **Progress** evaluates whether you achieved the objectives put forward in your Assignment 6 and final presentation, focusing more on the latter due to course corrections (and incorporating any necessary changes we discussed)
 -   **Clarity** examines the clarity of the writing (is it easy to understand, no typos or missed words), the visual aspects of figures (does the color choice make sense, legend sensible, size appropriate, text readable?), formatting (did html lists end up as lists? do headings make sense?), and code syntax. This basically covers the stylistic components of your vignettes and code.
 -   **Reproducibility** relates to the now familiar criteria about whether your package builds for another user without error, and with browsable vignettes.
+-   **Progress** evaluates whether you achieved the objectives put forward in your Assignment 6 and final presentation, focusing more on the latter due to course corrections (and incorporating any necessary changes we discussed)
 
 Note that the minimum number of points assigned per category assume that the final project was completed and handed in.
 
@@ -228,17 +268,6 @@ pts4 <- c(3, 5, 7, 8.5, 10)
 DF <- cbind.data.frame(quality, pts1, progress, pts2, clarity, pts3,
                        reproducibility, pts4, stringsAsFactors = FALSE)
 colnames(DF) <- c("Quality", "QPts", "Progress", "PrPts", "Clarity",
-                  "Cpts", "Reproducbility", "RPts")
-y <- knitr::kable(DF, format = "html")
-kableExtra::column_spec(y, column = 1:8, width = "10em")
-# kable(DF[, 3:4], format = "html") %>% html_table_width(c(50, 20))
-# kable(DF[, 5:6], format = "html") %>% html_table_width(c(50, 20))
-# kable(DF[, 7:8], format = "html") %>% html_table_width(c(50, 20))
-# kable(DF, align = "r") 
+                  "CPts", "Reproducbility", "RPts")
+kable(DF, align = "r")
 ```
-
-------------------------------------------------------------------------
-
-<center>[Back to top](#grading) \|\| [Back to **vignette index**](toc.html)</center>
-
-------------------------------------------------------------------------
