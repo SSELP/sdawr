@@ -44,7 +44,9 @@ Hadley Wickham's [introduction section](https://adv-r.hadley.nz/introduction.htm
 
 Please also visit `R`'s [homepage](https://www.r-project.org), the center of the `R` universe, and particularly [CRAN](http://lib.stat.cmu.edu/R/CRAN/), where official `R` packages live (actually the link provided is the closest CRAN mirror site, which lives at Carnegie Mellon University).
 
-Finally, you might have heard of the `python` programming language, and wonder why you are learning `R`. Good question. You can't throw a rock without hitting a `python` versus `R` comparison, and here's [one of the examples of this genre](https://medium.com/@data_driven/python-vs-r-for-data-science-and-the-winner-is-3ebb1a968197). While it is worth exploring these comparisons, the reality is that both languages share many similarities, and a modern data scientist is well-served by learning both. In fact, the company behind RStudio recently rebranded as [posit](https://posit.co/), reflecting a strategic shift toward supporting both R and Python interchangeably. Both languages possess powerful geospatial capabilities. I use both in my own research. However, my personal (and admittedly biased) experience is that `R`’s ecosystem for standalone, end-to-end spatial analysis remains more cohesive and deeply developed for the types of workflows we will cover in this class. Furthermore, R’s heritage in statistics and visualization makes it particularly adept at not just processing spatial data, but communicating the results through high-quality cartography and reproducible reports.
+Finally, you might have heard of the `python` programming language, and wonder why you are learning `R`. Good question. You can't throw a rock without hitting a `python` versus `R` comparison, and here's [one of the examples of this genre](https://medium.com/@data_driven/python-vs-r-for-data-science-and-the-winner-is-3ebb1a968197). While it is worth exploring these comparisons, the reality is that both languages share many similarities, and a modern data scientist is well-served by learning both. In fact, the company behind RStudio recently rebranded as [posit](https://posit.co/), reflecting a strategic shift toward supporting both R and Python interchangeably. 
+
+Both languages possess powerful geospatial capabilities. I use both in my own research. However, my personal (and admittedly biased) experience is that `R`’s ecosystem for standalone, end-to-end spatial analysis remains more cohesive and deeply developed for the types of workflows we will cover in this class. Furthermore, R’s heritage in statistics and visualization makes it particularly adept at not just processing spatial data, but communicating the results through high-quality cartography and reproducible reports.
 
 On the other hand, `python` is preferred for machine learning applications on remote sensing data, particularly for deep learning, and it offers probably a more developed set of packages for working with cloud platforms such as [Google Earth Engine](https://developers.google.com/earth-engine/python_install), as well as QGIS and ArcGIS. It is also preferred, it seems, for setting up production workflows. So, really, there is a case for learning both languages, and the [`reticulate` package](https://rstudio.github.io/reticulate/) from Rstudio make it increasingly possible to use both languages in more integrated fashion, as the need arises. That's a subject for another time (and not this class), but just one more reason why we should think about `R` and `python` rather than `R` or `python`. 
 
@@ -115,17 +117,17 @@ I have adopted the package structure for organizing the analyses and writing of 
 
 The first thing you need to do is to install `git` on your computer, by following [links here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to get the version for your OS. If you are installing `git` on Windows you should install a Linux terminal emulator, such as [`WSL`](https://learn.microsoft.com/en-us/windows/wsl/install), or [Git Bash](https://gitforwindows.org/). If using `WSL`, follow the [directions](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-git) for installing `git` after installing it. If using `Git Bash`, it will have already installed `git` for you. You can also get away with Windows command prompt or Power Shell, but a *nix emulator is vastly preferred.
 
-Next, get a GitHub account, if you don't already have one. To do so, please go to [github.com](https://github.com/) and sign up for a free account. For the course, you will also need to get a [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) for GitHub, which is necessary for undertaking assignments (which will be on submitted in a private repo established on your own GitHub account). To get the PAT, go into your GitHub account, and click settings, and then (on the left)  developer settings, and then select personal access tokens. Generate a new token, name it something meaningful, and check the "repo" box:
+Next, get a GitHub account, if you don't already have one. To do so, please go to [github.com](https://github.com/) and sign up for a free account. For the course, you will also need to get a [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) for GitHub, which is necessary for undertaking assignments (which will be on submitted in a private repo established on your own GitHub account). To get the PAT, go into your GitHub account, and click settings, and then (on the left)  developer settings (at the very end), and then select personal access tokens. Generate a new token (classic), name it something meaningful, give it a long enough expiration time and check the "repo" box:
 
 <p align="center">
-  <img width="793" height="328" src="fig/pat4.png">
+  <img width="793" src="fig/pat4.png">
 </p>
 
 Copy the token and paste it somewhere safe (e.g. a secure password manager) 
 
 #### Set up a project directory 
 
-Set up a directory into which you will install this package, and in which you will develop your own repositories/packages for this class. Assuming you have a directory called something like `c:\My Documents\projects` (if you are Windows-ish), make a sub-folder called `sda320`. Using your command line interface (your terminal or terminal emulator), navigate to it. 
+Set up a directory into which you will develop your own repositories/packages for this class. Assuming you have a directory called something like `c:\My Documents\projects` (if you are Windows-ish), make a sub-folder called `sda320` (or anything else you like). Using your command line interface (your terminal or terminal emulator), navigate to it. 
 
 ```bash
 cd c/My\ Documents/projects/sda320
@@ -141,8 +143,15 @@ cd c/My\ Documents/projects/sda320
 At this point, we are going to get started with Rstudio and our reproducibility tools by using some of Rstudio's handy built-in capabilities.  We'll do that by creating a new Rstudio project that has the minimal set of files and folders needed for an R package, as well as its own git repository.  
 
 To do this, with Rstudio:
-1. Find the Packages tab, click install, type "devtools" into the "Packages" dialog, and click install.  You will notice a bunch of stuff installing in the console
+
+1. Find the Packages tab, click install, type "devtools" into the "Packages" dialog, and click install.  You will notice a bunch of stuff installing in the console.
+
+```{r out.width = "60%", fig.align='center', echo=FALSE}
+include_graphics("fig/u1m1-2a.png") 
+```
+
 2. When that is finished, select File > New Project
+
 3. In the new project dialog that pops up, choose "New Directory", and then in the next page, select the "R package" option at the very bottom. You will see a screen that looks like this:
 
 ```{r out.width = "60%", fig.align='center', echo=FALSE}
@@ -157,11 +166,11 @@ include_graphics("fig/u1m1-2.png")
     - Click "Create Project"
     
 5. You will now have an opened Rstudio project, with the name you selected. You are going to be working in this project for the first two units of the class.  Let's configure Rstudio a bit first. Your first view (assuming this is your first use of Rstudio) will look something like this:
-```{r out.width = "40%", fig.align='center', echo=FALSE}
+```{r out.width = "50%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-3.png") 
 ```
 
-    If this is what you see, modify the pane layout first, by going to Tools > Global Options > Pane Layout, and make it match this: 
+    You can modify the pane layout, by going to Tools > Global Options > Pane Layout, for instance, like this: 
 ```{r out.width = "40%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-4.png") 
 ```
@@ -169,11 +178,11 @@ include_graphics("fig/u1m1-4.png")
     You can also change the Rstudio theme by going to Tools > Global Options > Appearance (I personally prefer light text on dark backgrounds). Also check the Tools > Terminal tab, and make sure that either "Bash" (Mac/Linux) or "Git Bash" (Windows) are enabled in the "New terminals open with" dialog.
 
     You should also see a terminal tab next to the console tab:
-```{r out.width = "40%", fig.align='center', echo=FALSE}
+```{r out.width = "50%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-5.png") 
 ```
 
-    Last thing under Global Options to modify: > Code > Display > Check Show Margin tab, which should have 80 in the margin column value box. 
+    Last thing under Global Options to modify: > Code > Display > Check Show Margin tab, which should have 80 in the margin column value box. All set for global options for now.
     
 7. Now let's set up some project options that will make our lives easier when building packages. Go to Tools > Project Options, and make it look like this (i.e. check "Generate documentation with Roxygen" and check all boxes in the dialog after click the Configure button): 
 
@@ -199,7 +208,7 @@ This schematic is oriented towards software development projects. For the purpos
 
 ## git configuration
 
-If you have just installed `git` on your computer, before we can use it, we need to do a little bit of configuration.  You can either use your terminal (mac/linux), `WSL` or `git bash` terminal (Windows), or the terminal RStudio provides to do this (if you are working with the `docker` image, use this option). So, choose the best one of those for you, and then, at the prompt enter:
+If you have just installed `git` on your computer, before we can use it, we need to do a little bit of configuration.  You can either use your terminal (mac/linux), `WSL` or `git bash` terminal (Windows), or the terminal RStudio provides to do this (recommended). And then, at the prompt enter:
 
 ```bash
 git config --global user.name "YOUR GITHUB USER NAME"
@@ -229,13 +238,13 @@ No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
         .Rbuildignore
-        .Rhistory
         .gitignore
         DESCRIPTION
         NAMESPACE
+        R/
         ls320.Rproj
+        man/
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
@@ -246,8 +255,8 @@ The repo itself is a hidden file (it begins with a ".") that lives in the top le
 
 ```bash
 $ ls -a
-.   .Rbuildignore  .Rproj.user  .gitignore   NAMESPACE  ls320.Rproj
-..  .Rhistory      .git         DESCRIPTION  R
+.               .git            .Rbuildignore   DESCRIPTION     man             R
+..              .gitignore      .Rproj.user     ls320.Rproj     NAMESPACE
 ```
 
 Note the .git. That's the folder that contains all the inner workings of a `git` project, which we won't go into but if you are interested you can explore with `ls .git`, which show you the contents.  
@@ -272,21 +281,28 @@ The bottom pane shows the changes being made within the particular file that is 
 git commit -m "First commit of ls320 project."
 ```
 
-Now, let's make a change. Go to the file dialog, and double-click the DESCRIPTION file to open it. This is a key part of an R package.  Mine has the following text
+Now, let's make a change. Go to the file dialog, and click the DESCRIPTION file to open it. This is a key part of an R package.  Mine has the following text
 
 ```
 Package: ls320
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.5.2)
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Jane", "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: More about what it does (maybe more than one line).
+    Continuation lines should be indented.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 ```
 
-Change the Title line to something informative, e.g. "SDA320 coursework", and replace the entire Authors@R line with two new lines:
+Change the Title line to something informative, e.g. "SDA320 coursework", and replace the entire Authors@R lines with two new lines:
 
 ```
 Author: Your Name
@@ -328,10 +344,10 @@ For class assignments, you will use a private GitHub repository for your assignm
 include_graphics("fig/u1m1-9.png") 
 ```
 
-Find the dropdown box on the left that shows your GitHub user name, click on it. In the repository name dialog, enter the same exact name that you used for making your local project repo (i.e. the name of your RStudio project folder, e.g. ls320), select the option to make the repo private, and enter in the Description dialog "SDA320 class repo". Leave the rest of the fields as they look in this image, then click "Create Repository". That will bring up another page where you will see your new repository name at the top, followed by two options, one for "Set Up GitHub Copilot" (ignore this), another for Add collaborators to this repository", followed by three packages of commands. Copy the middle set of commands below the text "…or push an existing repository from the command line", and then paste them into RStudio's terminal (note, the `ls320.git` in the first line will be replaced by the name of your project repo).
+Find the dropdown box on the left that shows your GitHub user name, click on it. In the repository name dialog, enter the same **exact** name that you used for making your local project repo (i.e. the name of your RStudio project folder, e.g. ls320), select the option to make the repo private, and enter in the Description dialog "SDA320 coursework". Leave the rest of the fields as they look in this image, then click "Create Repository". That will bring up another page where you will see your new repository name at the top, followed by two options, one for "Start coding with Codespaces" (or something similar, ignore this), another for Add collaborators to this repository", followed by three packages of commands. Copy the last set of commands below the text "…or push an existing repository from the command line", and then paste them into RStudio's terminal (note, the `ls320.git` in the first line will be replaced by the name of your project repo).
 
 ```bash
-git remote add origin https://github.com/SSELP/ls320.git
+git remote add origin git@github.com:SSELP/ls320.git
 git branch -M main
 git push -u origin main
 ```
@@ -350,12 +366,12 @@ Now that you have a remote repository, you will want to keep it synchronized. Th
 You will notice now, if you look back in RStudio's `git` GUI, that the push and pull buttons, which were previously greyed out, are now live. So, that means we can interact with the GitHub repo. Let's first do a push. Reopen your DESCRIPTION file, and change this line:
 
 ```
-Version: 0.0.0.9000
+Version: 0.1.0
 ```
 
 To 
 ```
-Version: 0.0.1
+Version: 0.1.1
 ```
 
 Commit the change with a meaningful message ("Updated package version number"), and then once you have done that, press the "Push" button (which you can access either from the big commit dialog, or in the main `git` GUI of RStudio). If you go to your repo on GitHub, you will see your new commit message next to your use icon, above the list of files.  Have a look at the file itself on GitHub to see that the change is in fact now shown on GitHub. 
@@ -433,7 +449,7 @@ We'll start by learning a bit more about `R` packages.  First, I will direct you
 include_graphics("fig/u1m1-10.png") 
 ```
 
-The one folder (R) and two of the files (DESCRIPTION and NAMESPACE) are critical to building an `R` package. The DESCRIPTION file provides the package's metadata, which is described in detail [here](http://r-pkgs.had.co.nz/description.html#description) (read this section). The NAMESPACE is described in detail [here](http://r-pkgs.had.co.nz/description.html#description), but as that section said, it is a complicated topic, so we won't touch on it now. The approach we are using to building packages updates NAMESPACE automatically (you shouldn't mess with it), so we will leave for now and come back to it later on. The `R` folder is the place where your core package functions live, along with their documentation. There are a few other folders that are important for `R` packages (to the extent that we use them in this class), which are "data", "inst", "man", "vignettes". Those have not yet been made, so we will revisit them to discuss what they do as they appear in our package-making workflow.  
+The one folder (R) and two of the files (DESCRIPTION and NAMESPACE) are critical to building an `R` package. The DESCRIPTION file provides the package's metadata, which is described in detail [here](http://r-pkgs.had.co.nz/description.html#description) (read this section). The NAMESPACE is described in detail [here](http://r-pkgs.had.co.nz/description.html#description), but as that section said, it is a complicated topic, so we won't touch on it now. The approach we are using to building packages updates NAMESPACE automatically (you shouldn't mess with it), so we will leave for now and come back to it later on. The `R` folder is the place where your core package functions live, along with their documentation. There are a few other folders that are important for `R` packages (to the extent that we use them in this class), which are "data", "inst", "vignettes". Those have not yet been made, so we will revisit them to discuss what they do as they appear in our package-making workflow.  
 
 You can create your first `R` package quite easily, as the folder is currently structured. If you look right next to the `git` tab in your RStudio interface, you will see a "Build" tab. Click on that, and then click on the "Install" button. That will build the package. You can confirm the package was built and installed if you browse in the "Packages" tab (in the lower right pane in our current setup), and browse down and find your package named listed alphabetically. Click on that. You will see the contents of the help pages for your package. Since you have no functions in your R folder, and no documentation for those functions, you have no help pages. Let's remedy that. 
 
@@ -441,7 +457,7 @@ You can create your first `R` package quite easily, as the folder is currently s
 include_graphics("fig/u1m1-11.png") 
 ```
 
-If you are not working within the `docker` environment, and are using `R` in Windows, and have a new install, you will probably see the warning as shown above about installing `RTools`. Go to the link it shows and install the latest recommended version of the `Rtools` executable (.exe).  
+If you are using `R` in Windows, and have a new install, you will probably see the warning as shown above about installing `RTools`. Go to the link it shows and install the latest recommended version of the `Rtools` executable (.exe).  
 
 ## Your first package function{#your-first-package-function}
 We'll learn more about exactly what a function is in the next module, but for now it is sufficient to know that a function provides a convenient way for repeating an operation without having to keep re-writing a longer set of commands, or as it is put [here](https://r4ds.had.co.nz/functions.html) (in Hadley Wickham's R for Data Science book):
@@ -543,8 +559,8 @@ my_number_checker(x)
 \item{x}{A number}
 }
 \description{
-This function allows you to test whether a number falls into the Goldilocks
-range (5-9) or not
+This function allows you to test whether a number falls into the
+Goldilocks range (5-9) or not
 }
 \examples{
 my_number_checker(1)
@@ -629,20 +645,20 @@ vignette: >
 ---
 ```
 
-Note the places where I have changed the information to make it say something relevant to my package (`lde346`). Please do the same for your package using its name.  
+Note the places where I have changed the information to make it say something relevant to my package (`ls320`). Please do the same for your package using its name.
 
 Let's move down to the text. You will see this code chunk after the yaml:
-```{r out.width = "50%", fig.align='center', echo=FALSE}
+```{r out.width = "70%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-13.png") 
 ```
 
-Keep that, but then replace everything after it to read something like this (make sure to change the package name where needed to match yours, including in the `R` code chunk call to `library()`:
+Keep that, but then replace everything after it to read something like this (make sure to change the package name where needed to match yours), including in the `R` code chunk call to `library()`:
 
 ```{r out.width = "70%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-14.png") 
 ```
 
-Go ahead and knit that, and see the result. The chunk should execute and produce the relevant output. 
+You can modify the text as you want. Then go ahead and knit that, and see the result. The chunk should execute and produce the relevant output. 
 
 Commit and push the additions/changes, including the new vignette, which was previously untracked. Note that the html file for the vignette does not show up in the `git` interface, because `use_vignette()` added any html file in the vignettes folder to the .gitignore file. Vignettes as supposed to build with the package, so no need to track changes to the html since the Rmd is the source file, and more clearly shows the changes (since it is basically a text file, which is most human-readable).
 
@@ -657,41 +673,35 @@ devtools::install(build_vignettes = TRUE)
 
 You should see output that looks very similar to the following in your console:
 ```{r, eval = FALSE}
-√  checking for file 'C:\Users\Administrator\Desktop\ls320/DESCRIPTION' ...
--  preparing 'ls320': (438ms)
-√  checking DESCRIPTION meta-information ...
--  installing the package to build vignettes
-√  creating vignettes (1.9s)
-   Warning in as.POSIXlt.POSIXct(x, tz) :
-     unable to identify current timezone 'C':
-   please set environment variable 'TZ'
--  checking for LF line-endings in source and make files and shell scripts
--  checking for empty or unneeded directories
--  building 'ls320_0.0.1.tar.gz'
+── R CMD build ────────────────────────────────────────────────────────────────────────────────────
+✔  checking for file ‘/Users/leisong/Library/CloudStorage/Dropbox/teaching/Rutgers/sda320/ls320/DESCRIPTION’ ...
+─  preparing ‘ls320’:
+✔  checking DESCRIPTION meta-information ...
+─  installing the package to build vignettes
+✔  creating vignettes (857ms)
+─  checking for LF line-endings in source and make files and shell scripts
+─  checking for empty or unneeded directories
+   Omitted ‘LazyData’ from DESCRIPTION
+─  building ‘ls320_0.1.1.tar.gz’
    
-Running "C:/PROGRA~1/R/R-35~1.2/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\ADMINI~1\AppData\Local\Temp\2\RtmpYrAZzD/ls320_0.0.1.tar.gz" --install-tests 
-|arning in strptime(xx, f, tz = tz) :
- unable to identify current timezone 'C':
-please set environment variable 'TZ'
-* installing to library 'C:/Program Files/R/R-3.5.2/library'
-* installing *source* package 'ls320' ...
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+  /var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpUiXPB6/ls320_0.1.1.tar.gz \
+  --install-tests 
+* installing to library ‘/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library’
+* installing *source* package ‘ls320’ ...
+** this is package ‘ls320’ version ‘0.1.1’
+** using staged installation
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
 ** help
 *** installing help indices
-'ls320'ting help for package     finding HTML links ...
- done
--y_number_checker                       html  
 ** building package indices
 ** installing vignettes
-** testing if installed package can be loaded
-*** arch - i386
-*** arch - x64
-* DONE (lde346)
-In R CMD INSTALL
-Reloading attached lde346
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (ls320)
 ```
 
 And then, as discussed previously using the `roxygen2` example using one of the two approaches suggested to find your package vignette, e.g. 
@@ -701,7 +711,7 @@ browseVignettes("ls320")  # replace with your package name
 ```
 Pretty cool, no? 
 
-One more way we are going to try this. Checking whether your package can be installed locally. We are going to use another `devtools` function:
+One more way we are going to try this. Checking whether your package can be installed locally. We are going to use another `devtools` function. Before that, commit all your changes and push all updates to your GitHub. Then:
 
 ```{r, eval = FALSE}
 devtools::install_github("SSELP/ls320", build_vignettes = TRUE, 
