@@ -1,6 +1,6 @@
 ---
 title: "Unit 1 Module 3"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R (01:450:320)"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
