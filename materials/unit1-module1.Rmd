@@ -1,6 +1,6 @@
 ---
 title: "Unit 1 Module 1"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R (01:450:320)"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -44,9 +44,9 @@ Hadley Wickham's [introduction section](https://adv-r.hadley.nz/introduction.htm
 
 Please also visit `R`'s [homepage](https://www.r-project.org), the center of the `R` universe, and particularly [CRAN](http://lib.stat.cmu.edu/R/CRAN/), where official `R` packages live (actually the link provided is the closest CRAN mirror site, which lives at Carnegie Mellon University).
 
-Finally, you might have heard of the `python` programming language, and wonder why you are learning `R`. Good question. You can't throw a rock without hitting a `python` versus `R` comparison, and here's [one of the examples of this genre](https://medium.com/@data_driven/python-vs-r-for-data-science-and-the-winner-is-3ebb1a968197). Please have a look, but basically each language has a lot of similarities, and one would do very well to learn both. In fact, the company that makes Rstudio recently changed it's name to [posit](https://posit.co/), a reflection of their growing emphasis of the realization that both `R` and `python` are used by data scientists, including for geospatial data science. One thing I have yet to find, but maybe we will do in this class, is a rigorous comparison of `R` and `python` for their ability to handle spatial data. There are comparisons out there, but none really comprehensive, e.g. [this](https://www.quora.com/Which-is-better-for-spatial-analysis-Python-or-R)). Both languages have strong geospatial capabilties, but my own personal (and admittedly biased and unscientific) sense is that `R`'s capabilities to do standalone spatial analysis may still be more developed than `python`'s. A solid comparison of `sf` and `geopandas` and `terra` against `xarray` can provide some insight into this. 
+Finally, you might have heard of the `python` programming language, and wonder why you are learning `R`. Good question. You can't throw a rock without hitting a `python` versus `R` comparison, and here's [one of the examples of this genre](https://medium.com/@data_driven/python-vs-r-for-data-science-and-the-winner-is-3ebb1a968197). While it is worth exploring these comparisons, the reality is that both languages share many similarities, and a modern data scientist is well-served by learning both. In fact, the company behind RStudio recently rebranded as [posit](https://posit.co/), reflecting a strategic shift toward supporting both R and Python interchangeably. Both languages possess powerful geospatial capabilities. I use both in my own research. However, my personal (and admittedly biased) experience is that `R`’s ecosystem for standalone, end-to-end spatial analysis remains more cohesive and deeply developed for the types of workflows we will cover in this class. Furthermore, R’s heritage in statistics and visualization makes it particularly adept at not just processing spatial data, but communicating the results through high-quality cartography and reproducible reports.
 
-On the other hand, `python` is preferred for machine learning applications on remote sensing data, particularly for deep learning, and it offers probably a more developed set of packages for working with cloud platforms such as [Google's Earth Engine](https://developers.google.com/earth-engine/python_install), as well as QGIS and ArcGIS. It is also preferred, it seems, for setting up production workflows. So, really, there is a case for learning both languages, and the [`reticulate` package](https://rstudio.github.io/reticulate/) from Rstudio make it increasingly possible to use both languages in more integrated fashion, as the need arises. That's a subject for another time (and not this class), but just one more reason why we should think about `R` and `python` rather than `R` or `python`. 
+On the other hand, `python` is preferred for machine learning applications on remote sensing data, particularly for deep learning, and it offers probably a more developed set of packages for working with cloud platforms such as [Google Earth Engine](https://developers.google.com/earth-engine/python_install), as well as QGIS and ArcGIS. It is also preferred, it seems, for setting up production workflows. So, really, there is a case for learning both languages, and the [`reticulate` package](https://rstudio.github.io/reticulate/) from Rstudio make it increasingly possible to use both languages in more integrated fashion, as the need arises. That's a subject for another time (and not this class), but just one more reason why we should think about `R` and `python` rather than `R` or `python`. 
 
 # The tools and concepts of reproducibility
 
@@ -57,9 +57,13 @@ The first set of skills we are going to learn in this course are not related to 
 
 That is actually a quote by Goodman, Fanelli, & Ioannidis (2016) in an [e-book on reproducibility](http://www.practicereproducibleresearch.org/core-chapters/2-assessment.html), but it works here. 
 
+A great deal more about reproducibility is written in the aforementioned book. You should read [this paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285) in PLOS Computational Biology, which lays out 10 rules for reproducibility.
+
 Reproducibility is a useful concept/mindset to learn, regardless of whether you are going into academia or industry, as it ultimately makes your life easier, particularly when you have to revisit and revise work. The practice of making your work reproducible also makes it easier to share your work with others. 
 
-A great deal more about reproducibiity is written in the aforementioned book. You should read [this paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285) in PLOS Computational Biology, which lays out 10 rules for reproducibility.  
+Reproducible research is increasingly prioritized by the scientific community. For example, Dr. Kedron and Dr. Holler recently conducted an [NSF-funded project](https://hegsrr.github.io) investigating Reproducibility and Replicability in Geography, uncovering critical insights into how our field can improve its scientific standards.
+
+I personally began adopting these practices in 2014 when I started using GitHub (you can see it on [my GitHub profile](https://github.com/LLeiSong)). Over a decade later, this commitment to a reproducible workflow continues to shape my daily research.
 
 ## The tools of reproducibility
 ### Version control and git
@@ -107,10 +111,8 @@ I have adopted the package structure for organizing the analyses and writing of 
 ## Setting up
 
 ### Installations
-
-The first thing you need to do, if you haven't already done this after visiting the [`geospaar` repository](https://github.com/agroimpacts/geospaar), is to install the materials.  The easiest way to do this, because it will give you a full installation of R, Rstudio, and all the necessary packages for working with this material, is to use `docker` and pull or build the latest image from `docker` hub. Alternatively, you can get standalone versions of R and Rstudio and use that. We will cover both options here, but prefer to use the `docker`-based approach. 
-
 #### Get `git` and a GitHub account
+
 The first thing you need to do is to install `git` on your computer, by following [links here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to get the version for your OS. If you are installing `git` on Windows you should install a Linux terminal emulator, such as [`WSL`](https://learn.microsoft.com/en-us/windows/wsl/install), or [Git Bash](https://gitforwindows.org/). If using `WSL`, follow the [directions](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-git) for installing `git` after installing it. If using `Git Bash`, it will have already installed `git` for you. You can also get away with Windows command prompt or Power Shell, but a *nix emulator is vastly preferred.
 
 Next, get a GitHub account, if you don't already have one. To do so, please go to [github.com](https://github.com/) and sign up for a free account. For the course, you will also need to get a [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) for GitHub, which is necessary for undertaking assignments (which will be on submitted in a private repo established on your own GitHub account). To get the PAT, go into your GitHub account, and click settings, and then (on the left)  developer settings, and then select personal access tokens. Generate a new token, name it something meaningful, and check the "repo" box:
@@ -123,62 +125,23 @@ Copy the token and paste it somewhere safe (e.g. a secure password manager)
 
 #### Set up a project directory 
 
-Set up a directory into which you will install this package, and in which you will develop your own repositories/packages for this class. Assuming you have a directory called something like `c:\My Documents\projects` (if you are Windows-ish), make a sub-folder called `geog246346`. Using your command line interface (your terminal or terminal emulator), navigate to it. 
+Set up a directory into which you will install this package, and in which you will develop your own repositories/packages for this class. Assuming you have a directory called something like `c:\My Documents\projects` (if you are Windows-ish), make a sub-folder called `sda320`. Using your command line interface (your terminal or terminal emulator), navigate to it. 
 
 ```bash
-cd c/My\ Documents/projects/geog246346
+cd c/My\ Documents/projects/sda320
 ```
 
-#### Clone the `geospaar` repository
-
-Once you have your project directory set up and you have navigated into it, change into and then clone the `geospaar` repository into that directory:
-
-  ```bash
-  git clone https://github.com/agroimpacts/geospaar.git
-  ```
-
-#### The `docker` route
-If you are going the `docker` route, you should next download and install the version of `docker` for your operating system from [here](https://www.docker.com/products/docker-desktop/), and create an account. It might be preferrable to sign up with your GitHub credentials. 
-
-Using docker, you can either build or pull the docker image you need by running the following:
-
-- Build (assuming you are in the project directory you made in step 4):
-
-  ```bash
-  cd geospaar
-  LATEST=<version number> # enter the version number here, latest is 4.3.2
-  docker build . -t agroimpacts/geospaar:$LATEST
-  ```
-  
-- Pull (this gets you the latest version already committed to docker hub):
-
-  ```bash
-  LATEST=<version number> # enter the version number here, latest is 4.3.2
-  docker pull agroimpacts/geospaar:$LATEST
-  ```
-
-Then run the image using the following script that comes with the `geospaar` repo:
-
-  ```bash
-  PORT=8787 # this is the port to run on--you might want to change it
-  MY_PROJECT_DIRECTORY=c/My\ Documents/projects # change this to yours!!!
-  ./run-container.sh -v $LATEST -p $PORT $MY_PROJECT_DIRECTORY
-  ```
-
-This should give you a URL (https://localhost:8787) that you can copy and paste into your browser, which will will then give you a fully functioning Rstudio-server instance after you log in. 
-
-#### The local install route
-If you opt not to use the `docker` route, or even if you do, but want a local `R`/`Rstudio` installation, then:
+#### R and RStudio
 
 - Install `R` for your OS from Rstudio's link to [CRAN's R downloads](https://cran.rstudio.com) (use default options)
 - And then [download] (https://www.rstudio.com/products/rstudio/download/#download) and install Rstudio (use default options).
 
 ### Your first Rstudio project{#your-first-rstudio-project}
 
-At this point, working in either the `docker`ized Rstudio-server interface, or your local Rstudio, we are going to get started with Rstudio and our reproducibility tools by using some of Rstudio's handy built-in capabilities.  We'll do that by creating a new Rstudio project that has the minimal set of files and folders needed for an R package, as well as its own git repository.  
+At this point, we are going to get started with Rstudio and our reproducibility tools by using some of Rstudio's handy built-in capabilities.  We'll do that by creating a new Rstudio project that has the minimal set of files and folders needed for an R package, as well as its own git repository.  
 
 To do this, with Rstudio:
-1. Find the Packages tab, click install, type "devtools" into the "Packages" dialog, and click install.  You will notice a bunch of stuff installing in the console (note: skip this step if you are working in the `docker` image--`devtools` is already installed)
+1. Find the Packages tab, click install, type "devtools" into the "Packages" dialog, and click install.  You will notice a bunch of stuff installing in the console
 2. When that is finished, select File > New Project
 3. In the new project dialog that pops up, choose "New Directory", and then in the next page, select the "R package" option at the very bottom. You will see a screen that looks like this:
 
@@ -187,18 +150,18 @@ include_graphics("fig/u1m1-2.png")
 ```
 
 4. Here we'll make a couple of decisions:
-    - Name the package using your initials (in lowercase) followed by the three digits of the course (246 or 346, depending on which you are enrolled in), e.g. in my case it would be lde346. **Do not**, one more time, **DO NOT**, name it using a different convention, e.g. `MyFirstNameLastName346`. If you do, you will lose  points on your assignments.   
-    - Under the "Create project as sub-directory of" enter the folder where you want this project to live. If you are using the `docker` approach, leave the default `~` in the dialog. Otherwise, if you are working with a local Rstudio install, you should use a folder that is relevant, e.g. one in which you keep all course-related work. I do not suggest your Desktop as a good location, as shown here. 
+    - Name the package using your initials (in lowercase) followed by the three digits of the course 320, e.g. in my case it would be ls320. **Do not**, one more time, **DO NOT**, name it using a different convention, e.g. `MyFirstNameLastName346`. If you do, you will lose points on your assignments.   
+    - Under the "Create project as sub-directory of" enter the folder where you want this project to live. It is highly recommended that you should use a folder that is relevant, e.g. one in which you keep all course-related work. I do not suggest your Desktop as a good location, as shown here. 
     - Check the option to "Create a git repository"
     - Leave unchecked the "Use renv with this project"
     - Click "Create Project"
     
-5. You will now have an opened Rstudio project, with the name you selected. You are going to be working in this project for the first two units of the class.  Let's configure Rstudio a bit first. Your first view, if you are not using the docker version (assuming this is your first use of Rstudio) will look something like this:
+5. You will now have an opened Rstudio project, with the name you selected. You are going to be working in this project for the first two units of the class.  Let's configure Rstudio a bit first. Your first view (assuming this is your first use of Rstudio) will look something like this:
 ```{r out.width = "40%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-3.png") 
 ```
 
-    If this is what you see (because you are not using the `docker` image, which already provides this view as default) modify the pane layout first, by going to Tools > Global Options > Pane Layout, and make it match this: 
+    If this is what you see, modify the pane layout first, by going to Tools > Global Options > Pane Layout, and make it match this: 
 ```{r out.width = "40%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-4.png") 
 ```
@@ -212,16 +175,13 @@ include_graphics("fig/u1m1-5.png")
 
     Last thing under Global Options to modify: > Code > Display > Check Show Margin tab, which should have 80 in the margin column value box. 
     
-    If you are using the `docker` image, feel free to modify the options how you see fit.  
-    
-7. Now let's set up some project options that will make our lives easier when building packages (again, this is already done if you are using the `docker` version). Go to Tools > Project Options, and make it look like this (i.e. check "Generate documentation with Roxygen" and check all boxes in the dialog after click the Configure button): 
+7. Now let's set up some project options that will make our lives easier when building packages. Go to Tools > Project Options, and make it look like this (i.e. check "Generate documentation with Roxygen" and check all boxes in the dialog after click the Configure button): 
 
 ```{r out.width = "50%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-6.png") 
 ```
 
 Okay, we are basically set-up with the full set of tools you need. We are now going to learn to work with `git`. 
-
 
 # Using git and GitHub
 
@@ -249,7 +209,7 @@ git config --global user.email "EMAIL ADDRESS LINKED TO YOUR GITHUB ACCOUNT"
 Replace the prompt text in the above commands with your GitHub user name and email address associated with your GitHub account, respectively. 
 
 ## Your first commit
-Let's start to use `git` now. We are going to do this using Rstudio's `git` interface, and the project you just created in the previous section. So open that project (mine is lde346.Rproj, which is found in the lde346 folder on my computer--I can open it and Rstudio up by double-clicking the .Rproj file).
+Let's start to use `git` now. We are going to do this using Rstudio's `git` interface, and the project you just created in the previous section. So open that project (mine is ls320.Rproj, which is found in the ls320 folder on my computer--I can open it and Rstudio up by double-clicking the .Rproj file).
 
 Once in there, click on the "Files" tab, and you will see your directory structure, which should look like what you see in the image below.
 
@@ -275,7 +235,7 @@ Untracked files:
         .gitignore
         DESCRIPTION
         NAMESPACE
-        lde346.Rproj
+        ls320.Rproj
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
@@ -286,7 +246,7 @@ The repo itself is a hidden file (it begins with a ".") that lives in the top le
 
 ```bash
 $ ls -a
-.   .Rbuildignore  .Rproj.user  .gitignore   NAMESPACE  lde346.Rproj
+.   .Rbuildignore  .Rproj.user  .gitignore   NAMESPACE  ls320.Rproj
 ..  .Rhistory      .git         DESCRIPTION  R
 ```
 
@@ -295,7 +255,7 @@ Note the .git. That's the folder that contains all the inner workings of a `git`
 To get `git` to track your files, the easiest is to simply check the boxes in the GUI.  For example, check the boxes next to the files ".gitignore", "DESCRIPTION", "NAMESPACE", and the .Rproj file.  You will see the yellow checkmarks changed to green boxes with "A" in them, meaning the files have been staged for a commit.  This is equivalent to going back to terminal, and running the command (note I am using the .Rproj filename for my example):
 
 ```bash
-git add .gitignore DESCRIPTION NAMESPACE lde346.Rproj
+git add .gitignore DESCRIPTION NAMESPACE ls320.Rproj
 ```
 
 I don't really want `git` to track the .Rbuildignore and .Rhistory files, so I add these to the .gitignore file, which means `git` will not track those files and they will no longer appear in the `git` GUI with yellow boxes with question marks next to them. To add that, shift-click on the file names (not the check boxes) in the GUI, and then right-click, and choose "ignore" in the dialog that pops up.  That will bring up another box that lists those two files below .Rproj.user.  Click save on the dialog. Immediately you will notice in the GUI that those two files have disappeared, and .gitignore has a blue box with "M" appear next the green A box. That means that the file has been staged to be committed, and has been modified since it was staged.  The check in the box next to it has been replaced by solid blue, meaning the modification has not been staged--to stage it, click the box again, and the blue M will disappear.
@@ -309,13 +269,13 @@ include_graphics("fig/u1m1-8.png")
 The bottom pane shows the changes being made within the particular file that is selected in the upper left pane (the .gitignore file in this example). The highlighting is green, which means that the lines in questions are being added. If this was a previously committed file that had been changed, you would see a light red line above it that shows the text/code that was in the prior version that is being replaced. You can refer back to the first figure for an example of that, but we can also do the same here with some modifications and a second commit. First though, let's make the commit by simply pressing the "Commit" button in the dialog. Once that is done, you will see a smaller dialog pop-up and tell you the commits that were made, assuming nothing went wrong. Close it when done. Note, that this whole GUI-based commit process (not including the staging) is analagous to running the fulling command in terminal:
 
 ```bash
-git commit -m "First commit of lde346 project."
+git commit -m "First commit of ls320 project."
 ```
 
 Now, let's make a change. Go to the file dialog, and double-click the DESCRIPTION file to open it. This is a key part of an R package.  Mine has the following text
 
 ```
-Package: lde346
+Package: ls320
 Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
@@ -326,14 +286,14 @@ Encoding: UTF-8
 LazyData: true
 ```
 
-Change the Title line to something informative, e.g. "GEOG246-346 coursework", and replace the entire Authors@R line with two new lines:
+Change the Title line to something informative, e.g. "SDA320 coursework", and replace the entire Authors@R line with two new lines:
 
 ```
 Author: Your Name
 Maintainer: Your Name <your.email@domain.com>
 ```
 
-Just for ease. Replace the "Description" with something longer, such as "Package for GEOG246-346 class assignments". 
+Just for ease. Replace the "Description" with something longer, such as "Package for SDA320 class assignments". 
 
 Once those are done, save the changes, and then go back to the `git` GUI, where you will see a blue M next to the DESCRIPTION file.  Commit the changes with a meaningful message (e.g. "Editing name and purpose in DESCRIPTION"). You will see in the commit dialog how the changes are recorded (old text in red, new in green), and once committed that 4 deletions and 5 insertions were recorded. 
 
@@ -368,10 +328,10 @@ For class assignments, you will use a private GitHub repository for your assignm
 include_graphics("fig/u1m1-9.png") 
 ```
 
-Find the dropdown box on the left that shows your GitHub user name, click on it. In the repository name dialog, enter the same exact name that you used for making your local project repo (i.e. the name of your RStudio project folder, e.g. lde346), select the option to make the repo private, and enter in the Description dialog "GEOG246-346 class repo". Leave the rest of the fields as they look in this image, then click "Create Repository". That will bring up another page where you will see your new repository name at the top, followed by two options, one for "Set Up GitHub Copilot" (ignore this), another for Add collaborators to this repository", followed by three packages of commands. Copy the middle set of commands below the text "…or push an existing repository from the command line", and then paste them into RStudio's terminal (note, the `lde346.git` in the first line will be replaced by the name of your project repo).
+Find the dropdown box on the left that shows your GitHub user name, click on it. In the repository name dialog, enter the same exact name that you used for making your local project repo (i.e. the name of your RStudio project folder, e.g. ls320), select the option to make the repo private, and enter in the Description dialog "SDA320 class repo". Leave the rest of the fields as they look in this image, then click "Create Repository". That will bring up another page where you will see your new repository name at the top, followed by two options, one for "Set Up GitHub Copilot" (ignore this), another for Add collaborators to this repository", followed by three packages of commands. Copy the middle set of commands below the text "…or push an existing repository from the command line", and then paste them into RStudio's terminal (note, the `ls320.git` in the first line will be replaced by the name of your project repo).
 
 ```bash
-git remote add origin https://github.com/ldemaz/lde346.git
+git remote add origin https://github.com/SSELP/ls320.git
 git branch -M main
 git push -u origin main
 ```
@@ -408,9 +368,9 @@ In cases where your local repo is behind your remote repo, you can use the Pull 
 
 Instead, let's look at how we can use RStudio to create a new project from your remote repo, which you can use to have the project on both your home and lab computer, so you can make changes from either location.  This is quite simple.  
 
-- On the new machine, which I am assuming already has RStudio set up (in the  `docker` image or standalone), complete with `git` and ssh keys connected to your GitHub account, you would simply go to File > New Project > Version Control > Git, 
+- On the new machine, which I am assuming already has RStudio set up, complete with `git` and ssh keys connected to your GitHub account, you would simply go to File > New Project > Version Control > Git, 
 - Copy into the "Repository name" dialog at the top the full repo path, which you get by going to the repo's main page on GitHub and pressing the big green "Code" dialog, and copying the resulting URL string. Note you choose to clone using either HTTPs or SSH, which each give slightly different links. You might have to trial and error to get the one that works, but try SSH to start. 
-- In the second box (directory name), use the same name as the repo (e.g. lde346), and then choose the directory where you want it live. 
+- In the second box (directory name), use the same name as the repo (e.g. ls320), and then choose the directory where you want it live. 
 - Check open project in new session, and then voila, you have a local version of the repo fully set up.   
 
 You now have two local copies of the repo, so when you make a change on one, push it to the remote (on GitHub), and then pull the new changes down to the other.  
@@ -467,7 +427,7 @@ There is a lot written on this, but for now please read the ones provided [here]
 
 We have already created the basics for setting up a package, using RStudio's built-in tools, in section [3.3.2  above](#your-first-rstudio-project). We are now going to actually start the process of converting your project into a very simple R package. 
 
-We'll start by learning a bit more about `R` packages.  First, I will direct you to [a section](http://r-pkgs.had.co.nz/package.html#package) in the `R` packages book to read. When you are done with that, please direct your attention to the structure of the project you created (in my case, lde346). It contains several folder and files (already discussed a bit above): 
+We'll start by learning a bit more about `R` packages.  First, I will direct you to [a section](http://r-pkgs.had.co.nz/package.html#package) in the `R` packages book to read. When you are done with that, please direct your attention to the structure of the project you created (in my case, ls320). It contains several folder and files (already discussed a bit above): 
 
 ```{r out.width = "20%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1-10.png") 
@@ -552,7 +512,7 @@ my_number_checker(1)
 
 As opposed to
 ```{r, eval = FALSE}
-lde346::my_number_checker(1)
+ls320::my_number_checker(1)
 ```
 
 If you don't specify `@export`. The `@examples` show examples of how to use the function. Also, note the `#'` at the beginning of the line--this is a comment marker that is unique to `R` function documentation compiled by `roxygen2`, and is different from the normal `#` that `R` (as well as `python` and some other languages) use for commenting code--that is, for adding text into scripts that are ignored by the program when executing. In this case, the `roxygen2` package reads these lines and converts them into .Rd files, which contain the text of the package help pages. Let's create those now, by going to Build > Install .  That is all you need to do to build the package.  You could also execute these commands in the R console: 
@@ -658,8 +618,8 @@ Now modify it. Start by changing the yaml front matter:
 
 ```
 ---
-title: "Overview of the lde346 Package"
-author: "Lyndon Estes"
+title: "Overview of the ls320 Package"
+author: "Lei Song"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -697,8 +657,8 @@ devtools::install(build_vignettes = TRUE)
 
 You should see output that looks very similar to the following in your console:
 ```{r, eval = FALSE}
-√  checking for file 'C:\Users\Administrator\Desktop\lde346/DESCRIPTION' ...
--  preparing 'lde346': (438ms)
+√  checking for file 'C:\Users\Administrator\Desktop\ls320/DESCRIPTION' ...
+-  preparing 'ls320': (438ms)
 √  checking DESCRIPTION meta-information ...
 -  installing the package to build vignettes
 √  creating vignettes (1.9s)
@@ -707,21 +667,21 @@ You should see output that looks very similar to the following in your console:
    please set environment variable 'TZ'
 -  checking for LF line-endings in source and make files and shell scripts
 -  checking for empty or unneeded directories
--  building 'lde346_0.0.1.tar.gz'
+-  building 'ls320_0.0.1.tar.gz'
    
 Running "C:/PROGRA~1/R/R-35~1.2/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\ADMINI~1\AppData\Local\Temp\2\RtmpYrAZzD/lde346_0.0.1.tar.gz" --install-tests 
+  "C:\Users\ADMINI~1\AppData\Local\Temp\2\RtmpYrAZzD/ls320_0.0.1.tar.gz" --install-tests 
 |arning in strptime(xx, f, tz = tz) :
  unable to identify current timezone 'C':
 please set environment variable 'TZ'
 * installing to library 'C:/Program Files/R/R-3.5.2/library'
-* installing *source* package 'lde346' ...
+* installing *source* package 'ls320' ...
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
 ** help
 *** installing help indices
-'lde346'ting help for package     finding HTML links ...
+'ls320'ting help for package     finding HTML links ...
  done
 -y_number_checker                       html  
 ** building package indices
@@ -737,14 +697,14 @@ Reloading attached lde346
 And then, as discussed previously using the `roxygen2` example using one of the two approaches suggested to find your package vignette, e.g. 
 
 ```{r, eval = FALSE}
-browseVignettes("lde346")  # replace with your package name
+browseVignettes("ls320")  # replace with your package name
 ```
 Pretty cool, no? 
 
 One more way we are going to try this. Checking whether your package can be installed locally. We are going to use another `devtools` function:
 
 ```{r, eval = FALSE}
-devtools::install_github("agroimpacts/lde346", build_vignettes = TRUE, 
+devtools::install_github("SSELP/ls320", build_vignettes = TRUE, 
                          auth_token = "paste_your_github_token_here")
 ```
 
@@ -791,7 +751,6 @@ For the first assignment of this class, you are going to do the following:
 - Commit and push your changes. Before committing, delete the `hello.Rd` and `hello.R` files, as we do not want those. Also do not commit html files in your vignettes folder. Test installing your packages so that it builds with a browsable vignette. Use `devtools::install`, and also `devtools::install_github` to make sure that it does. 
 - Once complete, create a new branch called "a1" in your local repo. Push that branch to GitHub as well.  Then switch back into (i.e. checkout) your main branch. 
 - You are done. 
-
 
 ***
 <center>

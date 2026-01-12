@@ -1,6 +1,6 @@
 ---
 title: "Unit 1 Module 2"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R (01:450:320)"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -20,7 +20,6 @@ knitr::opts_chunk$set(
   fig.align = "center",
   comment = "#>"
 )
-library(knitr)
 ```
 
 # Introduction{#unit1mod2intro}
@@ -33,7 +32,7 @@ So let's first look at `R`'s species.
 The Linnean system of biological classification groups species hierarchically, from Kingdom all the way down to species (and even sub-species), according to the figure below ([source](https://bioelevenncuevas.files.wordpress.com/2012/10/01_14classifyinglife_l.jpg)). 
 
 ```{r out.width = "30%", fig.align='center', echo=FALSE}
-include_graphics("fig/u1m2-1.jpg") 
+knitr::include_graphics("fig/u1m2-1.jpg") 
 ```
 
 We can adapt the lower end of the hierarchy to classify `R`'s objects (and probably most any other programming language), borrowing the organization from family, genus, and species. In fact, we could use the higher level organization if we wanted to classify `R` itself within the context of other analytical tools and programming methods: 
@@ -396,11 +395,19 @@ search()
 
 Notice how the previous call to `search` showed "package:raster" being right after ".GlobalEnv". In this last call, we attach the `MASS` package, which is then interposed between ".GlobalEnv" and "package:raster". Another way of expressing this is in terms of parentage, where each package is the parent of the last package you attached, and all packages are parents of the ".GlobalEnv". This is laid-out nicely in [section 7.4.1](https://adv-r.hadley.nz/environments.html#special-environments) of Advanced R. 
 
-This ordering or parentage matters to us for at least one important reason, and this relates to whether functions are exported from packages or not. If a function is exported (recall how we [exported our first function](unit1-module1.html#your-first-package-function) in Module 1) it then becomes publicly usable in the package environment. The thing is, however, that the same function name might be used by more than one package (and not as generic functions). If you try to attach both packages, the function in the most recently attached of the two packages will mask the function from the other one. This is demonstrated by the following examples in which we attach `dplyr` (a package we will use more in the next modules) and `raster` in alternating sequence.
+This ordering or parentage matters to us for at least one important reason, and this relates to whether functions are exported from packages or not. If a function is exported (recall how we [exported our first function](unit1-module1.html#your-first-package-function) in Module 1) it then becomes publicly usable in the package environment. The thing is, however, that the same function name might be used by more than one package (and not as generic functions). If you try to attach both packages, the function in the most recently attached of the two packages will mask the function from the other one. This is demonstrated by the following examples in which we attach `dplyr` (a package we will use more in the next modules) and `raster`` in alternating sequence.
 
 ```{r, echo=FALSE, message=FALSE}
-if("package:geospaar" %in% search())detach("package:geospaar", unload=TRUE)
-detach("package:raster", unload=TRUE)
+# Get all loaded namespaces
+all_ns <- loadedNamespaces()
+
+# Try to unload everything that isn't a core base package
+base_pkgs <- c("base", "methods", "utils", "stats", "graphics", "grDevices", "datasets")
+to_unload <- setdiff(all_ns, base_pkgs)
+
+for (pkg in to_unload) {
+  try(unloadNamespace(pkg), silent = TRUE)
+}
 ```
 
 ```{r}
@@ -503,17 +510,10 @@ Okay, so that's it for environments, and actually for this whole module. There i
 4. What is a generic function, and how does it relate to object-oriented programming? 
 5. What is one difference between S3 and S4 object-oriented systems? 
 6. If you create the object `a <- 1:10` in the R console, what environment would you find the object in? 
-7. How many times does the execution environment in a function get reused? 
+7. How many times does the execution environment in a function get reused?
 
 ***
 <center>
 [Back to home](index.html)
 </center>
 ***
-
-
-
-
-
-
-

@@ -1,5 +1,6 @@
 ---
-title: "Spatial Data Analysis with R Syllabus"
+title: "Syllabus"
+subtitle: "Spatial Data Analysis with R (01:450:320)"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
