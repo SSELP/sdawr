@@ -10,8 +10,10 @@ output:
     css: unit.css
 vignette: >
   %\VignetteIndexEntry{Unit 1 Module Appendix}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Module 1 practice answers
@@ -306,7 +308,7 @@ right_join(t1, t2) %>% right_join(., t3) %>% right_join(., t4) %>%
 
 5.
 ```{r, eval=FALSE}
-fs <- dir(system.file("extdata/", package = "geospaar"), pattern = "FAOSTAT", 
+fs <- dir(system.file("extdata/", package = "sdadata"), pattern = "FAOSTAT", 
           full.names = TRUE)
 crops <- lapply(fs, readr::read_csv)
 crops_df <- do.call(rbind, lapply(crops, function(x) {
@@ -317,7 +319,7 @@ crops_df <- do.call(rbind, lapply(crops, function(x) {
 }))
 crop_ylds <- crops_df %>% mutate(yield = prod / harv_area)
 crop_ylds <- crop_ylds %>%     
-  mutate(country = ifelse(country == "South Africa", "ZAF", country)) %>%  
+  mutate(country = ifelse(country == "United Republic of Tanzania", "TZA", country)) %>%  
   mutate(country = ifelse(country == "Zambia", "ZMB", country)) %>% 
   mutate(harv_km2 = harv_area / 100)
 ```
@@ -349,21 +351,21 @@ my_tb %>% slice(1, 10, 17) %>% dplyr::select(v2, v3)
 ### Code
 1. 
 ```{r, eval = FALSE}
-crop_ylds %>% filter(crop == "sorghum" & country == "ZAF" & year >= 2000)
-crop_ylds[crop_ylds$crop == "sorghum" & crop_ylds$country == "ZAF" & 
+crop_ylds %>% filter(crop == "sorghum" & country == "TZA" & year >= 2000)
+crop_ylds[crop_ylds$crop == "sorghum" & crop_ylds$country == "TZA" & 
             crop_ylds$year >= 2000, ]
 ```
 
 2. 
 ```{r, eval = FALSE}
-crop_ylds %>% filter(crop == "sorghum" & country == "ZAF" & year >= 2000) %>% 
+crop_ylds %>% filter(crop == "sorghum" & country == "TZA" & year >= 2000) %>% 
   select(prod, harv_area, yield) %>% summarise_all(funs(mean, sd))
 ```
 
 3. 
 ```{r, eval = FALSE}
 crop_ylds %>% group_by(crop, country) %>% select(prod, harv_area) %>%
-  summarise_all(funs(mean, sd))
+  summarise_all(list(mean = mean, sd = sd))
 ```
 
 4. 
@@ -378,7 +380,7 @@ cor.test(dat$harv_area, dat$yield)
 5. 
 ```{r, eval = FALSE}
 crop_ylds %>% filter(crop == "maize") %>% summarize(mu_yld = mean(yield))
-# 2.07 t/ha
+# 1.54 t/ha
 ```
 
 6. South Africa shows larger yields gains (0.061 t/ha/yr versus 0.03 t/ha/yr)
@@ -386,19 +388,29 @@ crop_ylds %>% filter(crop == "maize") %>% summarize(mu_yld = mean(yield))
 summary(lm(yield ~ year, 
            data = crop_ylds %>% filter(crop == "maize" & country == "ZMB")))
 summary(lm(yield ~ year, 
-           data = crop_ylds %>% filter(crop == "maize" & country == "ZAF")))
+           data = crop_ylds %>% filter(crop == "maize" & country == "TZA")))
 
 crop_ylds %>% filter(crop == "maize" & country == "ZMB") %>% 
   lm(yield ~ year, data = .) %>% summary() 
-crop_ylds %>% filter(crop == "maize" & country == "ZAF") %>% 
+crop_ylds %>% filter(crop == "maize" & country == "TZA") %>% 
   lm(yield ~ year, data = .) %>% summary()
 ```
 
 7. 
 ```{r, eval = FALSE}
-crop_ylds %>% filter(crop != "sorghum") %>% group_by(crop, country) %>% 
-  do(prod_ha_lm = lm(yield ~ year, data = .)) %>% 
-  broom::tidy(., prod_ha_lm)
+# Most modern way
+crop_ylds %>% filter(crop != "sorghum") %>% 
+    group_by(crop, country) %>% 
+  nest() %>%
+  mutate(prod_ha_lm = map(data, ~lm(yield ~ year, data = .x)),
+         tidied = map(prod_ha_lm, broom::tidy)) %>%
+  unnest(tidied)
+
+# Or
+crop_ylds %>%
+  filter(crop != "sorghum") %>%
+  group_by(crop, country) %>%
+  do(broom::tidy(lm(yield ~ year, data = .)))
 ```
 
 ## Practice 3: Visualization
@@ -423,26 +435,26 @@ crop_ylds %>% filter(crop == "sorghum") %>%
 
 2.
 ```{r, eval = FALSE}
-crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>% 
+crop_ylds %>% filter(crop == "wheat" & country == "TZA") %>% 
   plot(harv_area ~ year, data = ., pch = 16, col = "blue", 
        xlab = "", ylab = "Harvested area (ha)", 
-       main = "South Africa wheat (1961-2017)")
-crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>% 
+       main = "Tanzania wheat (1961-2024)")
+crop_ylds %>% filter(crop == "wheat" & country == "TZA") %>% 
   plot(harv_area ~ year, data = ., pch = 16, type = "l", col = "blue", 
        xlab = "", ylab = "Harvested area (ha)", 
-       main = "South Africa wheat (1961-2017)")
+       main = "Tanzania wheat (1961-2024)")
 ```
 
 3. 
 ```{r, eval=FALSE}
-crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>% 
+crop_ylds %>% filter(crop == "wheat" & country == "TZA") %>% 
   ggplot() + geom_point(aes(year, harv_area), col = "blue") + 
   xlab("") + ylab("Harvested area (ha)") +  
-  ggtitle("South Africa wheat (1961-2017)")
-crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>% 
+  ggtitle("Tanzania wheat (1961-2024)")
+crop_ylds %>% filter(crop == "wheat" & country == "TZA") %>% 
   ggplot() + geom_line(aes(year, harv_area), col = "blue") + 
   xlab("") + ylab("Harvested area (ha)") +  
-  ggtitle("South Africa wheat (1961-2017)")
+  ggtitle("Tanzania wheat (1961-2024)")
 ```
 
 4. 
@@ -451,23 +463,23 @@ crop_ylds %>% filter(crop == "wheat") %>%
   ggplot() + geom_line(aes(year, harv_area, color = country)) +
   scale_color_manual(values = c("red", "blue")) + 
   xlab("") + ylab("Harvested area (ha)") +  
-  ggtitle("Wheat (1961-2017)")
+  ggtitle("Wheat (1961-2024)")
 
 # extra
 crop_ylds %>% filter(crop == "wheat") %>% 
   ggplot() + geom_line(aes(year, log10(harv_area), color = country)) +
   scale_color_manual(values = c("red", "blue")) + 
   xlab("") + ylab("Harvested area (ha)") +  
-  ggtitle("Wheat (1961-2017)")
+  ggtitle("Wheat (1961-2024)")
 ```
 
 5. 
 ```{r, eval = FALSE}
-crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>% 
+crop_ylds %>% filter(crop == "wheat" & country == "TZA") %>% 
   ggplot() + geom_point(aes(year, harv_area)) +
   geom_smooth(aes(year, harv_area)) +
   xlab("") + ylab("Harvested area (ha)") +  
-  ggtitle("South African wheat (1961-2017)")
+  ggtitle("Tanzanian wheat (1961-2024)")
 ```
 
 6. 
@@ -476,23 +488,24 @@ crop_ylds %>% filter(crop == "wheat" & country == "ZAF") %>%
 crop_ylds %>% filter(crop == "wheat" & country == "ZMB") %>% 
   ggplot() + 
   geom_histogram(aes(x = harv_area), bins = 10, col = "black", fill = "blue") +
-  xlab("Harvested area (ha)") + ggtitle("Zambian Wheat (1961-2017)")
+  xlab("Harvested area (ha)") + ggtitle("Zambian Wheat (1961-2024)")
 
 # hist
 # with dplyr
 crop_ylds %>% filter(crop == "wheat" & country == "ZMB") %>% pull(harv_area) %>% 
-  hist(., main = "Zambian Wheat (1961-2017)", xlab = "Harvested area (ha)", 
+  hist(., main = "Zambian Wheat (1961-2024)", xlab = "Harvested area (ha)", 
        col = "blue")
+
 # with base subsetting
 hist(crop_ylds$harv_area[crop_ylds$crop == "wheat" & 
                            crop_ylds$country == "ZMB"], 
-     main = "Zambian Wheat (1961-2017)", xlab = "Harvested area (ha)", 
+     main = "Zambian Wheat (1961-2024)", xlab = "Harvested area (ha)", 
      col = "blue")
 ```
 
 7. 
 ```{r, eval = FALSE}
-crop_ylds %>% filter(country == "ZAF") %>% 
+crop_ylds %>% filter(country == "TZA") %>% 
   ggplot() + geom_point(aes(x = year, y = harv_area)) +
   geom_smooth(aes(x = year, y = harv_area)) + 
   facet_grid(cols = vars(crop)) +

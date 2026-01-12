@@ -1199,8 +1199,9 @@ gp <- cowplot::plot_grid(p1 + theme(legend.position = "none"),
 # #3
 gp2 <- cowplot::plot_grid(gp, cowplot::get_legend(p1), rel_widths = c(3, 0.3))
 # #4
+# REPLACE THE filename WITH YOUR OWN!!!!
 ggsave(gp2, filename = "materials/fig/u1m4-1.png", width = 9, height = 2.5, 
-       units = "in", dpi = 300) # change to the folder you want
+       units = "in", dpi = 300) 
 ```
 ```{r out.width = "100%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m4-1.png") 
@@ -1264,7 +1265,7 @@ So that's it for our visualization section. There are many other graphics we cou
 
 3. Recreate the same two plots (labels, title, colors) using `ggplot`'s `geom_point` and then `geom_line`.
 
-4. Building on the previous, create a `ggplot` that separates the *harv_area* trends by country. Use `geom_line` to show the two trends. Change the default `ggplot` colors to blue for Zambia and red for Tanzania (i.e. use `scale_fill_manual`). **Extra**: You will see that the Tanzania *harv_area* values are small relative to Zambia's, so it is hard to see how they change over time. Wrap the `log10()` function around *harv_area* in `aes`, and replot for a more informative visualization.
+4. Building on the previous, create a `ggplot` that separates the *harv_area* trends by country. Use `geom_line` to show the two trends. Change the default `ggplot` colors to blue for Zambia and red for Tanzania (i.e. use `scale_fill_manual`). **Extra**: You will see that the Tanzania *harv_area* values are large relative to Zambia's, so it is hard to see how they change over time. Wrap the `log10()` function around *harv_area* in `aes`, and replot for a more informative visualization.
 
 5. Plot just the Tanzania wheat time series, but use `geom_points` and `geom_smooth` to plot the point with a smooth trend through it. In other words, use the code you used for the first part of code practice 3 above, but add `geom_smooth`. 
 
