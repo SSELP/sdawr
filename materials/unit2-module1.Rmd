@@ -18,7 +18,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   fig.align = "center",
-  comment = "#>"
+  comment = "#>",
+  fig.path = "fig/"
 )
 library(knitr)
 options(width = 100)
@@ -57,12 +58,12 @@ To learn more about what simple features are and how they work, and why `R` deve
 
 We are going to start by reading in the `species` dataset, which installs with `sdadata`. It contains occurrence records for the "Big Five" (Elephant, Lion, Leopard, Buffalo, and Rhinoceros) in Tanzania, sourced from the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org). This dataset is a subset that contains the following variables:
 
--family: The biological family to which the species belongs (e.g., Felidae or Elephantidae).
--species: The scientific name of the animal (e.g., Panthera leo).
--month: The month of the year the observation was recorded (1−12)
--year: The year of the observation, allowing for analysis of trends over time.
--x: Longitude in decimal degrees.
--y: Latitude in decimal degrees.
+- family: The biological family to which the species belongs (e.g., Felidae or Elephantidae).
+- species: The scientific name of the animal (e.g., Panthera leo).
+- month: The month of the year the observation was recorded (1−12)
+- year: The year of the observation, allowing for analysis of trends over time.
+- x: Longitude in decimal degrees.
+- y: Latitude in decimal degrees.
 
 Here's a quick look:
  
@@ -98,7 +99,7 @@ ggplot(species %>% distinct(species, x, y)) +
   geom_point(aes(x, y))
 ```
 
-To avoid duplicate points, we first cut `species` down to just unique species records and coordinates (not really necessary though), and then use `gglot` to shows us, in a very crude way, where these points lie in space. This works, because `species$x` (the longitude) is exactly analogous to the x coordinate of a scatter plot, and `species$y` (latitude) is the y coordinate. But it is still not a spatial object. So, let's convert it to one, and then plot it again.
+To avoid possible duplicate points, we first cut `species` down to just unique species records and coordinates (GBIF data is messy), and then use `gglot` to shows us, in a very crude way, where these points lie in space. This works, because `species$x` (the longitude) is exactly analogous to the x coordinate of a scatter plot, and `species$y` (latitude) is the y coordinate. But it is still not a spatial object. So, let's convert it to one, and then plot it again.
 
 ```{r, out.width="80%"}
 # Chunk 3
@@ -117,10 +118,13 @@ In #1, we use our first function from `sf`, which is `st_as_sf`, which is used t
 
 Looking at `str` in #2, we see the object is constructed of 4 classes (`sf`, `tbl_df`, `tbl`, and `data.frame`), with the geometry variable being of class `sfc_POINT`.  Please refer back to the [how simple features are organized](https://r-spatial.github.io/sf/articles/sf1.html#how-simple-features-in-r-are-organized) section on the `sf` website to understand how the geometry is structured. 
 
-We then `plot` the new `sf` object, using `st_geometry` to strip out the geometries of this object, dropping the other variables in the `tibble` with associated with the object. The reason for this is that `plot` (`sf`'s generic for plotting `sf` objects) would otherwise default to creating one plot panel for each variable in the `tibble`. We can see this behavior here:
+We then `plot` the new `sf` object, using `st_geometry` to strip out the geometries of this object, dropping the other variables in the `tibble` with associated with the object. The reason for this is that `plot` (`sf`'s generic for plotting `sf` objects) would otherwise default to creating one plot panel for each variable in the `tibble`. We can see this behavior here by comparison:
 
-```{r, out.width="80%"}
+```{r, out.width="70%"}
 # Chunk 4
+## With st_geometry
+plot(species %>% slice(1:10) %>% st_geometry(), pch = 20, cex = 0.5)
+## No st_geometry
 plot(species %>% slice(1:10), pch = 20, cex = 0.5)
 ```
 
@@ -143,7 +147,7 @@ bind_cols(species %>% st_drop_geometry(),
   rename(x = X, y = Y)
 ```
 
-We drop the `geometry` of `species`, and then we use `dplyr::bind_cols` (equivalent to `cbind`) to bind the coordinates back to the `tibble`. The coordinates are obtained using `st_coordinates`, an `sf` function used to "retrieve coordinates in matrix form" (`?st_coordinate`), and we have to coerce that to a `tibble` for `bind_cols` to work. We can use `select` to reorder the columns in their original form, and rename the coordinate columns back to their original lower case (`st_coordinates` returns *X* and *Y* columns). 
+We drop the `geometry` of `species`, and then we use `dplyr::bind_cols` (equivalent to `cbind`) to bind the coordinates back to the `tibble`. The coordinates are obtained using `st_coordinates`, an `sf` function used to "retrieve coordinates in matrix form" (`?st_coordinate`), and we have to coerce that to a `tibble` for `bind_cols` to work. We can use `select` to reorder the columns in their original form, and rename the coordinate columns back to their original lower case (`st_coordinates` returns *X* and *Y* columns). This is a standard way for geoscientists to convert spatial data back and forth.
 
 ## Read and write spatial data 
 
@@ -397,7 +401,7 @@ dist_areas %>% units::set_units("ha")
 dist_areas %>% units::set_units("km^2")
 ```
 
-Very simple to calculate area for each polygon in `districts`. Note that the default is to calculate m$^2$, but we can change that to hectares (in #2) using or km$^2$ (#3) using the function `units::set_units` (the `units` package is imported by `sf`). 
+Very simple to calculate area for each polygon in `districts`. Note that the default is to calculate m$^2$, but we can change that to hectares (in #2) using or km$^2$ (#3) using the function `units::set_units` (the `units` package is imported by `sf`). Note that only numbers with units can be operated together (e.g. `>|+...`). This is sometimes annoying, but safe.
 
 So this was an estimate of area from a non-project dataset. How does that compare to area from a true equal area projection, such as the Albers Equal Area projection that `roads` is projected in:
 
@@ -475,6 +479,7 @@ For the last example of functions that extract spatial properties, we will calcu
 ```{r, fig.width=7, fig.height=4}
 # Chunk 25
 # #1
+## WARNING: when use as.numeric(), keep in mind the original unit
 road_length <- st_length(roads) %>% as.numeric()
 #
 # #2
@@ -483,7 +488,7 @@ dist_perims <- st_length(districts) %>% as.numeric()
 # #3
 p1 <- ggplot(tibble(x = road_length), aes(x / 1000)) + 
   geom_histogram(fill = "blue", col = "grey", bins = 15) + xlab("km") + 
-  ggtitle("Tanzania road lengths")
+  ggtitle("Tanzania road segment lengths")
 p2 <- ggplot(tibble(x = dist_perims), aes(x / 1000)) + 
   geom_histogram(fill = "purple", col = "grey", bins = 10) + xlab("km") + 
   ylab("") + ggtitle("Tanzania district perimeters")
@@ -531,6 +536,7 @@ The [Spatial Properties](#spatial-properties) showed how to calculate area, leng
 
 ```{r}
 # Chunk 27
+## WARNING: when use as.numeric(), keep in mind the original unit
 districts %>% mutate(area = as.numeric(st_area(.) / 10^6))
 ```
 
@@ -913,7 +919,7 @@ for(i in length(buffs):1) {  # 4
 }
 ```
 
-A fair bit of code up there, so let's walk through it. In #1 we convert `species` and `districts` to Albers projections, as buffers should be specified in meters, not decimal degrees, which one would have to do if buffering on a GCS project.  We also extract from `roads` the segments that are longer than 500 km. In #2, we then insert our buffering step into an `lapply`, as we apply three different buffer widths (10, 20, and 30 km), specified in meters (the unit of the Albers projection) into `st_buffer`. We first buffer around 5 randomly selected species from the second season, using `st_sample` instead of `sample_n` (which we did previously), because it allows merging of buffers where they touch, whereas a sample drawn with `sample_n` would apply a separate buffer to each point. We then apply `st_buffer` to the selected roads. The commented out chunk of code shows how we can use `purrr::map` to do the same work as `lapply`, using piping to pass the iteration vector into the `map` function (you can also write it that way for `lapply`). 
+A fair bit of code up there, so let's walk through it. In #1 we convert `species` and `districts` to Albers projections, as buffers should be specified in meters, not decimal degrees, which one would have to do if buffering on a GCS project.  We also extract from `roads` the segments that are longer than 50 km. In #2, we then insert our buffering step into an `lapply`, as we apply three different buffer widths (10, 20, and 30 km), specified in meters (the unit of the Albers projection) into `st_buffer`. We first buffer around 5 randomly selected species from the second season, using `st_sample` instead of `sample_n` (which we did previously), because it allows merging of buffers where they touch, whereas a sample drawn with `sample_n` would apply a separate buffer to each point. We then apply `st_buffer` to the selected roads. The commented out chunk of code shows how we can use `purrr::map` to do the same work as `lapply`, using piping to pass the iteration vector into the `map` function (you can also write it that way for `lapply`). 
 
 In #3 we draw the plots, setting up an outline of Zambia by dissolving district boundaries, then plotting the buffered shapes in a `for` loop (note the reversed index ordering, to plot from largest to smallest buffers). 
 
@@ -997,9 +1003,9 @@ Make sure you are working in the master branch of your project (you should not b
 There are no package functions to create for this assignment. All work is to be done in the vignette. 
 
 ## Vignette tasks
-1. Read in the `species.csv`, `districts.geojson`, and `roads.geojson` datasets. Convert it to an `sf` object. Reproject the species and districts data to Albers projection (using the CRS from roads), naming each `speciees_alb` and `districts_alb`. Ideally (worth an extra 0.5 points) you will do all the necessary steps to create `species_alb` and `districts_alb` in one pipeline. 
+1. Read in the `species.csv`, `districts.geojson`, and `roads.geojson` datasets. Convert it to an `sf` object. Reproject the species and districts data to Albers projection (using the CRS from roads), naming each `species_alb` and `districts_alb`. Ideally (worth an extra 0.5 points) you will do all the necessary steps to create `species_alb` and `districts_alb` in one pipeline. 
 
-2. Create a plot using `sf::plot` that shows all three datasets on one map, with `districts_alb` in grey, with `roads` in red over that, and `speciees_alb` as a blue cross over that. Use the relevant chunk arguments to center the figure in the vignette html, and to have a height of 4 inches and a width of 6 inches. The figure should have 0 margins all around. 
+2. Create a plot using `sf::plot` that shows all three datasets on one map, with `districts_alb` in grey, with `roads` in red over that, and `species_alb` as a blue cross over that. Use the relevant chunk arguments to center the figure in the vignette html, and to have a height of 4 inches and a width of 6 inches. The figure should have 0 margins all around. 
 
 3. Make the same plot above using `ggplot` and `geom_sf`. When adding `species_alb` to the plot, use `pch = "+"` and `size = 3` as arguments to `geom_sf`. Add the function `theme_bw()` to the `ggplot` construction chain, to get rid of the grey background. Make the "fill" (rather than "color") of `districts_alb` grey. Center the figure using chunk options and make the figure width 5 inches and height 6 inches. 
 
