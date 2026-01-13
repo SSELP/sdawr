@@ -1,6 +1,6 @@
 ---
 title: "Unit 2 Module 2a"
-subtitle: "GEOG246-346"
+subtitle: "Spatial Data Analysis with R (01:450:320)"
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -36,14 +36,13 @@ The material in this section assumes that the reader is familiar with standard r
 
 We'll use the following datasets in this section:
 ```{r datasets, message=FALSE, warning=FALSE}
-library(geospaar)
-farmers <- system.file("extdata/farmer_spatial.csv", package = "geospaar") %>%     
+library(sdadata)
+species <- system.file("extdata/species.csv", package = "sdadata") %>%     
   read_csv(show_col_types = FALSE) 
-roads <- system.file("extdata/roads.geojson", package = "geospaar") %>% st_read
-districts <- system.file("extdata/districts.geojson", package = "geospaar") %>% 
+roads <- system.file("extdata/roads.geojson", package = "sdadata") %>% st_read
+districts <- system.file("extdata/districts.geojson", package = "sdadata") %>% 
   st_read
 ```
-
 
 # raster basics{#raster-basics}
 ## SpatRaster* classes
@@ -53,7 +52,7 @@ We'll start off by learning about the basic classes associated with rasters gene
 ```{r rasterlayer}
 # Chunk 1
 # #1
-e <- ext(c("xmin" = 27, "xmax" = 29, "ymin" = -16, "ymax" = -14))  
+e <- ext(c("xmin" = 34, "xmax" = 36, "ymin" = -6, "ymax" = -4))
 #
 # #2
 r <- rast(x = e, res = 0.25, crs = crs(districts))
@@ -64,10 +63,11 @@ values(r) <- sample(1:100, size = ncell(r), replace = TRUE)  # 3
 # r[] <- sample(1:100, size = ncell(r), replace = TRUE) 
 # r <- setValues(x = r, values = sample(1:100, size = ncell(r), replace = TRUE))
 ```
+
 ```{r, eval=FALSE}
 par(mar = c(0, 0, 0, 4))
 plot(st_geometry(districts), col = "grey", reset = FALSE)
-plot(r, add = TRUE)
+plot(r, add = TRUE, ext = ext(districts))
 ```
 ```{r, echo = FALSE, out.width="60%"}
 knitr::include_graphics("fig/u2m2_rasterlayer.png")
@@ -81,54 +81,22 @@ Let's walk through the labelled code. In # 1, we use `terra`'s `ext` (extent) fu
 
 Line # 2 creates an empty raster `r` with no cell values, so in # 3 we assign some randomly selected values into `r`. Note the method of assignment, using the `values` function; there are two other lines commented out below # 3 that show different ways of doing the same job. 
 
-The plot of `r` over `districts` uses the `plot` method defined for `raster*` objects. Note that it automatically creates a continuous legend, and also note that `terra::plot` can work with `sf::plot`. 
+The plot of `r` over `districts` uses the `plot` method defined for `raster*` objects. Note that it automatically creates a continuous legend, and also note that `terra::plot` can work with `sf::plot`. The plot is not very nice.
 
 Let's look now at the structure of the object `r`.
 
-```{r rasterstructure, eval=FALSE}
+```{r rasterstructure}
 # Chunk 2
 r
-#> class       : SpatRaster 
-#> dimensions  : 8, 8, 1  (nrow, ncol, nlyr)
-#> resolution  : 0.25, 0.25  (x, y)
-#> extent      : 27, 29, -16, -14  (xmin, xmax, ymin, ymax)
-#> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-#> source      : memory 
-#> name        : lyr.1 
-#> min value   :     1 
-#> max value   :   100 
 class(r)
-#> [1] "SpatRaster"
-#> attr(,"package")
-#> [1] "terra"
 typeof(r)
-#> [1] "S4"
 slotNames(r)
-#>  [1] "ptr"
-r@ptr
-#> C++ object <0x7fdf5f8bfa50> of class 'SpatRaster' <0x7fdfbadc20c0>
-names(r@ptr)
-#>  [1] "timestep"        ".pointer"        "hasValues"      
-#>  [4] "res"             ".cppclass"       "messages"       
-#>  [7] "nsrc"            "extent"          "dataType"       
-#>  [10] "time"            "valueType"       "nrow"           
-#>  [13] "depth"           "range_max"       "nlyr"           
-#>  [16] "rgb"             "hasColors"       "names"          
-#>  [19] "get_sourcenames" "filenames"       "subset"         
-#>  [22] "hasRange"        "hasTime"         "rgbtype"        
-#>  [25] ".self"           "hasWindow"       "has_warning"    
-#>  [28] "range_min"       "origin"          "readStop"       
-#>  [31] "has_error"       "readValues"      "getClass"       
-#>  [34] "units"           "get_crs"         "setValues"      
-#>  [37] "hasCategories"   "readStart"       "hasUnit"        
-#>  [40] "setValueType"    ".module"         "addSource"      
-#>  [43] "timezone"        "initialize"      ".refClassDef"   
-#>  [46] "inMemory"        "ncol" 
+r@pntr
+names(r@pntr)
 res(r)
-#> [1] 0.25 0.25
 ```
 
-`r` is an S4 object that has only slot `ptr`, which is actually from C++ (`terra` is written in C++ and creates a C++ object). There are a number of slots in there, which we can see by running `names(r@ptr)`, but the `terra` packages provides methods for accessing those (e.g. `ext()` to get extent; `sources()` to get the raster's filename, if written to disk; `values()` gets access to the data in the raster). 
+`r` is an S4 object that has only slot `pntr`, which is actually from C++ (`terra` is written in C++ and creates a C++ object). There are a number of slots in there, which we can see by running `names(r@pntr)`, but the `terra` packages provides methods for accessing those (e.g. `ext()` to get extent; `sources()` to get the raster's filename, if written to disk; `values()` gets access to the data in the raster). 
 
 ### From 2- to 3-D
 
@@ -154,7 +122,7 @@ s
 #> class       : SpatRaster 
 #> dimensions  : 8, 8, 3  (nrow, ncol, nlyr)
 #> resolution  : 0.25, 0.25  (x, y)
-#> extent      : 27, 29, -16, -14  (xmin, xmax, ymin, ymax)
+#> extent      : 34, 36, -6, -4  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
 #> sources     : memory  
 #>               memory  
@@ -204,7 +172,7 @@ writeRaster(s, filename = file.path(tempdir(), "s.tif"))
 r <- rast(file.path(tempdir(), "r.tif"))
 r2 <- rast(file.path(tempdir(), "r2.tif"))
 r3 <- rast(file.path(tempdir(), "r3.tif"))
-s <- rast(list(r, r2, r3))  # recreate stack
+s <- c(r, r2, r3)  # recreate stack
 
 # #3 - programmatic creation of stack
 fs <- dir(tempdir(), pattern = "r.*.tif", full.names = TRUE)
@@ -228,13 +196,13 @@ We have several vector datasets that come with `geospaar` which we can rasterize
 ```{r rasterize, eval=FALSE}
 # Chunk 7
 # #1
-zamr <- rast(x = ext(districts), crs = crs(districts), res = 0.1)
-values(zamr) <- 1:ncell(zamr)
+tzar <- rast(x = ext(districts), crs = crs(districts), res = 0.1)
+values(tzar) <- 1:ncell(tzar)
 #
 # #2
 districts <- districts %>% mutate(ID = 1:nrow(.))
 distsr <- districts %>% 
-  rasterize(x = ., y = zamr, field = "ID") %>% 
+  rasterize(x = ., y = tzar, field = "ID") %>% 
   print()
 #> class       : SpatRaster 
 #> dimensions  : 98, 117, 1  (nrow, ncol, nlyr)
@@ -249,31 +217,30 @@ distsr <- districts %>%
 par(mar = c(0, 0, 0, 4))
 plot(distsr, axes = FALSE)
 ```
-```{r, echo = FALSE, out.width="60%"}
+```{r, echo = FALSE, out.width="80%"}
 knitr::include_graphics("fig/u2m2_rasterize.png")
 ```
 
-In #1, we took an initial step to define a raster (`zamr`) that has the  properties of resolution (0.1 decimal degrees), CRS, and extent that we want our rasterized vector to have. We set the extent of this raster to that of `districts`, using `extent` to get the bounding box coordinates (`extent` retrieves the same parameters as `sf::st_bbox`, but the output is in a different format). 
+In #1, we took an initial step to define a raster (`tzar`) that has the  properties of resolution (0.1 decimal degrees), CRS, and extent that we want our rasterized vector to have. We set the extent of this raster to that of `districts`, using `extent` to get the bounding box coordinates (`extent` retrieves the same parameters as `sf::st_bbox`, but the output is in a different format). 
 
-In #2, we use `rasterize` to (as the name says) rasterize `districts`. The "y" argument is where we feed in `zamr`, the raster object that is the "target" for rasterizing `districts`. The "field" argument supplies the column names of the values that we want rasterized. In this case, we have to first create an "ID" variable for `districts`, in order to give an integer for each district name, as the district names (a character variable) cannot be written to the raster. Notice that we have constructed this as a pipeline (with `print` as the last step, to show the `raster` metadata). The commented out code below it shows how it can be done with more conventional syntax. 
+In #2, we use `rasterize` to (as the name says) rasterize `districts`. The "y" argument is where we feed in `tzar`, the raster object that is the "target" for rasterizing `districts`. The "field" argument supplies the column names of the values that we want rasterized. In this case, we have to first create an "ID" variable for `districts`, in order to give an integer for each district name, as the district names (a character variable) cannot be written to the raster. Notice that we have constructed this as a pipeline (with `print` as the last step, to show the `raster` metadata). The commented out code below it shows how it can be done with more conventional syntax. 
 
 Our plot removes the coordinate-labelled axes and box that otherwise drawn around raster plots by default. 
 
-Next we rasterize the `farmers` dataset, which requires a little more prep to be meaningful: 
+Next we rasterize the `species` dataset, which requires a little more prep to be meaningful: 
 
 ```{r rasterize2, eval=FALSE}
 # Chunk 8
 # #1
-zamr2 <- rast(x = ext(districts), crs = crs(districts), res = 0.25)
-values(zamr2) <- 1:ncell(zamr2)
+tzar2 <- rast(x = ext(districts), crs = crs(districts), res = 0.25)
+values(tzar2) <- 1:ncell(tzar2)
 
 # #2
-farmersr <- farmers %>% 
-  distinct(uuid, .keep_all = TRUE) %>% 
+speciesr <- species %>% 
   dplyr::select(x, y) %>% 
   mutate(count = 1) %>% 
   st_as_sf(coords = c("x", "y"), crs = 4326) %>% 
-  rasterize(x = ., y = zamr2, field = "count", fun = sum) %>% 
+  rasterize(x = ., y = tzar2, field = "count", fun = sum) %>% 
   print()
 #> class       : SpatRaster 
 #> dimensions  : 39, 47, 1  (nrow, ncol, nlyr)
@@ -290,34 +257,34 @@ par(mar = c(0, 0, 1, 4))
 districts %>% 
   st_union %>% 
   plot(col = "grey", border = "grey", 
-       main = expression(paste("N farmers per 0.25", degree, " cell")))
-plot(farmersr, add = TRUE, axes = FALSE)
+       main = expression(paste("N species per 0.25", degree, " cell")))
+plot(speciesr, add = TRUE, axes = FALSE)
 ```
-```{r, echo = FALSE, out.width="60%"}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("fig/u2m2_rasterize2.png")
 ```
 
-In #1, we create a coarser scale (0.25 degree) version of `zamr` (`zamr2`), because we want our final raster to count how many farmers responding to our survey are found in each grid cell. The resolution of 0.1 degrees used for `zamr` is a bit too fine to convey the information nicely in a plot.  
+In #1, we create a coarser scale (0.25 degree) version of `tzar` (`tzar2`), because we want our final raster to count how many farmers responding to our survey are found in each grid cell. The resolution of 0.1 degrees used for `tzar2` is a bit too fine to convey the information nicely in a plot.  
 
-In #2, we do the rasterization as part of a pipeline.  The first two lines prepare the `farmers` dataset. Recall that `farmers` consists of weekly reporting data sent to us by a large number of farmers, which means that we have multiple reports sent by the same farmer (and thus repeated coordinates for each farmer). So we need to reduce `farmers` down to just one row for each individual farmer, so that we have just a single set of coordinates for each. We do that by using `distinct` on the *uuid* variable, using `.keep_all = TRUE` so that we retain the coordinates, and add a new `count` variable (which assigns a value of 1 to each farmer) before converting farmers to `sf` in the third line. We then `rasterize` the *count* variable, using the `sum` function to aggregate the number of farmers per 0.25$\circ$ grid cell.  
+In #2, we do the rasterization as part of a pipeline.  The first two lines prepare the `species` dataset. We add a new `count` variable (which assigns a value of 1 to each species record) before converting species to `sf` in the third line. We then `rasterize` the *count* variable, using the `sum` function to aggregate the number of species per 0.25$\circ$ grid cell.  
 
-The resulting plot (#3) shows that most cells have less than 20 farmers. We add an extra plot decoration step, using `expression` with `paste` to add a superscript degree symbol to our plot title. 
+The resulting plot (#3) shows that most cells have less than 20 species. We add an extra plot decoration step, using `expression` with `paste` to add a superscript degree symbol to our plot title. 
 
 You can also rasterize line features, much as we did for points and polygons, which is shown below, but not run. The logic for not running it is that, with the previous `raster` packages, rasterizing lines was exceedingly slow, but it is actually quite fast with `terra`, so now we don't run it because the rasterized lines aren't that interested. However, there is code below that shows how one could so that with the `roads` dataset (subset to roads greater than 100 km long):
 ```{r rasterizeroads, eval = FALSE}
 # Chunk 9
 roadsr <- roads %>% 
-  filter(as.numeric(st_length(.)) > 1000000) %>% 
+  filter(as.numeric(st_length(.)) > 50000) %>% 
   mutate(ID = 1:nrow(.)) %>% 
   st_transform(crs = 4326) %>% 
-  rasterize(., zamr, field = "ID")
+  rasterize(., tzar, field = "ID")
 ```
 
 ### Raster to vector
 
 `terra` gives us functions that allow us to transform rasters to vectors, in this case `terra`'s native vector class, `SpatVector`, which we can further coerce to `sf` 
 
-```{r polygonize, eval=FALSE}
+```{r polygonize, eval=TRUE}
 # Chunk 10
 # #1
 dists_fromr <- as.polygons(x = distsr, dissolve = TRUE) %>% 
@@ -352,18 +319,18 @@ dists_fromr <- st_as_sf(dists_fromr) %>% print()
 #> 10 10 POLYGON ((32.39978 -13.0751...
 
 # #2
-farmers_fromr <- as.points(x = farmersr) %>% 
+species_fromr <- as.points(x = speciesr) %>% 
   st_as_sf
 
 par(mar = c(0, 0, 0, 0))
 dists_fromr %>% 
   st_geometry %>% 
   plot(col = topo.colors(n = nrow(districts)))
-farmers_fromr %>% 
+species_fromr %>% 
   plot(pch = 20, col = "red", add = TRUE)
 ```
 
-```{r, echo = FALSE, out.width="60%"}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("fig/u2m2_polygonize.png")
 ```
 
@@ -376,32 +343,32 @@ Up until now, our `SpatRaster` data have been in geographic coordinates systems.
 ```{r projections1, eval=FALSE}
 # Chunk 11
 # #1
-zamr_alb <- project(x = zamr, y = crs(roads), res = 11000, method = "near")
+tzar_alb <- project(x = tzar, y = crs(roads), res = 11000, method = "near")
 
 # #2
-distsr_alb <- project(x = distsr, y = zamr_alb, method = "near")
+distsr_alb <- project(x = distsr, y = tzar_alb, method = "near")
 
 par(mfrow = c(1, 2), mar = c(1, 0.5, 1, 4))
 plot(distsr, main = "GCS rasterized districts", axes = FALSE, mar = NA)
 plot(distsr_alb, main = "Albers rasterized districts", axes = FALSE, mar = NA)
 ```
-```{r, echo = FALSE, out.width="80%"}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("fig/u2m2_projections1.png")
 ```
 
-In our first step (#1), we apply `project` to our `zamr` object, transforming it to the Albers projection used by `roads` (the "y" argument). We define an output "res" of 11,000 m, or 11 km, which is reasonably close to the 1/10th of a degree resolution of `zamr`. We also choose a "method" for calculating the transformed values in the new raster. In this case, since `zamr` has values that are basically an integer index of grid cells, we use the "near" (nearest neighbor) option, to avoid the bilinear interpolation that would occur by default (see `?project`). 
+In our first step (#1), we apply `project` to our `tzar` object, transforming it to the Albers projection used by `roads` (the "y" argument). We define an output "res" of 11,000 m, or 11 km, which is reasonably close to the 1/10th of a degree resolution of `tzar`. We also choose a "method" for calculating the transformed values in the new raster. In this case, since `tzar` has values that are basically an integer index of grid cells, we use the "near" (nearest neighbor) option, to avoid the bilinear interpolation that would occur by default (see `?project`). 
 
-The result, `zamr_alb`, then becomes a reference raster (i.e. the raster defining the parameters) for other rasters that need to be reprojected, which is how we use it when reprojecting `distsr_alb` (# 2). In this case, we pass `zamr_alb` to the "y" argument, and don't need the "res" argument or to specify a CRS (because the function reads those values from "zamr_alb"). Here we again use the "near" method so that we do not change the values of the categorical identifier of each district. You can see how the interpolation choice matters in the plot below, which compares the bilinear to nearest neighbor method--see how the bilinear approach changes values along district boundaries?
+The result, `tzar_alb`, then becomes a reference raster (i.e. the raster defining the parameters) for other rasters that need to be reprojected, which is how we use it when reprojecting `distsr_alb` (# 2). In this case, we pass `tzar_alb` to the "y" argument, and don't need the "res" argument or to specify a CRS (because the function reads those values from "tzar_alb"). Here we again use the "near" method so that we do not change the values of the categorical identifier of each district. You can see how the interpolation choice matters in the plot below, which compares the bilinear to nearest neighbor method--see how the bilinear approach changes values along district boundaries?
 
 ```{r bilinear_vs_nn, eval=FALSE}
 # Chunk 12
-distsr_alb2 <- project(x = distsr, y = zamr_alb, method = "bilinear")
+distsr_alb2 <- project(x = distsr, y = tzar_alb, method = "bilinear")
 
 par(mfrow = c(1, 2), mar = c(1, 0.5, 1, 4))
 plot(distsr_alb2, main = "Bilinear reprojection", axes = FALSE, mar = NA)
 plot(distsr_alb, main = "Nearest neighbor", axes = FALSE, mar = NA)
 ```
-```{r, echo = FALSE, out.width="80%"}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("fig/u2m2_bilinear_vs_nn.png")
 ```
 
@@ -422,9 +389,9 @@ A bilinear interpolation is more appropriate for a raster of continuous values, 
 
 2. Create a new brick `b2` by applying the `rast` function to write `s2` and to disk as `b2.tif`, specifying the path to your `notebooks/data` folder.
 
-3. Following the steps in Chunk 8, recreate `farmersr` by re-rasterizing `farmers` at a 0.2 degree resolution. Plot the result. 
+3. Following the steps in Chunk 8, recreate `speciesr` by re-rasterizing `species` at a 0.2 degree resolution. Plot the result. 
 
-4. Project the new 0.2 degree resolution `farmersr` to an Albers projection with a target resolution of 20 km (20,000 m), calling it `farmersr_alb`. Chunk 11 is your guide, but reproject using a bilinear rather than nearest neighbor interpolation (see `?project`). Make a two panel plot comparing `farmersr` on the left, plotted over the unioned districts of Zambia in grey, with `farmersr_alb` on the right, plotted over the unioned districts of Zambia in grey (and transformed to Albers). Code in Chunks 8 and 11 can help.   
+4. Project the new 0.2 degree resolution `speciesr` to an Albers projection with a target resolution of 20 km (20,000 m), calling it `speciesr_alb`. Chunk 11 is your guide, but reproject using a bilinear rather than nearest neighbor interpolation (see `?project`). Make a two panel plot comparing `speciesr` on the left, plotted over the unioned districts of Zambia in grey, with `speciesr_alb` on the right, plotted over the unioned districts of Zambia in grey (and transformed to Albers). Code in Chunks 8 and 11 can help.   
 
 5. Convert `distsr` to an `sf` polygons object, using `as.polygons`. Plot the result without coercing to `st_geometry`. 
 
