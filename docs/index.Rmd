@@ -16,8 +16,8 @@ output: html_document
 ### 01:450:320 | Spring 2026 | Updated on: `r Sys.Date()`
 
 ::: {style="padding: 5px 15px; background: #f8f9fa; border-left: 5px solid #cc0033; width: fit-content; margin-bottom: 20px;"}
-**Instructor:** [Lei Song](mailto:your-email@rutgers.edu)   
-**Teaching Assistant:** TBD   
+**Instructor:** [Lei Song](mailto:lei.song@rutgers.edu)   
+**Teaching Assistant:** [Md Arafat Hassan](mailto:mh1531@scarletmail.rutgers.edu)   
 **Time:** Mon and Wed, 3:50PM - 5:10PM   
 **Location:** Lucy Stone Hall (LSH-B266), Livingston campus
 :::
@@ -68,7 +68,9 @@ The class materials were designed by Lyndon Estes and Lei Song.
 -   Unit 3 - Final projects
     -   [Potential Projects](projects.html)
 
-## Course Schedule (Subject to change)
+## Course Schedule
+
+(*Subject to change*)
 
 <table class="table" style="width:100%;">
   <thead>
