@@ -224,7 +224,7 @@ districts %>%
 plot(speciesr, add = TRUE, axes = FALSE)
 ```
 
-In #1, we create a coarser scale (0.25 degree) version of `tzar` (`tzar2`), because we want our final raster to count how many farmers responding to our survey are found in each grid cell. The resolution of 0.1 degrees used for `tzar2` is a bit too fine to convey the information nicely in a plot.  
+In #1, we create a coarser scale (0.25 degree) version of `tzar` (`tzar2`), because we want our final raster to count how many species are found in each grid cell. The resolution of 0.1 degrees used for `tzar2` is a bit too fine to convey the information nicely in a plot.  
 
 In #2, we do the rasterization as part of a pipeline.  The first two lines prepare the `species` dataset. We add a new `count` variable (which assigns a value of 1 to each species record) before converting species to `sf` in the third line. We then `rasterize` the *count* variable, using the `sum` function to aggregate the number of species per 0.25$\circ$ grid cell.  
 
@@ -264,7 +264,7 @@ species_fromr %>%
   plot(pch = 20, col = "red", add = TRUE)
 ```
 
-Vectorizing rasters and then vectorizing back again means that you end up with lower  resolution vectors if the raster is fairly coarse. You will note that this has occurred here, both in converting the rasterized districts back to polygons (#1) and the rasterized farmer counts back to points (#2). There are several things to note here. First, we used different functions for vectorizing polygons and points. Second, we piped each vectorization output to `st_as_sf`, because the endresult of the `as.polygons`/`as.points` functions is a `SpatVector` object, so the extra step coerces those to `sf`.
+Vectorizing rasters and then vectorizing back again means that you end up with lower  resolution vectors if the raster is fairly coarse. You will note that this has occurred here, both in converting the rasterized districts back to polygons (#1) and the rasterized species counts back to points (#2). There are several things to note here. First, we used different functions for vectorizing polygons and points. Second, we piped each vectorization output to `st_as_sf`, because the endresult of the `as.polygons`/`as.points` functions is a `SpatVector` object, so the extra step coerces those to `sf`.
 
 ## Projections
 
@@ -296,7 +296,7 @@ plot(distsr_alb2, main = "Bilinear reprojection", axes = FALSE, mar = NA)
 plot(distsr_alb, main = "Nearest neighbor", axes = FALSE, mar = NA)
 ```
 
-A bilinear interpolation is more appropriate for a raster of continuous values, or one where it makes sense to have values averaged during the reprojection process, such as the `farmersr` dataset. 
+A bilinear interpolation is more appropriate for a raster of continuous values, or one where it makes sense to have values averaged during the reprojection process, such as the `speciesr` dataset. 
 
 ## Practice
 ### Questions
@@ -304,9 +304,7 @@ A bilinear interpolation is more appropriate for a raster of continuous values, 
 
 2. What function should you use to read and write a multi-layer raster? 
 
-3. What are the differences between `stack` and `brick`? 
-
-4. What class of object do `terra`'s vectorization functions produce? 
+3. What class of object do `terra`'s vectorization functions produce? 
 
 ### Code
 1. Create a new raster `r4`, using `r3` (above) as a template. Update the values of `r4` using numbers randomly selected from a uniform distribution ranging between 0 and 1. Create another raster `r5` by finding the values greater than 0.5 in r4. Recreate the list `l` with `r`, `r2`, `r3`, `r4`, and `r5`, and then create and plot stack `s2`.
@@ -523,12 +521,12 @@ plot_noaxes(s)
 
 We resample `speciesr` to `bioclim125`, since `bioclim125` has the larger extent. However, there is one more thing we should do before using these data, and that is an adjustment to `speciesr`. Have a look at this:
 
-```{r farmersrnas, out.width="70%"}
+```{r speciesrnas, out.width="70%"}
 plot_noaxes(s$species_count >= 0)
 plot(st_geometry(st_union(districts)), add = TRUE)
 ```
 
-This shows that there are no places where there are 0 farmers--because the original data contributing to `speciesr` (the second layer in `s`) was derived from point locations representing the approximate locations of where species were observed. The data thus have no points where there were 0 farmers observed, thus everywhere outside of observed locations is assigned a no data value. These are not analyzed in raster operations. So we have to fix this if we want to have the full area of Tanzania in the second layer of our stack.
+This shows that there are no places where there are 0 species--because the original data contributing to `speciesr` (the second layer in `s`) was derived from point locations representing the approximate locations of where species were observed. The data thus have no points where there were 0 species observed, thus everywhere outside of observed locations is assigned a no data value. These are not analyzed in raster operations. So we have to fix this if we want to have the full area of Tanzania in the second layer of our stack.
 
 ```{r fixnas, out.width="70%"}
 s$species_count[is.na(s$species_count)] <- 0
@@ -537,9 +535,9 @@ plot_noaxes(s$species_count)
 plot(st_geometry(st_union(districts)), add = TRUE)
 ```
 
-Now all the areas in `s$species_count` where no interviews were conducted area set to 0. 
+Now all the areas in `s$species_count` where no species were conducted area set to 0. 
 
-We can then stack and perform subsequent analyses that draw on both layers, e.g. finding areas where annaul mean temperature exceeded 15 degree and where there was more than 1 farmer:
+We can then stack and perform subsequent analyses that draw on both layers, e.g. finding areas where annual mean temperature exceeded 15 degree and where there was more than 1 species:
 
 ```{r rasterlogic, out.width="70%"}
 # Chunk 25
@@ -564,7 +562,7 @@ global(x = bioclimz[[c(5, 7, 14)]], stat = "mean", na.rm = TRUE)
 summary(bioclimz[[1:3]])
 ```
 
-`global` lets you calculate specific statistics from the cell values of a lone `SpatRaster`, or for a single, multiple, or all layers in a `SpatRaster` layer. `summary` (a generic) returns the quintile values and counts the number of `NA` or no data cells. Both functions by default remove NA values (which are in many if not most rasters), which is something that usually has to be specified when trying to apply these statistical functions to an ordinary vector, e.g. 
+`global` lets you calculate specific statistics from the cell values of a lone `SpatRaster`, or for a single, multiple, or all layers in a `SpatRaster` layer. `summary` (a generic) returns the quantile values and counts the number of `NA` or no data cells. Both functions by default remove NA values (which are in many if not most rasters), which is something that usually has to be specified when trying to apply these statistical functions to an ordinary vector, e.g. 
 
 ```{r rastervalues}
 # Chunk 27
@@ -761,16 +759,13 @@ In #2 we then stack the three outputs, and rename the layers something meaningfu
 `as.Date("101117", "%m%d%y")`, and `as.Date("10112017", "%m%d%Y")`
  to get a better sense of date vectors work. Also try out `lubridate::mdy("10-11-2017")` and `lubridate::as_date("20171011")`.
 
-2. Convert `species` to a 0.1 degree raster (`speciesr2`) that contains the count of farmers per grid cell.  Use `distsr` as the target raster so that the extents align. 
+2. Convert `species` to a 0.1 degree raster (`speciesr2`) that contains the count of species per grid cell. Use `distsr` as the target raster so that the extents align. 
 
-3. Use `zonal` on `speciesr2` to calculate the total number of farmers per district (use `distsr` to provide the zones), and then map them back onto the districts/zones using `subst`. Plot the result. 
+3. Use `zonal` on `speciesr2` to calculate the total number of species per district (use `distsr` to provide the zones), and then map them back onto the districts/zones using `subst`. Plot the result. 
 
 4. Use `focal` to calculate for `bioclimz[[12]]` the i) standard deviation within a 3X3 and 5X5 window, and ii) the maximum value in each 3X3 and 5X5 neighborhood. Do not remove NAs. Combine the results in a multi-layer `SpatRaster`, as above, and then plot them  using `plot_noaxes`. 
 
 5. Crop `bioclimz[[1]]` using the extent of `districts[57, ]`, and disaggregate it to 0.01 resolution using both the default and bilinear methods. Plot the results side by side using `plot_noaxes`.
-
-6. Use `app` with `bioclimz` to calculate the maximum, the coefficient of variation, and the median of all variables. Stack the results and plot with meaningful titles using `plot_noaxes` (hint: name the layers of the multi-layer `SpatRaster`), outputting plots on 1 row with 3 columns. 
-
 
 ***
 <center>
