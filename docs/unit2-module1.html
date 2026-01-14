@@ -1380,7 +1380,7 @@ margin-left: 0 !important;
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-13
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-14
 <a href="index.html">Back to home</a></p>
           </div>
    </div>
@@ -1678,11 +1678,11 @@ We are now going to write it out to a spatial file.</p>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>         <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; writing: substituting ENGCRS[&quot;Undefined Cartesian SRS with unknown unit&quot;] for missing CRS</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; Warning in CPL_write_ogr(obj, dsn, layer, driver, as.character(dataset_options), : GDAL Error 1:</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; /var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpImLtS0/species.shp does not appear to be a</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; /var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpMZrNQj/species.shp does not appear to be a</span></span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; file or directory.</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Deleting source `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpImLtS0/species.shp&#39; failed</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Deleting source `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpMZrNQj/species.shp&#39; failed</span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Writing layer `species&#39; to data source </span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;   `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpImLtS0/species.shp&#39; using driver `ESRI Shapefile&#39;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;   `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpMZrNQj/species.shp&#39; using driver `ESRI Shapefile&#39;</span></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; Writing 6951 features with 4 fields and geometry type Point.</span></span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">tempdir</span>(), <span class="at">pattern =</span> <span class="st">&quot;species&quot;</span>)</span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;species.dbf&quot; &quot;species.prj&quot; &quot;species.shp&quot; &quot;species.shx&quot;</span></span></code></pre></div>
@@ -1717,9 +1717,9 @@ file.</p>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">st_write</span>(<span class="at">obj =</span> species, <span class="at">dsn =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;species.geojson&quot;</span>), </span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>         <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; writing: substituting ENGCRS[&quot;Undefined Cartesian SRS with unknown unit&quot;] for missing CRS</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; Deleting source `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpImLtS0/species.geojson&#39; failed</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; Deleting source `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpMZrNQj/species.geojson&#39; failed</span></span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; Writing layer `species&#39; to data source </span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;   `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpImLtS0/species.geojson&#39; using driver `GeoJSON&#39;</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;   `/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T//RtmpMZrNQj/species.geojson&#39; using driver `GeoJSON&#39;</span></span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; Writing 6951 features with 4 fields and geometry type Point.</span></span>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">tempdir</span>(), <span class="at">pattern =</span> <span class="st">&quot;species&quot;</span>)</span>
 <span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;species.dbf&quot;     &quot;species.geojson&quot; &quot;species.prj&quot;     &quot;species.shp&quot;     &quot;species.shx&quot;</span></span></code></pre></div>
@@ -1737,7 +1737,7 @@ much is still done with</p>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">rm</span>(species) </span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">dir</span>(<span class="fu">tempdir</span>(), <span class="at">pattern =</span> <span class="st">&quot;species.shp&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; Reading layer `species&#39; from data source </span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;   `/private/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T/RtmpImLtS0/species.shp&#39; </span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;   `/private/var/folders/8z/trk9m2ks7ksd2s963fkz3dg80000gq/T/RtmpMZrNQj/species.shp&#39; </span></span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;   using driver `ESRI Shapefile&#39;</span></span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6951 features and 4 fields</span></span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; Geometry type: POINT</span></span>

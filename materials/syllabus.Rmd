@@ -1,6 +1,6 @@
 ---
 title: "Syllabus"
-subtitle: "Spatial Data Analysis with R (01:450:320)"
+subtitle: 'Spatial Data Analysis with R (01:450:320) <img src="https://sas.rutgers.edu/images/communication/RARTANDSCI_V_RED_BLACK_RGB.png" align="right" width="100"/> <img src="fig/logo.png" align="right" width="100" style="margin-left: 10px;"/>'
 date: "`r Sys.Date()` [Back to home](index.html)"
 output:
   rmdformats::readthedown:
@@ -36,7 +36,7 @@ Lucy Stone Hall (LSH-B266), MW 3:50PM - 5:10PM
 Instructor | Office | Office hours
 ---------|------------------|------------------
 Lei Song   | Lucy Stone Hall (B249) | MW 2:50PM - 3:50PM
-TBD | TBD  | TBD
+Md Arafat Hassan (TA) | Lucy Stone Hall (B272)  | TBD
 
 ## Philosophy
 
