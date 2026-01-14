@@ -36,6 +36,8 @@ The material in this section assumes that the reader is familiar with standard G
 Let's start by loading `sdadata`.
 
 ```{r, warning=FALSE, message=FALSE}
+# A reminder of how to install
+# devtools::install_github("SSELP/sdadata")
 library(sdadata)
 ```
 
@@ -349,13 +351,13 @@ We'll go bit further in making new features in the section on [spatial operation
 ### Code
 1. Working with the `species` `sf` object, convert it to just a set of points without any other variables. 
 
-2. Write out `species` with it CRS set to the same as `districts` into an sqlite file within your `notebooks/data` folder. Remove the `species` object from your workspace, and then read back into `R` the sqlite you just wrote out. 
+2. Write out `species` with it CRS set to the same as `districts` into an sqlite file within your `notebooks/data` folder. Remove the `species` object from your workspace, and then read back into `R` the sqlite you just wrote out.
 
 3. Examine the `class` and `str` of `districts` and `roads`.
 
 4. Create a plot of `roads`--just the geometries--and make the color of the lines blue.
 
-5. Create a plot of `districts`, using `dplyr::select` to choose the *distName* variable from the objects `data.frame`. Set the title to "Zambia Districts" using the "main" argument. Don't specify a color. 
+5. Create a plot of `districts`, using `dplyr::select` to choose the *distName* variable from the objects `data.frame`. Set the title to "Tanzania Districts" using the "main" argument. Don't specify a color. 
 
 6. Create an `st_multipoint` object using x coordinates of `c(35, 36, 37)` and y coordinates of `c(-5, -6, -7)`, and plot that over `districts` as orange points.  
 
@@ -542,7 +544,7 @@ districts %>% mutate(area = as.numeric(st_area(.) / 10^6))
 
 So that's a fairly straightforward way to do it. Just use `mutate` with `st_area` (note that `st_area` needs the `.` in it to function correctly). In making a new *area* column, we divide by 10$^6$ to convert to km$^2$, and coerce the result to numeric. 
 
-Imagine that someone gave you a separate dataset that simply listed district names and their areas for Zambia, but provided no other spatial information. Say they did something like this:
+Imagine that someone gave you a separate dataset that simply listed district names and their areas for Tanzania, but provided no other spatial information. Say they did something like this:
 ```{r}
 # Chunk 28
 dist_area <- tibble(distName = districts$distName, 
@@ -590,7 +592,7 @@ plot(st_geometry(kanyi_dists), col = rgb(0, 0, 1, alpha = 0.5), add = TRUE)
 plot(st_geometry(dists_gt2m), col = rgb(1, 0, 0, alpha = 0.5), add = TRUE)
 ```
 
-That's two examples of subsetting that that are accomplished with `filter`. #1 is the new one, as it uses `grepl` to select districts with names beginning with either "Ka" or "Nyi". `grepl` is one of several functions that make use of regular expressions to identify and do things (select, substitute, split, etc) to string variables. You can read up more on the subject by starting with `?grepl` and `?regex`. Regular expressions are quite powerful, and although they can be somewhat arcane, they are well worth learning (although we don't do much with them here). #2 creates `dists_gt2m`) by calculating area within `filter` on the fly, and using that to select districts >20000 km$^2$. The resulting subsets are plotted onto the full district map of Zambia, using another function appearing for the first time in `geospaar`, `rgb`, which we use to define the colors for filling the polygons. `rgb` makes red-green-blue color combinations, and the alpha argument allows us to define how transparent the colors are.  In this case, our two subsets selected some of the same polygons (two of the districts with names beginning with "Ka" or "Ny" are also larger than 20,000 km$^2$), thus the partial transparency is needed to show where the overlaps occur. 
+That's two examples of subsetting that that are accomplished with `filter`. #1 is the new one, as it uses `grepl` to select districts with names beginning with either "Ka" or "Nyi". `grepl` is one of several functions that make use of regular expressions to identify and do things (select, substitute, split, etc) to string variables. You can read up more on the subject by starting with `?grepl` and `?regex`. Regular expressions are quite powerful, and although they can be somewhat arcane, they are well worth learning (although we don't do much with them here). #2 creates `dists_gt2m`) by calculating area within `filter` on the fly, and using that to select districts >20000 km$^2$. The resulting subsets are plotted onto the full district map of Tanzania, using another function appearing for the first time in `geospaar`, `rgb`, which we use to define the colors for filling the polygons. `rgb` makes red-green-blue color combinations, and the alpha argument allows us to define how transparent the colors are.  In this case, our two subsets selected some of the same polygons (two of the districts with names beginning with "Ka" or "Ny" are also larger than 20,000 km$^2$), thus the partial transparency is needed to show where the overlaps occur. 
 
 ### Split-apply-combine
 
@@ -657,7 +659,7 @@ That was a quick introduction to SAC for `sf`. There are others we could do (you
 
 2. Using a seed of 1, randomly select (`sample_n`) 100 road segments from `roads` and calculate their average length in kilometers.
 
-3. Plot districts with a "lightgrey" background, and then randomly select (seed of 1) 200 observations from species from the second season, and plot them as red circles over `districts`.
+3. Plot districts with a "lightgrey" background, and then randomly select (seed of 1) 200 observations from species of Syncerus caffer, and plot them as red circles over `districts`.
 
 4. From `road` select the roads that have lengths between 50 and 100 km and plot those in red over districts. Note that `districts` and `roads` are in different projections, so transform `district` to have the same CRS as `roads` first. 
 
@@ -921,7 +923,7 @@ for(i in length(buffs):1) {  # 4
 
 A fair bit of code up there, so let's walk through it. In #1 we convert `species` and `districts` to Albers projections, as buffers should be specified in meters, not decimal degrees, which one would have to do if buffering on a GCS project.  We also extract from `roads` the segments that are longer than 50 km. In #2, we then insert our buffering step into an `lapply`, as we apply three different buffer widths (10, 20, and 30 km), specified in meters (the unit of the Albers projection) into `st_buffer`. We first buffer around 5 randomly selected species from the second season, using `st_sample` instead of `sample_n` (which we did previously), because it allows merging of buffers where they touch, whereas a sample drawn with `sample_n` would apply a separate buffer to each point. We then apply `st_buffer` to the selected roads. The commented out chunk of code shows how we can use `purrr::map` to do the same work as `lapply`, using piping to pass the iteration vector into the `map` function (you can also write it that way for `lapply`). 
 
-In #3 we draw the plots, setting up an outline of Zambia by dissolving district boundaries, then plotting the buffered shapes in a `for` loop (note the reversed index ordering, to plot from largest to smallest buffers). 
+In #3 we draw the plots, setting up an outline of Tanzania by dissolving district boundaries, then plotting the buffered shapes in a `for` loop (note the reversed index ordering, to plot from largest to smallest buffers). 
 
 ## Sampling
 We have seen a little bit of sampling already, but the previous examples just sample from the features in an existing object. Sometimes you might be interested in confining the sample to a particular feature or features, for example:  
@@ -986,11 +988,11 @@ knitr::include_graphics("fig/u2m1-2.png")
 
 2. Use your new `pol2` to do an `st_intersection` with `districts`. Call it `pol2_int_dists`. Plot it using rainbow colors on top of grey `districts`. 
 
-3. Calculate the difference between 1) the sum of areas calculated from `pol2_int_dists` and 2) the area of `pol2`. 
+3. Calculate the difference between 1) the sum of areas calculated from `pol2_int_dists` and 2) the area of `pol2`.
 
 4. Use `st_difference` to create a `pol2` sized hole in `districts`. Do the difference on the fly (i.e. don't save it), and pipe the result to `plot(col = "grey")`
 
-5. From Chunk 43, recreate `species_alb`, and use the code in #2a to recreate buffers of 30 km width around the 5 randomly selected farmer points, and plot those. Recreate the buffers, but use `sample_n` to do the random draw. Plot those and compare the difference.  
+5. From Chunk 43, recreate `species_alb`, and use the code in #2a to recreate buffers of 30 km width around the 5 randomly selected species points, and plot those. Recreate the buffers, but use `sample_n` to do the random draw. Plot those and compare the difference.  
 
 6. Select from `roads` the roads that are greater than 40 km long, and save the result in `roads_gt40`. Place a 25 km buffer around those roads. Plot the result over the Albers-projected districts (in grey) in green. 
 

@@ -1731,25 +1731,25 @@ the <code>precip</code> raster, the second from the
 <code>dplyr::extract</code>, as <code>sdadata</code> loads
 <code>tidyverse</code> after <code>raster</code> (remember section 1.2.2
 in Unit 1 Module 2). The resulting <code>sf</code> contains rainfall sum
-and district numbers for each farmer’s location.</p>
+and district numbers for each species’ location.</p>
 <p>In #2, we first pull out of <code>species_env</code> a vector of the
 distinct district IDs. Because <code>species</code> contains a few bad
-coordinates that fall outside of Zambia, and there had <code>NA</code>
+coordinates that fall outside of Tanzania, and there had <code>NA</code>
 values, we inserted <code>drop_na</code> into the pipeline to get rid of
 those. We then used <code>speciesdistid</code> to filter out the
-districts the farmers live in from <code>districts</code>, and used the
+districts the species live in from <code>districts</code>, and used the
 result to extract from <code>precip</code> the mean rainfall from the
 pixels of <code>precip</code> falling within each selected district.
 When using <code>terra::extract</code> with polygons, if you don’t pass
 a value to the “fun” argument, a list is returned, in which each element
 contains the extracted pixel values corresponding to a particular
-polyon. If you give “fun” an argument (e.g. <code>mean</code>, as in
+polygon. If you give “fun” an argument (e.g. <code>mean</code>, as in
 this case), you get back a <code>data.frame</code> containing the
 resulting statistic(s) for each polygon.</p>
 <p>In #3, we do some gymnastics in preparation for setting up
 <code>ggplot</code> boxplots (#4) that compare the distributions of
 rainfall values. That is, we set up a tibble that binds by row the
-extracted district and farmer rainfall values, which allows
+extracted district and species rainfall values, which allows
 <code>ggplot</code> to automatically create side-by-side boxplots using
 <code>fill = dat</code>. We create some theme options for
 <code>ggplot</code> ahead of that (<code>bp_theme</code>), so that we
@@ -2039,7 +2039,7 @@ it):</p>
 <span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co"># #3</span></span>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>invdist <span class="ot">&lt;-</span> <span class="fu">gstat</span>(<span class="at">id =</span> <span class="st">&quot;rain&quot;</span>, <span class="at">formula =</span> rain <span class="sc">~</span> <span class="dv">1</span>, <span class="at">locations =</span> <span class="sc">~</span>x <span class="sc">+</span> y, </span>
 <span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>                 <span class="at">data =</span> rainsamp)</span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>invdistr <span class="ot">&lt;-</span> <span class="fu">interpolate</span>(<span class="at">object =</span> r, <span class="at">model =</span> invdist, )</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>invdistr <span class="ot">&lt;-</span> <span class="fu">interpolate</span>(<span class="at">object =</span> r, <span class="at">model =</span> invdist)</span>
 <span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
 <span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
 <span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>invdistrmsk <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="at">x =</span> invdistr[[<span class="dv">1</span>]], <span class="at">mask =</span> raintotalb)</span>
@@ -2335,7 +2335,7 @@ what do we have to remember to do with
 <div id="code-1" class="section level3" number="2.5.2">
 <h3><span class="header-section-number">2.5.2</span> Code</h3>
 <ol style="list-style-type: decimal">
-<li><p>Crop <code>demalb</code> down to the extent of district 42 (bear
+<li><p>Crop <code>demalb</code> down to the extent of district 145 (bear
 in mind that <code>districts</code> needs to be in the same projection
 as <code>demalb</code>, so transform it first). Then calculate slope,
 aspect, and TPI on the cropped DEM. Plot the results so that they appear
@@ -2347,7 +2347,7 @@ selected points (use the same seed). Stacking the results in this order:
 <code>raintotalb</code>, the 1000 point IDW, the 500 point IDW, and the
 250 IDW. Plot these in a single call to <code>plot_noaxes</code>,
 setting <code>zlim = c(0, 150)</code> and passing informative titles to
-the “main” argument (e.g. “bioclim”, “1000 pt IDW”, “500 pt IDW”, etc).
+the “main” argument (e.g. “bio12”, “1000 pt IDW”, “500 pt IDW”, etc).
 There are two ways of doing this: i) the hard way, by copying, pasting,
 and changing code blocks #2 and #3 for each version of the IDW; ii) the
 programmatic way, by creating the three IDWs in an <code>lapply</code>.
