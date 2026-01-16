@@ -1364,7 +1364,7 @@ margin-left: 0 !important;
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-12
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2026-01-16
 <a href="index.html">Back to home</a></p>
           </div>
    </div>
@@ -1536,18 +1536,19 @@ Let’s break that down:</p>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># #2</span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;sdadata&quot;</span>))</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;FAOSTAT_maize.csv&quot;   &quot;FAOSTAT_sorghum.csv&quot; &quot;FAOSTAT_wheat.csv&quot;</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># #3</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;sdadata&quot;</span>), <span class="at">pattern =</span> <span class="st">&quot;FAOSTAT&quot;</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;FAOSTAT_maize.csv&quot;   &quot;FAOSTAT_sorghum.csv&quot; &quot;FAOSTAT_wheat.csv&quot;</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># #4</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;sdadata&quot;</span>), <span class="at">pattern =</span> <span class="st">&quot;FAOSTAT&quot;</span>, </span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>    <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_maize.csv&quot;  </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; [2] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_sorghum.csv&quot;</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; [3] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_wheat.csv&quot;</span></span></code></pre></div>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bioclim.tif&quot;         &quot;districts.geojson&quot;   &quot;FAOSTAT_maize.csv&quot;   &quot;FAOSTAT_sorghum.csv&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [5] &quot;FAOSTAT_wheat.csv&quot;   &quot;roads.geojson&quot;       &quot;species.csv&quot;</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co"># #3</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;sdadata&quot;</span>), <span class="at">pattern =</span> <span class="st">&quot;FAOSTAT&quot;</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;FAOSTAT_maize.csv&quot;   &quot;FAOSTAT_sorghum.csv&quot; &quot;FAOSTAT_wheat.csv&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># #4</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;sdadata&quot;</span>), <span class="at">pattern =</span> <span class="st">&quot;FAOSTAT&quot;</span>, </span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>    <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_maize.csv&quot;  </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; [2] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_sorghum.csv&quot;</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; [3] &quot;/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sdadata/extdata/FAOSTAT_wheat.csv&quot;</span></span></code></pre></div>
 <p>In #1, we get the file path to the <code>extdata</code> folder in the
 <code>sdadata</code> installed package. #2 gives shows us the names of
 all the files in there. #3 shows us narrows the listed files down to
@@ -1564,28 +1565,32 @@ and read in table data stored in a csv.</p>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>td <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># #3</span></span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(dat, <span class="at">path =</span> <span class="fu">file.path</span>(td, <span class="st">&quot;dummy.csv&quot;</span>))</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># #4</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="fu">file.path</span>(td, <span class="st">&quot;dummy.csv&quot;</span>))</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; Rows: 10 Columns: 2</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────────────────────────</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; dbl (2): a, b</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 2</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;        a      b</span></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;  1     9 -0.820</span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt;  2     4  0.487</span></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;  3     7  0.738</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;  4     1  0.576</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;  5     2 -0.305</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;  6     5  1.51 </span></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;  7     3  0.390</span></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt;  8    10 -0.621</span></span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt;  9     6 -2.21 </span></span>
-<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; 10     8  1.12</span></span></code></pre></div>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; ℹ Please use the `file` argument instead.</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co"># #4</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="fu">file.path</span>(td, <span class="st">&quot;dummy.csv&quot;</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; Rows: 10 Columns: 2</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; dbl (2): a, b</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 2</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;        a      b</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;  1     9 -0.820</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;  2     4  0.487</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;  3     7  0.738</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt;  4     1  0.576</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt;  5     2 -0.305</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt;  6     5  1.51 </span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt;  7     3  0.390</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt;  8    10 -0.621</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt;  9     6 -2.21 </span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; 10     8  1.12</span></span></code></pre></div>
 <p>In #1 we do the usual creation of dummy data, but we replace
 <code>data.frame</code> with <code>tibble</code>, the enhanced
 <code>data.frame</code>–note we could have used <code>data.frame</code>.
@@ -4087,9 +4092,11 @@ Tanzanian data.</p></li>
 <h1><span class="header-section-number">5</span> Unit assignment</h1>
 <div id="set-up" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Set-up</h2>
-<p>Make sure you are working in the master branch of your project (you
+<p>Make sure you are working in the main branch of your project (you
 should not be working on the a2 or a3 branch). Create a new vignette
-named “module4.Rmd”. You will use this to document the tasks you
+named “unit1_module4.Rmd”. By now, you should be fluent in switching
+branches and creating vignettes. If not, please revisit modules 1–3 to
+refresh your memory. You will use this to document the tasks you
 undertake for this assignment.</p>
 <p>There are no package functions to create for this assignment. All
 work is to be done in the vignette.</p>
@@ -4099,15 +4106,16 @@ work is to be done in the vignette.</p>
 <ol style="list-style-type: decimal">
 <li>Create three <code>tibble</code>s, <code>t1</code>, <code>t2</code>,
 <code>t3</code>. <code>t1</code> has 10 rows, with column
-<code>V1</code> containing values G1 through G10, and <code>V2</code>
-containing <code>runif</code> between 75 and 125. <code>t2</code> has 15
-rows with <code>v1</code> (G1 - G15) and <code>v3</code> containing a
-random selection of <code>LETTERS</code> A-F. <code>t3</code> has 20
-rows (<code>v1</code> with G1-G20), and <code>v4</code> with numbers
-from the random normal distribution (<code>mean</code> = 100,
-<code>sd</code> = 20). Use a seed of 1 for random numbers. Join
-<code>t1</code>, <code>t2</code>, and <code>t3</code> within a single
-pipeline, using:</li>
+<code>V1</code> containing values G1 - G10, and <code>V2</code>
+containing <code>runif</code> (randomly select numbers from a uniform
+distribution) between 75 and 125. <code>t2</code> has 15 rows with
+<code>v1</code> (G1 - G15) and <code>v3</code> containing a random
+selection of <code>LETTERS</code> A-F. <code>t3</code> has 20 rows
+(<code>v1</code> with G1-G20), and <code>v4</code> with numbers from the
+random normal distribution (<code>rnorm</code>, <code>mean</code> = 100,
+<code>sd</code> = 20). Use a <strong>seed of 1</strong> for random
+numbers. Join <code>t1</code>, <code>t2</code>, and <code>t3</code>
+within <strong><em>a single pipeline</em></strong>, using:</li>
 </ol>
 <ul>
 <li><code>left_join</code></li>
@@ -4116,12 +4124,25 @@ pipeline, using:</li>
 <li><code>inner_join</code></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Recreate the <code>crop_ylds</code> dataset, using 1) an
-<code>lapply</code> to read in each .csv file from the package
-<code>extdata/</code> folder, and 2) the <code>dplyr</code> steps
-necessary to <code>*_join</code> the data and make the necessary
-<code>mutate</code>-ations. Chunks 1, 11, 16, 19, and 21 are your
-guides.</p></li>
+<li>Recreate the <code>crop_ylds</code> dataset, using 1) an
+<code>lapply</code> to read in each .csv file from the
+<code>sdadata</code> package <code>extdata/</code> folder, and 2) the
+<code>dplyr</code> steps necessary to <code>*_join</code> the data and
+make the necessary <code>mutate</code>-ations. Chunks 1, 11, 16, 19, and
+21 are your guides.</li>
+</ol>
+<p>A quick reminder of what <code>crop_ylds</code> should look like:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">head</span>(crop_ylds)</span>
+<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
+<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a><span class="co">#&gt;   crop  country  year harv_area   prod yield</span></span>
+<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb78-5"><a href="#cb78-5" tabindex="-1"></a><span class="co">#&gt; 1 maize TZA      1961    790000 590000 0.747</span></span>
+<span id="cb78-6"><a href="#cb78-6" tabindex="-1"></a><span class="co">#&gt; 2 maize TZA      1962    800000 600000 0.75 </span></span>
+<span id="cb78-7"><a href="#cb78-7" tabindex="-1"></a><span class="co">#&gt; 3 maize TZA      1963    960000 850000 0.885</span></span>
+<span id="cb78-8"><a href="#cb78-8" tabindex="-1"></a><span class="co">#&gt; 4 maize TZA      1964    930000 720000 0.774</span></span>
+<span id="cb78-9"><a href="#cb78-9" tabindex="-1"></a><span class="co">#&gt; 5 maize TZA      1965    950000 751000 0.791</span></span>
+<span id="cb78-10"><a href="#cb78-10" tabindex="-1"></a><span class="co">#&gt; 6 maize TZA      1966   1100000 880000 0.8</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
 <li><p>Use <code>dplyr</code> verbs to select the 5 top-ranked years for
 <strong>total harvested area</strong> for Tanzanian maize. Do the same
 for Tanzanian maize <strong>yields</strong>. To do this, you will need
@@ -4143,10 +4164,10 @@ guidance.</p></li>
 the relationship between <em>harv_area</em> (x-axis) and <em>yield</em>
 (y-axis) for maize, separated by country on a single plot. Make it a
 point scatter plot, with a straight trendline fit through each set of
-points (i.e. <code>method = &quot;lm&quot;</code>). You will need to use
-<code>geom_point</code> and <code>geom_smooth</code>. Make a title
-(“Harvested area versus yield”) and x (“Harvested area (ha)”) and y
-(“Yield (t/ha)”) labels.<br />
+points (i.e. <code>method = &quot;lm&quot;</code> in <code>geom_smooth</code>).
+You will need to use <code>geom_point</code> and
+<code>geom_smooth</code>. Make a title (“Harvested area versus yield”)
+and x (“Harvested area (ha)”) and y (“Yield (t/ha)”) labels.<br />
 </p></li>
 <li><p>Create a single scatter plot with <code>graphics::plot</code>
 that plots just Tanzanian wheat yields (y-axis) against year (x-axis).
@@ -4167,18 +4188,22 @@ output</h2>
 3’s Assignment output section</a> for submission instructions. The
 differences are as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p>Your submission should be on a new side branch “a3”;</p></li>
 <li><p>You should increment your package version number by 1 on the
-lowest number (e.g. from 0.0.1 to 0.0.2) in the DESCRIPTION;</p></li>
+lowest number (e.g. from 0.1.1 to 0.1.2) in the DESCRIPTION;</p></li>
 <li><p>Control the width of your plots in 6-8 using the following chunk
 options:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="in">```{r, fig.width=4.75, fig.height=3.75, fig.align = &quot;center&quot;}</span></span>
-<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div></li>
-<li><p>For all chunks, suppress messages and warnings by adding
-<code>message = FALSE</code> and <code>warning = FALSE</code> to the
-chunk options, e.g. </p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="in">```{r, warning = FALSE, message = FALSE}</span></span>
+<div class="sourceCode" id="cb79"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="in">```{r, fig.width=4.75, fig.height=3.75, fig.align = &quot;center&quot;}</span></span>
 <span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div></li>
+<li><p>Revise the setting chunk in the beginning of your vignette
+to:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a>knitr::opts_chunk$set(</span>
+<span id="cb80-2"><a href="#cb80-2" tabindex="-1"></a>  collapse = TRUE,</span>
+<span id="cb80-3"><a href="#cb80-3" tabindex="-1"></a>  comment = &quot;#&gt;&quot;,</span>
+<span id="cb80-4"><a href="#cb80-4" tabindex="-1"></a>  warning = FALSE,</span>
+<span id="cb80-5"><a href="#cb80-5" tabindex="-1"></a>  message = FALSE</span>
+<span id="cb80-6"><a href="#cb80-6" tabindex="-1"></a>)</span></code></pre></div>
+<p>to avoid unnecessary warning and message.</p></li>
+<li><p>Your submission should be on a new side branch “a3”.</p></li>
 </ol>
 <hr />
 <center>

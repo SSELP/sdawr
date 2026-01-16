@@ -1323,21 +1323,25 @@ Select Option `10: lapply and sapply`. Work through the whole unit, then escape 
 # Unit assignment 
 
 ## Set-up
-Make sure you are working in the main branch of your project. Create a new vignette named "module3.Rmd". You will use this to document the tasks you undertake for this assignment. Rename the previous vignette "module1.Rmd". 
+Make sure you are working in the main branch of your project. Create a new vignette named "unit1_module3.Rmd" (hint: you can use `usethis::use_vignette("unit1_module3")`. You will use this to document the tasks you undertake for this assignment.
 
 ## Create a new package function
-Create a new function within your package, using `roxygen2` notation to write help files (as done for your Assignment 1 function), and save the function in a separate .R file for each, named the same as the function contained therein
+Create a new function within your package, using `roxygen2` notation to write help files (as done for your Assignment 1 function), and save the function in a separate .R file for each, named the same as the function contained therein.
 
-Name the new function `my_calc`, which will take three arguments, "x", "y", and "fun", which stands for "function". Arguments "x" and "y" will be vectors or matrices, while argument "fun" will have four possible values: "sum", "subtract", "divide", "multiply". Function `my_calc` will use conditional statements to choose the correct calculation to make based on the value given to "fun". For example, if you pass to "x" a vector `1:5`, and to "y" a vector `c(5, 2, 3, 10, 2)`, and set "fun" to "divide", you should get:  
+Name the new function `my_calc`, which will take three arguments, "x", "y", and "fun", which stands for "function". Arguments "x" and "y" will be vectors or matrices, while argument "fun" will have four possible values: "sum", "subtract", "divide", "multiply". Function `my_calc` will use conditional statements to choose the correct calculation to make based on the value given to "fun". For example, if you pass to "x" a vector `1:5`, and to "y" a vector `c(5, 2, 3, 10, 2)`, and set "fun" to "divide", you should get (*Please use this as the reference to check if your function works as expected.*):  
     
     
 ```{r, echo = FALSE}
 1:5 / c(5, 2, 3, 10, 2)
 ```
 
-Here's a related function that can be adapted for this purpose:
+Here's a related function that can be **adapted** for this purpose:
 
 ```{r, warning=FALSE, error = TRUE}
+#' XX function
+#' Make sure you write a proper function help
+#' by referencing back to Module 1
+#' 
 related_function <- function(x, fun) {
   if(fun == "log") {
     o <- log(x)
@@ -1357,7 +1361,9 @@ related_function(x = b, "square")
 related_function(x = b, "cube")
 ```
     
-So you have to adapt the function by 1) adding a second argument for y, 2) changing the operations performed within the conditional statements, 3) the values of the arguments that "fun" responds to, as well as 4) the function name. 
+So you have to adapt the function by 1) adding a second argument for y, 2) changing the operations performed within the conditional statements, 3) the values of the arguments that "fun" responds to, and 4) the function name. 
+
+Remember to run `devtools::document()` to update the package once you finish the new function.
 
 ## Vignette tasks
 1. Create the following vectors: 
@@ -1365,7 +1371,7 @@ So you have to adapt the function by 1) adding a second argument for y, 2) chang
     - A second integer vector (named `v2`), also of length 20, but selecting 20 values from the range 1:10. 
     - A numeric vector of length 20 (named `v3`), using the `runif` function with the minimum set to 0 and the maximum to 1. 
     - A character vector of length 20 (named `v4`), using randomly selected values from the built-in dataset `LETTERS`. You will use `v2` to select the values out of `LETTERS` (this means that you are using `v2` as an __index__). 
-    - In making `v1, v2, v3`, you will use the `set.seed` function so that you can get the exact same results each time you run your code to make them. Use a seed value of 1.
+    - IMPORTANT: In making `v1, v2, v3`, you will use the `set.seed` function so that you can get the **exact same** results each time you run your code to make them. **Use a seed value of 1 (`set.seed(1)` before the creation of `v1, v2, v3`).**
 
 2. Create a matrix `m1` from `v1` and `v2`, by binding the two vectors together as ___columns___. Create another (`m2`) from `v2` and `v3`, again by binding columns. Create a third (`m3`) by binding `v3` and `v4 `. 
 
@@ -1374,6 +1380,7 @@ So you have to adapt the function by 1) adding a second argument for y, 2) chang
     - Change the column names of `DF` to "a", "b", "c", and "grp". 
     - Question: why is it okay to rename a column in `DF` "c", but not to rename `v3` as `c`? 
     - Look at the `str` of `DF`. What kind of data type is "grp"? How would you change it between character and factor and back again? 
+    -  **Note that you need to answer these questions in your vignette "unit1_module3".**
 
 4. Demonstrate the use of your new function: 
     - Use `my_calc` to sum and divide the following pairs of objects:
@@ -1382,22 +1389,22 @@ So you have to adapt the function by 1) adding a second argument for y, 2) chang
         - `v1`, `v3`
         - `m1`, `m1`
         - `m1`, `m2`
-    - Capture the output of each operation in objects `d1` through `d5` for the divisions, and `s1` through `s5` for the sums. 
+    - Capture the output of each operation in objects `d1` - `d5` for the divisions, and `s1` - `s5` for the sums. 
     - Using `my_calc` with `DF`:
         - Multiply row1, column1 by row1, column2
-        - Multiply rows 1-10, column 1-3 by rows1-10, columns 1-3
-        - Divide the values in columns "a" and "b" by the values in column "c" of `DF` corresponding to the rows in "grp" that have values "E". In selecting the columns, use their names, rather than their index numbers, to select them
+        - Multiply rows 1-10, column 1-3 by rows 1-10, columns 1-3
+        - Divide the values in columns "a" and "b" by the values in column "c" of `DF` corresponding to the rows in "grp" that have values "E". In selecting the columns, use their names, rather than their index numbers, to select them (Hint: how to select specific rows conditionally in base R?).
     - Repeat the last of the aforementioned calculations, but this time do not use `my_calc`. Simply do it using the two `DF` subsets with the `/` operator
+    - Question: Can we use `my_calc` to `m2` and `m3`? And why?
 
 5. Demonstrate the use of `*apply`:
-    - Combine `v1`, `m1`, and `m2` into a list `l`
-    - Write an `lapply` that applies `sum` to `l`. This one does not need an anonymous function 
-    - Now write an `lapply` that iterates over the elements of `l`, and uses your `my_calc` to multiply each element of `l` by `v2`
-    - Hints:
+    1. Combine `v1`, `m1`, and `m2` into a list `l`
+    2. Write an `lapply` that applies `sum` to `l`. This one does not need an anonymous function 
+    3. Now write an `lapply` that iterates over the elements of `l`, and uses your `my_calc` to multiply each element of `l` by `v2`. Some hints:
         - You will need to use an anonymous function
         - The interior of your function (i.e. the part between `({})` will use the `my_calc` function. 
-    - Do the same but with `sapply`
-
+        
+    - Do 2 and 3 but with `sapply` this time.
     
 ## Assignment output{#assignment-output}
 
@@ -1405,7 +1412,7 @@ As with the previous assignment, this assignment should be delivered as an R pac
 
 1. Has a vignettes, man, and R folder, with the necessary ingredients in them ("calculations" vignette, `R` function files, .Rd files for the function documentation) 
 
-2. Has a DESCRIPTION and NAMESPACE file that shows that both your functions are exported. Fill out the DESCRIPTION file with your relevant details, a description of the package, etc. Also, use 3-digit version numbering. 0.0.0 is the initial version of your package. 0.0.X (where X means some integer in a sequence, 1 if this is your first minor update) is the updated version after a minor fix (a small bug corrected or documentation updated), 0.X.0 is an intermediate release (maybe you have added a new function or two), X.0.0 is a major release of a working version of the package. 
+2. Has a DESCRIPTION and NAMESPACE file that shows that both your functions are exported. Fill out the DESCRIPTION file with your relevant details, a description of the package, etc. Also, use 3-digit version numbering. 0.1.0 is the initial version of your package. 0.1.X (where X means some integer in a sequence, 1 if this is your first minor update) is the updated version after a minor fix (a small bug corrected or documentation updated), 0.X.0 is an intermediate release (maybe you have added a new function or two), X.1.0 is a major release of a working version of the package. So for assignment 2, you should change the version number from 0.1.0 to 0.1.1.
 
 3. Can be installed with browsable vignettes using `install_github`. 
 
@@ -1425,17 +1432,14 @@ As with the previous assignment, this assignment should be delivered as an R pac
     a <- data.frame(a = 1:10, b = 1:10)
     a
     ```
+    
+7. Update vignette title and this line in the YAML header to `%\VignetteIndexEntry{Unit 1 Module 3 assignment 2}`. When you browse the vignettes of your package, you should see a page in your browser like this:
 
-7. Set up the code chunks in your vignette to look like this:
+```{r out.width = "70%", fig.align='center', echo=FALSE}
+include_graphics("fig/u1m3_a2.png") 
+```
 
-    ````markdown
-    `r ''````{r, error = TRUE}
-    ```
-    ````
-
-    That will allow any code errors (and there are some intentional ones you will find) to be recorded in vignette output without causing the knit to fail
-
-8. When complete, park the repo on a new side branch called "a2"
+8. When complete, park the repo on a new side branch called "a2", and switch back to main branch for future work. Please check module 1 if you forget how to do this.
 
 ***
 <center>
