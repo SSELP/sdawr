@@ -1287,9 +1287,7 @@ There are no package functions to create for this assignment. All work is to be 
   - `full_join`
   - `inner_join`
 
-2. Recreate the `crop_ylds` dataset, using 1) an `lapply` to read in each .csv file from the `sdadata` package `extdata/` folder, and 2) the `dplyr` steps necessary to `*_join` the data and make the necessary `mutate`-ations. Chunks 1, 11, 16, 19, and 21 are your guides. 
-
-A quick reminder of what `crop_ylds` should look like:
+2. Recreate the `crop_ylds` dataset, using 1) an `lapply` to read in each .csv file from the `sdadata` package `extdata/` folder, and 2) the `dplyr` steps necessary to `*_join` the data and make the necessary `mutate`-ations. Chunks 1, 11, 16, 19, and 21 are your guides. A quick reminder of what `crop_ylds` should look like:
 
 ```{r}
 head(crop_ylds)
@@ -1329,7 +1327,13 @@ Refer to [Unit 1 Module 3's Assignment output section](unit1-module3.html#assign
     
     to avoid unnecessary warning and message.
     
-4. Your submission should be on a new side branch "a3".
+4. Update vignette title and this line in the YAML header to `%\VignetteIndexEntry{Unit 1 Module 4 assignment 3}`. When you browse the vignettes of your package, you should see a page in your browser like this:
+
+```{r out.width = "70%", fig.align='center', echo=FALSE}
+include_graphics("fig/u1m4_a3.png") 
+```
+    
+5. Your submission should be on a new side branch "a3".
 
 ***
 <center>
