@@ -1435,7 +1435,7 @@ As with the previous assignment, this assignment should be delivered as an R pac
     
 7. Update vignette title and this line in the YAML header to `%\VignetteIndexEntry{Unit 1 Module 3 assignment 2}`. When you browse the vignettes of your package, you should see a page in your browser like this:
 
-```{r out.width = "70%", fig.align='center', echo=FALSE}
+```{r out.width = "100%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m3_a2.png") 
 ```
 
