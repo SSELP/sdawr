@@ -760,7 +760,7 @@ For the first assignment of this class, you are going to do the following:
 - Update your vignette so that it demonstrates how `my_multiplier` is used, in addition to the demonstration of `my_number_checker` that you have already added. You could write a short reflection to explain how `my_multiplier` works. After you done all editing, update this line in the YAML header to `%\VignetteIndexEntry{Unit 1 Module 1 assignment 1}` and change the name of this vignette `.Rmd` file into "Unit1_module1".
 - Commit and push your changes. Before committing, delete the `hello.Rd` (in /man folder) and `hello.R` (in /R folder) files, as we do not want those. Also do not commit any html files in your vignettes folder (You many want to delete these html files). Test installing your packages so that it builds with a browsable vignette. Use both `devtools::install`, and also `devtools::install_github` to make sure that it does. If everything is good, you will see a page in your browser like this:
 
-```{r out.width = "70%", fig.align='center', echo=FALSE}
+```{r out.width = "100%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1_a1.png") 
 ```
 
