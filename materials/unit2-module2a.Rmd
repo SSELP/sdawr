@@ -656,7 +656,7 @@ head(zonemu)[, 1:5]
 
 That creates a `data.frame` (truncated here to show the first 6 rows and 5 columns) of mean bioclim variables within each zone ( district), by date. The first attempt to run `zonal` (#1) would have failed because of mismatched extents (and therefore was commented out so it wouldn't run), so we used `resample` in #2 to align extents before re-running `zonal`. 
 
-To map zonal statistics back onto their zones, we need to use another function, `subs`.
+To map zonal statistics back onto their zones, we need to use another function, `subst`.
 
 ```{r subs, out.width="70%"}
 # Chunk 33
