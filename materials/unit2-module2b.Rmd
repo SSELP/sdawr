@@ -81,7 +81,7 @@ plot_noaxes <- function(x, axes = FALSE, box = FALSE, mar = c(1, 0.5, 2, 4),
   }
   par(mar = mar)
   if(class(x) %in% c("RasterLayer", "RasterStack", "RasterBrick")) {
-    plot(x, axes = axes, box = axes, ...)
+    plot(x, axes = axes, box = box, ...)
   } else {
     plot(x, axes = axes, mar = NA, ...)
   }
@@ -146,23 +146,36 @@ In #3, we examine the annual precipitation within district 145. This is done in 
 Having made `dist_precip` safe for calculating statistics, in #4 we then identify the areas in district 145 that received more annual rainfall than the district mean (extracted using global, which returns a data.frame with a single value, which we get by unlisting). In #5, we do the same thing for the entire country, identifying areas across all of Tanzania where the annual rainfall is higher than the national average.
 
 ## Categorizing
-Sometimes you will want to create a categorical raster from a continous one. We will look at two different ways of doing that. 
+Sometimes you will want to create a categorical raster from a continuous one. We will look at two different ways of doing that. 
 
 Method 1:
 ```{r cutfig, out.width="70%"}
+load_quietly("tidyterra") # the package to plot spatRaster in a tidy way.
+
 # Chunk 38
 qtiles <- global(precip,
                  function(x) quantile(x, probs = seq(0, 1, 1/3), na.rm = TRUE))
 raintotcut <- classify(x = precip, rcl = unlist(qtiles), include.lowest = TRUE)
 
-cols <- c("tan", "yellow3", "green4")
-plot_noaxes(raintotcut, legend = FALSE, main = "Total Rainfall", col = cols, 
-            mar = c(0, 0, 2, 0))
-legend(x = "bottomright", legend = c("High", "Intermediate", "Low"), 
-       pch = 15, pt.cex = 3, col = rev(cols), bty = "n")
+ggplot() +
+    geom_spatraster(data = raintotcut) +
+    # add a title
+    ggtitle("Total Rainfall") +
+    # Manually set the colors
+    scale_fill_manual(
+        name = "",
+        values = c("tan", "yellow3", "green4"),
+        labels = c("Low", "Intermediate", "High"),
+        na.translate = FALSE) +
+    theme_void() +
+    theme(
+        # Set plot margin
+        plot.margin = unit(c(0, 0, 2, 0), "lines"),
+        # center the title
+        plot.title = element_text(hjust = 0.5)) 
 ```
 
-This approach using so-called `cut`s, perhaps the easiest way of categorizing a continuous raster. This use the function `quantile`, passed through an anonymous function in the `app` function, to get the tercile values (i.e 33.3rd, 66.6th, and 100th percentiles) for `raintot`. The resulting `data.frame` is vectorized, and these become cuts passed into the `rcl` argument of `terra::classify`. We pass the argument `include.lowest = TRUE` because we want to include all values that are greater than or equal to the lowest value in each category. Our plot of the results has a customized legend, which we chose because we have a categorical raster and thus wanted a categorical, rather than continuous (the default for `terra::plot`, and thus `plot_noaxes`), legend.
+This approach using so-called `cut`s, perhaps the easiest way of categorizing a continuous raster. This use the function `quantile`, passed through an anonymous function in the `app` function, to get the tercile values (i.e 33.3rd, 66.6th, and 100th percentiles) for `raintot`. The resulting `data.frame` is vectorized, and these become cuts passed into the `rcl` argument of `terra::classify`. We pass the argument `include.lowest = TRUE` because we want to include all values that are greater than or equal to the lowest value in each category. Here we also learn a new way to plot a raster using 
 
 Method 2 is somewhat more involved:
 ```{r reclassify, out.width="70%"}
@@ -170,17 +183,36 @@ Method 2 is somewhat more involved:
 rclmat <- cbind(unlist(qtiles[1:3]), unlist(qtiles[2:4]), 1:3)
 rclmat
 
+# Note that the resultant raintotrcl has continuous values
 raintotrcl <- classify(x = precip, rcl = rclmat, include.lowest = TRUE)
 
-plot_noaxes(raintotrcl, legend = FALSE, main = "Total Rainfall", col = cols, 
-            mar = c(0, 0, 2, 0))
-legend(x = "bottomright", legend = c("High", "Intermediate", "Low"), 
-       pch = 15, pt.cex = 3, col = rev(cols), bty = "n")
+# Convert classes to a factor with desired labels/order
+raintotrcl <- as.factor(raintotrcl)
+levels(raintotrcl) <- data.frame(
+  value = 1:3,
+  label = c("Low", "Intermediate", "High"))
+
+ggplot() +
+    geom_spatraster(data = raintotrcl) +
+    # add a title
+    ggtitle("Total Rainfall") +
+    # Manually set the colors
+    scale_fill_manual(
+        name = "",
+        values = c("tan", "yellow3", "green4"),
+        labels = c("Low", "Intermediate", "High"),
+        na.translate = FALSE) +
+    theme_void() +
+    theme(
+        # Set plot margin
+        plot.margin = unit(c(0, 0, 2, 0), "lines"),
+        # center the title
+        plot.title = element_text(hjust = 0.5)) 
 ```
 
 In the first step, we reuse the previously calculated terciles to create a reclassification matrix (`rclmat`). This matrix contains the lower bound of the range of the category in column 1, the upper bound in column 2, and then the new class value that will be assigned in column 3. There are three rows, one per category. This matrix is passed to the `rcl` argument of `classify`, in which we also specify the same `include.lowest = TRUE` argument. 
 
-This approach requires slightly more work, but there are cases where you might need to use it, e.g. to reclassify another categorical raster using non-sequential categories. 
+This approach requires slightly more work (e.g. we typically need to convert the resultant raster into factor), but there are cases where you might need to use it, e.g. to reclassify another categorical raster using non-sequential categories. 
 
 ## Sampling
 
@@ -616,41 +648,41 @@ Make sure you are working in the main branch of your project (you should not be 
 There are no package functions to create for this assignment. All work is to be done in the vignette. 
 
 ## Vignette tasks
-1. Create a subset of `districts` by extracting districts 22, 26, 53, and 54. Call it `districts_ss`. Use the extent of `districts_ss` (`ext(districts_ss)`) to define the extent of a new raster `r`, which should have a resolution of 0.1&deg;. Use `r` as a template for creating two new rasters, `rsamp` and `rrandn`. `rsamp` should be filled with randomly selected integers ranging between 10 and 50. `rrandn` should be filled with random numbers drawn from a normal distribution (`rnorm`) that has a mean of 30 and standard deviation of 5. Use a seed of 1 in `set.seed`. Stack `rsamp` and `rrandn` (name the stack `s`), mask that by `districts_ss`, and plot `s` using `plot_noaxes`. (Ref: Chunks 1, 3, 4, 16)
+1. Create a subset of `districts` (of course you have to read `districts`) by extracting districts 40, 95, 73, 145. Call it `districts_ss`. Use the extent of `districts_ss` (`ext(districts_ss)`) and crs of `districts_ss` to define the extent of a new raster `r`, which should have a resolution of 0.1&deg;. Use this `r` as a template for creating two new rasters, `rsamp` and `rrandn`. `rsamp` should be filled with randomly selected integers ranging between 10 and 50. `rrandn` should be filled with random numbers drawn from a normal distribution (`rnorm`) that has a mean of 30 and standard deviation of 5. Use **a seed of 1** in `set.seed` for both rasters. Stack `rsamp` and `rrandn` (name the stack `s`), mask that by `districts_ss`, and plot `s` using `plot_noaxes` (This function has been included in package `sdadata`, so you need to load it first). (Ref: Chunks 1, 3, 4, 16 in Unit2-Module2a)
 
 2. Disaggregate `s[[1]]` to a resolution of 0.025&deg;, using bilinear interpolation, calling the result `s2_1d`. Select all areas of `s2_1d` that have values > 35, creating a new raster `s2_1gt35`. Set the values of `s2_1gt35` that equal 0 to NA. Then convert the resulting raster into an `sf` object called `s2poly`. Plot the resulting polygons over `s2_1d`. (Ref: Chunks 10, 22, 37) 
 
-3. Create a new grid from the extent of `districts` that has a resolution of 0.5&deg; (call it `tzar`), assigning all cells a value of 1. Then recreate the `speciesr` dataset--a raster that sums the number of species falling within each grid cell. Mask the results using `districts`, and then plot the result onto a grey background of Tanzania. (Ref: Chunk 8, 37)
+3. Create a new grid from the extent of `districts` that has a resolution of 0.5&deg; (call it `tzar`), assigning all cells a value of 1. Then recreate the `speciesr` dataset--a raster that sums the number of species falling within each grid cell. Mask the results using `districts`, and then plot the result onto a grey background of Tanzania using `plot_noaxes` (Reminder: you may need to set argument `ext` for `plot_noaxes`). (Ref: Chunk 1, 8, 37)
 
 4. Convert the rasterized species counts (`speciesr`) back into an `sf` points object `speciesrpts`. Create a new version of `tzar` at 0.05&deg;, and then calculate the distance between these points and every other location in Tanzania, creating an output grid of distances, called `dist_to_species`, which you mask by `districts`. Plot `dist_to_species` in kilometers (i.e. divide it by 1000) using `plot_no_axes`, with `speciesrpts` overlaid as black solid circles. (Ref: Chunks 8, 10, 47)
 
-5. Use `geodata`'s `worldclim_country` function to grab WorldClim's mean temperature ("tavg") dataset at a resolution of 2.5 (note this is not degrees, but minutes of a degree), and download it to somewhere on your local disk. That will give a `SpatRaster` with 12 layers, with each layer representing the average monthly temperature for each grid cell on the planet. Calculate the annual mean temperature for each cell, and then mask the result using `districts` to get your final raster, `tzatmean`. Plot the result. (Ref: Chunk 17, 48)
+5. Use `geodata`'s `worldclim_country` function to grab WorldClim's mean temperature ("tavg") dataset at a resolution of 2.5 (note this is not degrees, but minutes of a degree), and download it to somewhere on your local disk. That will give a `SpatRaster` with 12 layers, with each layer representing the average monthly temperature for each grid cell on the planet. Calculate the annual mean temperature for each cell, and then mask the result using `districts` to get your final raster, `tzatmean`. Plot the result. (Ref: Chunk 17, 35)
 
-6. Classify the temperature data into three categories, low, medium, and high, using <20&deg;, 20-24&deg;, and >24&deg; as the break points for determining the classes.  Use the `reclassify` function with a reclassification matrix, which you should do like this:
+6. Classify the temperature data into three categories, low, medium, and high, using <20&deg;, 20-24&deg;, and >24&deg; as the break points for determining the classes.  Use the `classify` function with a reclassification matrix, which you should do like this:
 
     ```{r, eval = FALSE}
     trng <- global(tzatmean, range, na.rm = TRUE)
-    reclmat <- cbind(c(floor(trng[1]), 20, 24), c(20, 24, ceiling(trng[2])), 1:3)
+    cuts <- c(floor(trng[1, 1]), 20, 24, ceiling(trng[1, 2]))
     ```
 
-    Here `global` is helping to find the values of tmin and tmax, which respectively define the lower bound of the "low" class and the upper bound of the "high" class. What are the functions `floor` and `ceiling` doing (answer this in your vignette)? Call the reclassified temperature raster `tzatclass`. Make the map using `plot_noaxes` with a categorical legend, and using the colors "blue", "yellow2", and "red" for the three classes. (Ref: Chunk 26, 39)
+    Here `global` is helping to find the values of tmin and tmax, which respectively define the lower bound of the "low" class and the upper bound of the "high" class. What are the functions `floor` and `ceiling` doing (**answer this in your vignette**)? Call the reclassified temperature raster `tzatclass`. Make the map using `geom_spatraster` with a categorical legend (using `scale_fill_manual`), and using the colors "blue", "yellow2", and "red" for the three classes. (Ref: Chunk 26, 38)
 
-7. Recreate the `precip` layer (`precip <- bioclimz[["bio12"]]`), then calculate the mean precipitation within each temperature zone defined by `tzatclass` (hint: you will need to resample `precip` using function `resample`). Call the resulting matrix `z`. Map the mean zonal precipitation values in `z` onto each temperature zone (using the `subst` function with `tzatclass` as the target; remember that `zonal` returns a matrix, and that `subst` requires equal length vector for the "from" and "to" values. Call the new raster `tzaprecz`, and then plot it using `plot_noaxes`, with a custom legend (as done in Task 6), using the rounded zonal mean values (rounded) as the legend labels (`legend = round(z$mean)`). Use colors "yellow2", "green3", and "blue" for the three classes (Ref: Chunks 32, 33, 39)
+7. Recreate the `precip` layer (`precip <- bioclimz[["bio12"]]`, see the beginning chunk and chunk37 in unit2-module2b), then calculate the mean precipitation within each temperature zone defined by `tzatclass` (hint: you will need to resample `precip` using function `resample`). Call the resulting matrix `z`. Map the mean zonal precipitation values in `z` onto each temperature zone (using the `subst` function with `tzatclass` as the target; remember that `zonal` returns a matrix, and that `subst` requires equal length vector for the "from" and "to" values. Call the new raster `tzaprecz`, and then plot it using `geom_spatraster`, with a custom legend (as done in Task 6), using the rounded zonal precipitation values (rounded) as the legend labels (`labels = round(z$bio12)` in `scale_fill_manual`). Use colors "yellow2", "green3", and "blue" for the three classes. (Ref: Chunks 32, 33, 38)
 
-8. Use `geodata::elevation_30s` again to download the elevation raster for Tanzania (call it `dem`). Aggregate it to the same resolution as `bioclim`, using the default mean aggregation, and mask it using `districts`. Call that `dem5`. Use `terrain` to calculate aspect from `dem5` (call it `aspect`), selecting degrees as the output value. Then find all west-facing aspects (aspects >247.5 and <292.5), and all east facing aspects (>67.5 and <112.5), making new rasters respectively named `west` and `east`, e.g. `west <- aspect > 247.5 & aspect < 292.5)`. Stack these together with `aspect` and make a three-panel plot with `plot_noaxes` with titles "Aspect", "West", and "East". (Ref: Chunks 37, 42)
+8. Use `geodata::elevation_30s` again to download the elevation raster for Tanzania (call it `dem`). Aggregate it with `fact = 5` and call the result `dem5`. Use `terrain` to calculate aspect from `dem5` (call it `aspect`), selecting degrees as the output value. Then find all west-facing aspects (aspects >247.5 and <292.5), and all east facing aspects (>67.5 and <112.5), making new rasters respectively named `west` and `east`, e.g. `west <- aspect > 247.5 & aspect < 292.5)`. Stack these together with `aspect` and make a three-panel plot with `plot_noaxes` with titles "Aspect", "West", and "East". (Ref: Chunks 37, 42)
 
 9. Using a random seed of 1, create two random samples of 100 each. The first one should be collected from within the west-facing cells (i.e. only be drawn from cells in `west` that have a cell of one), and the second from east-facing cells. To do this, set the cells equal to 0 in `east` and `west` to NA (e.g. `west[west == 0] <- NA`). Once you have collected those, convert the resulting objects to `sf`, and use those two sets of points to extract temperature values from `tzatmean` into a tibble `temp_stats`, which is going to look this: 
 
     ```{r, eval=FALSE}
     temp_stats <- bind_rows(
-      tibble(temp = terra::extract(tzatmean, westpts)$mean, dat = "West"), 
-      tibble(temp = terra::extract(tzatmean, eastpts)$mean, dat = "East")
-    )
+        tibble(temp = terra::extract(tzatmean, westpts)[, 2], dat = "West"), 
+        tibble(temp = terra::extract(tzatmean, eastpts)[, 2], dat = "East")) %>% 
+        na.omit()
     ```
 
-    Then use `temp_stats` with `ggplot` to make side-by-side boxplots to compare the distributions of west and east facing temperatures, modeled on the example in Chunk 40 #4. (Ref: Chunks 37, 40)
+    Then use `temp_stats` with `ggplot` to make side-by-side boxplots to compare the distributions of west and east facing temperatures, modeled on the example in Chunk 40 #4. (Ref: Chunks 37, 40, 41)
 
-10. **Extra credit worth (5 points).** Extract the centroids from each district in `districts` (call it `dcent`), and reproject the points to Albers, using the `st_crs(roads)`. Reproject `tzatmean` to Albers also, making the new resolution (5 km, i.e. 5000 m), using bilinear interpolation (call it `tzatmeanalb`). Then use `dcent` to extract the temperature values from `tzatmeanalb` (add the values to `dcent` as a new variable "temp" using `mutate`). Use `gstat` to create an IDW model (call it `idw`). To make the IDW work, which isn't `sf` compliant, some extra work will be required, as shown below (this is the step needed after the extract of temperature values)
+10. **Extra credit worth (5 points).** Extract the centroids from each district in `districts` (call it `dcent`), and reproject the points to Albers, using the `st_crs(roads)` (You have to load `roads` first). Reproject `tzatmean` to Albers also, making the new resolution (5 km, i.e. 5000 m), using bilinear interpolation (call it `tzatmeanalb`). Then use `dcent` to extract the temperature values from `tzatmeanalb` (add the values to `dcent` as a new variable "temp" using `mutate`). Use `gstat` to create an IDW model (call it `idw`). To make the IDW work, which isn't `sf` compliant, some extra work will be required, as shown below (this is the step needed after the extract of temperature values)
 
     ```{r, eval = FALSE}
     dcent <- bind_cols(
@@ -659,14 +691,35 @@ There are no package functions to create for this assignment. All work is to be 
     ) %>% rename(x = X, y = Y)
     ```
     
-    This yields a `tibble` with columns *x* and *y* that are needed by `gstat`. After running `gstat`, map the interpolated temperatures using `tzatmeanalb` as a target object (it won't be overwritten) and `idw` as the model. Make sure you mask the result to the boundaries of Tanzania, using `tzatmeanalb` as the mask. Call the new interpolated, masked grid `tzatidw`. Plot the result side by side with `tzatmeanalb` for comparison using `plot_noaxes` with titles "Real Temperature" and "IDW Temperature". (Refs: Chunks 46, 49)
+    This yields a `tibble` with columns *x* and *y* that are needed by `gstat`. After running `gstat`, map the interpolated temperatures using `tzatmeanalb` as a target object (it won't be overwritten) and `idw` as the model. Make sure you mask the result (just the prediction) to the boundaries of Tanzania, using `tzatmeanalb` as the mask. Call the new interpolated, masked grid `tzatidw`. Plot the result side by side with `tzatmeanalb` for comparison using `plot_noaxes` with titles "Real Temperature" and "IDW Temperature". (Refs: Chunks 46)
 
 ## Assignment output
 Refer to [Unit 1 Module 4's assignment output section](unit1-module4.html#assignment-output) for submission instructions. The only differences are as follows:
 
-1. Your submission should be on a new side branch "a5";
-2. You should increment your package version number by 1 on the lowest number (e.g. from 0.0.2 to 0.0.3) in the DESCRIPTION;
-3. Do not worry about #3 in those instructions
+1. You should increment your package version number by 1 on the lowest number (e.g. from 0.1.3 to 0.1.4) in the DESCRIPTION;
+2. Revise the setting chunk in the beginning of your vignette to:
+
+    ````markdown
+    knitr::opts_chunk$set(
+      collapse = TRUE,
+      comment = "#>",
+      warning = FALSE,
+      message = FALSE,
+      fig.align = 'center',
+      fig.height = 4, 
+      fig.width = 6
+    )
+    ````
+    
+    to avoid unnecessary warning and message and set global values for figure height and width.
+
+3. Update vignette title and this line in the YAML header to `%\VignetteIndexEntry{Unit 2 Module 2 assignment 5}`. When you browse the vignettes of your package, you should see a page in your browser like this:
+
+```{r out.width = "100%", fig.align='center', echo=FALSE}
+include_graphics("fig/u2m2_a5.png")
+```
+
+4. Your submission should be on a new side branch "a5";
 
 ***
 <center>
