@@ -1,0 +1,109 @@
+/* =========================
+   Global text sizing
+   ========================= */
+
+/* Base slide text: set once, everything else scales from here */
+.reveal {
+  font-size: 32px;
+}
+
+/* Paragraphs and lists inherit the base size */
+.reveal p,
+.reveal li {
+  font-size: 1em;
+  margin: 5px 0;
+}
+
+.reveal h2 {
+  margin-bottom: 0.6em;
+}
+
+/* =========================
+   Headings
+   ========================= */
+
+/* Regular slide titles (exclude title slide) */
+.reveal .slides section:not(:first-of-type) h2,
+.reveal .slides section:not(:first-of-type) h3 {
+  color: #ffd166;
+}
+
+/* Optional: if you also want h1 on non-title slides colored */
+.reveal .slides section:not(:first-of-type) h1 {
+  color: #ffd166;
+}
+
+/* Title slide sizing and color
+   Quarto's title slide markup can vary, so target robust classes */
+.reveal .slides section:first-of-type .title,
+.reveal .slides section:first-of-type .subtitle {
+  color: white;
+}
+
+.reveal .slides section:first-of-type .title {
+  font-size: 3em;   /* roughly your 200% */
+}
+
+.reveal .slides section:first-of-type .subtitle {
+  font-size: 2.5em; /* roughly your 180% */
+  line-height: 1.5em;
+}
+
+/* =========================
+   Emphasis
+   ========================= */
+
+/* Bold emphasis color */
+.reveal strong,
+.reveal b {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+/* Hyperlinks */
+.reveal a {
+  color: #f28482;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reveal a:hover {
+  color: #ffd166; /* optional: match your accent on hover */
+}
+
+/* Utility class: use when you want explicit accent text */
+.red { color: #ff6f61; }
+
+/* =========================
+   Custom text classes
+   ========================= */
+
+.vlarge   { font-size: 2em; }
+.large    { font-size: 1.3em; }
+.large2   { font-size: 1em; }
+.small    { font-size: 0.7em; }
+.verysmall{ font-size: 0.5em; }
+
+/* =========================
+   Code styling
+   ========================= */
+
+/* Inline code (e.g., `x <- 1`) */
+.reveal :not(pre) > code {
+  background: #272626;
+  color: #ff6f61;
+  border-radius: 0;
+  padding: 1px 3px;
+  font-size: 0.9em;
+}
+
+/* Code blocks */
+.reveal pre code {
+  font-size: 0.8em;
+}
+
+/* Code output blocks (often verbose) */
+.reveal .cell-output pre {
+  font-size: 0.55em;
+}
