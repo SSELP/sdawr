@@ -1,104 +1,197 @@
 ---
-title: "Geospatial Analysis with R"
+title: "Spatial Data Analysis (450:320)"
 subtitle: "Class 1"
 format:
   revealjs:
-    theme: night                     # dark theme
+    theme: night # dark theme
     highlight-style: github
     highlight-lines: true
     incremental: false    
     embed-resources: true
 resources:
-  - figures/ghana-dem.png
+  - figures/colombia-dem.png
 title-slide-attributes:
-  data-background-image: figures/ghana-dem.png
-  data-background-position: center
-  data-background-size: 40%
-css: ["themes/class1.css"]
+  data-background-image: figures/colombia-dem.png
+  data-background-position: center top
+  data-background-size: contain
+css: ["themes/default.css"]
 editor_options: 
   chunk_output_type: console
 ---
 
+The code behind the title page map:
 
 ```{r}
-#| eval: FALSE
-  
+#| eval: false
+#| echo: true
+#| 
+# Load libraries
 library(terra)
 library(viridis)
-ghana_dem <- geodata::elevation_30s(country = "GHA", path = tempdir())
-png("docs/figures/ghana-dem.png", bg = "transparent", height = 4, 
-    width = 3, res = 300, units = "in")
+library(rnaturalearth)
+
+# Query DEM data for Colombia
+col_dem <- geodata::elevation_30s(country = "COL", path = tempdir())
+
+# Query boundary of Colombia
+col <- ne_countries(scale = 10, country = "Colombia")
+
+# Plot the map to a png file
+png("slides/figures/colombia-dem.png", bg = "transparent", height = 4, 
+    width = 4, res = 300, units = "in")
+
 par(mar = c(0, 0, 0, 0))
-plot(ext(ghana_dem), lty = 0, axes = FALSE)
-plot(ghana_dem, col = magma(100), add = TRUE, axes = FALSE, box = FALSE, 
+plot(ext(col_dem), lty = 0, axes = FALSE)
+plot(col$geometry, add = TRUE, border = "#f1faee", axes = FALSE, box = FALSE)
+plot(col_dem, col = magma(100), add = TRUE, axes = FALSE, box = FALSE, 
      legend = "bottom", 
      plg = list(title = "Elevation (m)", cex = 0.7, col = "white", lwd = 2, 
                 title.col = "white", title.cex = 0.7))
 dev.off()
 ```
 
----
+## Introduction
+
+- **Time:** Mon and Wed, 3:50 - 5: 10 PM
+- **Lecture:** Lucy Stone Hall (LSH-B266), Livingston campus
+- All course materials are hosted on its own site: [https://sselp.github.io/sdawr/](https://sselp.github.io/sdawr/)
+- Canvas will be used **only** for posting grades.
+
+## Communication
+
+- We will use Google Chat [450:230(SP2026)](https://chat.google.com/room/AAQANhTZypY?cls=7) for all course-related communication.
+    - Course announcements
+    - Deadline reminders
+    - Course readings, exercises and quizzes (these count toward participation!)
+    - Asking questions and **helping each other**!
+    - Direct messages for private conversations
+    
+## Need help?
+
+- **Google chat**: 
+    - Arafat and I will do our best to respond to messages daily.
+    - You are strongly encouraged to help and support each other.
+- **Office hours**:
+    - Lei Song: Mon and Wed, 2:50 - 3:50PM (or by appointment)
+    - Md Arafat Hassan (Your TA): TBD
+
+## Course Overview
+
+- **By the end of this class, you should**
+    - Be comfortable in working with R, including most common spatial functions
+    - Have a good sense of where R is headed as a language
+    - Know how to seek help properly when don't know how to do something
+    - Be using R as part of a ___reproducible___ workflow
+
+## What is a reproducible workflow?
+
+```{r}
+#| out.width: 80%
+#| echo: false
+#| fig.align: center
+knitr::include_graphics("figures/class1_reproducibility.png")
+```
+
+## Reproducibility
+
+:::: {.columns}
+::: {.column width = "49.5%"}
+
+```{r}
+#| echo: false
+#| fig.show: hold
+#| out.width: "100%"
+#| fig.align: center
+
+knitr::include_graphics("figures/class1_example1.png")
+```
+
+:::
+
+::: {.column width = "50.5%"}
+
+```{r}
+#| echo: false
+#| fig.show: hold
+#| out.width: "100%"
+#| fig.align: center
+
+knitr::include_graphics("figures/class1_example2.png")
+```
+
+:::
+::::
 
 ## Class Overview
 
-- By the end of this class, you should:
-    - Be comfortable in working with R, including most common geospatial functions
-    - Have a good sense of where R is headed as a language
-    - Know where to look when don't know how to do something
-    - Be using R as part of a ___reproducible___ workflow
-
-- Course approach
+- **Course approach**
     - (Largely) flipped model and emphasis on problem solving
         - Programming should be fun! (or at least intriguing)
-    - Lab and office hours as help sessions
 
----
-
-## Reproducibility 1
-
-```{r}
-#| out.width: 70%
-#| echo: false
-#| fig.align: center
-knitr::include_graphics("figures/class1_1.png")
-```
-
----
-
-## Reproducibility 2
-```{r}
-#| out.width: 50%
-#| echo: false
-#| fig.align: center
-knitr::include_graphics("figures/class1_2.png")
-```
----
-
+- **Basic policies**
+  - Attendance and communication
+  - Attention to detail
+  
 ## Course Requirements
 
-- Let's have a look at the [Syllabus](syllabus.html)
-- Basic policies
+What you need to do:
 
-    - Attendance and communication
-    - Attention to detail
+```{r}
+#| echo: false
+mat <- rbind(c("Practical assignments (n = 5)", "40%"), 
+             c("Participation", "10%"),
+             c("Overview for final project", "10%"),
+             c("Oral defense for final project", "10%"),
+             c("Final project", "30%"))
+colnames(mat) <- c("Component", "Grade")
+knitr::kable(mat)                 
+```
 
----
+## Practical Assignments
 
-## Projects
-- Projects [page](projects.html)
+**There will be a quiz-based grade refinement for all assignments.** Each assignment is followed by an in-class, closed-book quiz consisting of **10 questions** directly related to the programming tasks you just completed. Your final score for the assignment will be refined by your quiz performance according to the following tiers:
 
----
+```{r}
+#| echo: false
+mat <- rbind(c("8-10", "100%"), 
+             c("6-7", "85%"), 
+             c("4-5", "70%"), 
+             c("0-3", "60%"), 
+             c("Miss", "0%"))
+DF <- as.data.frame(mat, stringsAsFactors = FALSE)
+colnames(DF) <- c("Quiz Score", "Assignment credit")
+knitr::kable(DF, format = "html", align = "c")
+```
 
-## Getting Set Up/Homework
+## Final Project
 
-- [README](https://github.com/agroimpacts/geospaar)
+- Project overview (10%)
+- Project oral defense (10%)
+- Final project (30%)
+    - Presentation
+    - Final report
+- Check details on the page of [projects](https://sselp.github.io/sdawr/projects.html)
+
+## More Details
+
+- Check our course [Syllabus](https://sselp.github.io/sdawr/syllabus.html)
+- Grading will be based on the rubrics found under the [Assessment](https://sselp.github.io/sdawr/assessment.html)
+
+## Let's Get Set Up!
+
+- [Software installation](https://sselp.github.io/sdawr/software-installation.html)
+- **Very important!** Install everything this week. If you run into any issues, don’t hesitate to ask for help.
+
+## Homework
+
+- Go to our [course site](https://sselp.github.io/sdawr/) to check everything.
+- Read [Unit1-Module 1](https://sselp.github.io/sdawr/unit1-module1.html) before *section 3.2.1*, *section 1.7 Style* in [Syllabus](https://sselp.github.io/sdawr/syllabus.html), and cheatsheet of RStudio and R markdown on the page of [Cheatsheets](https://sselp.github.io/sdawr/cheatsheets.html).
 - Get yourself a GitHub account, if you haven't
 - Send us your GitHub name (**!!**)
-- Install all necessary software on your local computer(s).
-- Set up your [personal access token](https://agroimpacts.github.io/geospaar/git-github.html)
-- **Read** Unit1-Module 1 before section 3.2.1, section 1.7 Style in Syllabus, and cheatsheet of RStudio and R markdown.
+- Install all necessary software on your local computer(s) if you haven't today.
+- Set up your personal access token following section 2.1 in [Git/GitHub](https://sselp.github.io/sdawr/git-github.html)).
 
+## Next Class
 
-
-
-
+- R package and R markdown.
+- Set up your package!
