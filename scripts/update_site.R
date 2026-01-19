@@ -3,6 +3,7 @@
 library(here)
 library(stringr)
 library(rmarkdown)
+library(quarto)
 
 git_status <- system("git status --porcelain", intern = TRUE)
 
@@ -41,7 +42,7 @@ slide_paths <- gsub("^\\s*\\S+\\s+", "", changed_slides)
 slide_paths <- slide_paths[str_detect(slide_paths, "slides/")]
 
 index_fn <- here("docs/index.Rmd")
-current_class <- "Class 02"
+current_class <- "Class 01"
 
 if (length(slide_paths) == 0) {
     message("No changed qmd slides detected.")
@@ -52,6 +53,11 @@ if (length(slide_paths) == 0) {
         
         ohtml <- here("docs", paste0(gsub("\\.qmd", "", basename(fn)), ".html"))
         render(input = here(fn), output_file = ohtml)
+        quarto::quarto_render(
+            input = here(fn),
+            execute_dir = here("slides"))
+        
+        file.rename(gsub(".qmd", ".html", here(fn)), ohtml)
         
         # 3. Update index.Rmd
         cls_index <- str_extract(fn, "class[0-9]{1}")
@@ -66,7 +72,7 @@ if (length(slide_paths) == 0) {
             x[idx] <- gsub(cls_index, sprintf("[%s](%s)", cls_index, basename(ohtml)), x[idx])
         }
         
-        writeLines(x, file)
+        writeLines(x, index_fn)
     }
     
     # 4. Update current week
@@ -75,7 +81,8 @@ if (length(slide_paths) == 0) {
     if (!str_detect(x[idx], "current")){
         x[idx] <- gsub("<td>", "<td class=\"current\">", x[idx])
     }
-    writeLines(x, file)
+    writeLines(x, index_fn)
+    render(input = index_fn, output_file = gsub(".Rmd", ".html", index_fn))
     
     # 5. Git commit and push
     # Add the Rmds and the newly generated HTMLs
