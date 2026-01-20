@@ -131,4 +131,8 @@ This list is currently in thumbnail form, and will fill out during the next few 
 
 # Potential project list {#project-list}
 
-TBD
+## Species distribution modeling
+
+## Land cover and land change
+
+## Animal movement
