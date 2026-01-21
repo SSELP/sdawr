@@ -33,9 +33,19 @@ output: html_document
 
 ## Need Help?
 
-* **Office Hours:** Mon and Wed, 2:50PM - 3:50PM (right before class or by appointment).
-* **Location:** Lucy Stone Hall (B249), Livingston campus.
-* **Technical Issues:** Post in the Google Chat.
+**Office Hours (PLEASE put your name in the appointment schedule):** 
+
+**Lei Song**: 
+
+- Wed 1:50PM - 3:50PM (or by appointment), [SCHEDULE](https://docs.google.com/spreadsheets/d/1HxtHzab6ZUVdZJVW2_TJWmkj-H2rkOrxBUhra0G8StU/edit?usp=share_link)
+- Lucy Stone Hall (B249), Livingston campus.
+    
+**Md Arafat Hassan**: 
+
+- Mon 2:30PM to 3:30PM, [SCHEDULE](https://docs.google.com/spreadsheets/d/1MlJA2WmdrRXkRJxYu_Ymo7qFwSFlwQzf3w9X-xJ25Vc/edit?gid=0#gid=0)
+- Lucy Stone Hall (B272), Livingston campus.
+    
+**Technical Issues:** Post in the Google Chat.
 
 ## Getting start!
 
