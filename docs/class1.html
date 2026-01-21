@@ -1365,20 +1365,25 @@ margin-right: 0; }
 </section>
 <section id="lets-get-set-up-1" class="slide level2">
 <h2>Let’s Get Set Up!</h2>
-<p>Open RStudio, copy these lines into the Console, and hit Enter/Return!</p>
+<ul>
+<li>Open RStudio, copy these lines into the Console</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="co"># Load libraries</span></span>
 <span id="cb2-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;sf&quot;</span>, <span class="st">&quot;terra&quot;</span>, <span class="st">&quot;geodata&quot;</span>))</span>
 <span id="cb2-3"><a href></a><span class="fu">library</span>(terra)</span>
 <span id="cb2-4"><a href></a></span>
 <span id="cb2-5"><a href></a><span class="co"># Query DEM data for Colombia</span></span>
-<span id="cb2-6"><a href></a>col_dem <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">&quot;COL&quot;</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb2-6"><a href></a>col_dem <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">&quot;COL&quot;</span>, <span class="at">res =</span> <span class="dv">10</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
 <span id="cb2-7"><a href></a></span>
 <span id="cb2-8"><a href></a><span class="co"># Plot the map to a png file</span></span>
 <span id="cb2-9"><a href></a><span class="fu">plot</span>(col_dem, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p> </p>
-<p>Share a screenshot of your map in our Google Chat!</p>
+<ul>
+<li>Replace “COL” with the country <a href="https://eapis.cbp.dhs.gov/eapis-enroll/countryCodes.do">code</a> you are interested in.</li>
+<li>and hit Enter/Return!</li>
+<li>Share a screenshot of your map in our Google Chat!</li>
+</ul>
 </section>
 <section id="homework" class="slide level2">
 <h2>Homework</h2>
