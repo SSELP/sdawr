@@ -183,7 +183,7 @@ knitr::kable(DF, format = "html", align = "c")
 
 ## Let's Get Set Up!
 
-Open RStudio, copy these lines into the Console, and hit Enter/Return!
+- Open RStudio, copy these lines into the Console
 
 ```{r}
 #| eval: false
@@ -194,15 +194,15 @@ install.packages(c("sf", "terra", "geodata"))
 library(terra)
 
 # Query DEM data for Colombia
-col_dem <- geodata::elevation_30s(country = "COL", path = tempdir())
+col_dem <- geodata::elevation_30s(country = "COL", res = 10, path = tempdir())
 
 # Plot the map to a png file
 plot(col_dem, axes = FALSE, box = FALSE)
 ```
 
-&nbsp;
-
-Share a screenshot of your map in our Google Chat!
+- Replace "COL" with the country [code](https://eapis.cbp.dhs.gov/eapis-enroll/countryCodes.do) you are interested in.
+- and hit Enter/Return!
+- Share a screenshot of your map in our Google Chat!
 
 ## Homework
 
