@@ -77,6 +77,9 @@ if (length(slide_paths) == 0) {
     
     # 4. Update current week
     x <- readLines(index_fn)
+    idx <- grep("<td class=\"current\">", x)
+    x[idx] <- gsub("<td class=\"current\">", "<td>", x[idx])
+    
     idx <- grep(current_class, x)
     if (!str_detect(x[idx], "current")){
         x[idx] <- gsub("<td>", "<td class=\"current\">", x[idx])
