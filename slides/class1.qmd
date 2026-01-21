@@ -72,8 +72,9 @@ dev.off()
     - Arafat and I will do our best to respond to messages daily.
     - You are strongly encouraged to help and support each other.
 - **Office hours**:
-    - Lei Song: Mon and Wed, 2:50 - 3:50PM (or by appointment)
-    - Md Arafat Hassan (Your TA): TBD
+    - Lei Song: Wed, 1:50 - 3:50PM (or by appointment)
+    - Md Arafat Hassan (Your TA): Mon 2:30PM - 3:30PM
+    - To streamline the process, please use the shared Google Sheet to schedule your appointment.
 
 ## Course Overview
 

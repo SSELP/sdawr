@@ -5,6 +5,7 @@
 /* Base slide text: set once, everything else scales from here */
 .reveal {
   font-size: 32px;
+  color: #FAF0E6;
 }
 
 /* Paragraphs and lists inherit the base size */
