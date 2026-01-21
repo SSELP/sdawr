@@ -26,6 +26,7 @@ The code behind the title page map:
 #| echo: true
 #| 
 # Load libraries
+# install.packages(c("sf", "terra", "viridis", "rnaturalearth"))
 library(terra)
 library(viridis)
 library(rnaturalearth)
@@ -37,9 +38,6 @@ col_dem <- geodata::elevation_30s(country = "COL", path = tempdir())
 col <- ne_countries(scale = 10, country = "Colombia")
 
 # Plot the map to a png file
-png("slides/figures/colombia-dem.png", bg = "transparent", height = 4, 
-    width = 4, res = 300, units = "in")
-
 par(mar = c(0, 0, 0, 0))
 plot(ext(col_dem), lty = 0, axes = FALSE)
 plot(col$geometry, add = TRUE, border = "#f1faee", axes = FALSE, box = FALSE)
@@ -47,7 +45,6 @@ plot(col_dem, col = magma(100), add = TRUE, axes = FALSE, box = FALSE,
      legend = "bottom", 
      plg = list(title = "Elevation (m)", cex = 0.7, col = "white", lwd = 2, 
                 title.col = "white", title.cex = 0.7))
-dev.off()
 ```
 
 ## Introduction
@@ -123,9 +120,10 @@ knitr::include_graphics("figures/class1_example2.png")
 :::
 ::::
 
-## Class Overview
+## Course Overview
 
 - **Course approach**
+    - The order of the lecture might be occasionally non-linear, particularly the first two weeks.
     - (Largely) flipped model and emphasis on problem solving
         - Programming should be fun! (or at least intriguing)
 
@@ -183,6 +181,29 @@ knitr::kable(DF, format = "html", align = "c")
 - [Software installation](https://sselp.github.io/sdawr/software-installation.html)
 - **Very important!** Install everything this week. If you run into any issues, don’t hesitate to ask for help.
 
+## Let's Get Set Up!
+
+Open RStudio, copy these lines into the Console, and hit Enter/Return!
+
+```{r}
+#| eval: false
+#| echo: true
+#| 
+# Load libraries
+install.packages(c("sf", "terra", "geodata"))
+library(terra)
+
+# Query DEM data for Colombia
+col_dem <- geodata::elevation_30s(country = "COL", path = tempdir())
+
+# Plot the map to a png file
+plot(col_dem, axes = FALSE, box = FALSE)
+```
+
+&nbsp;
+
+Share a screenshot of your map in our Google Chat!
+
 ## Homework
 
 - Go to our [course site](https://sselp.github.io/sdawr/) to check everything.
@@ -190,7 +211,7 @@ knitr::kable(DF, format = "html", align = "c")
 - Get yourself a GitHub account, if you haven't
 - Send us your GitHub name (**!!**)
 - Install all necessary software on your local computer(s) if you haven't today.
-- Set up your personal access token following section 2.1 in [Git/GitHub](https://sselp.github.io/sdawr/git-github.html)).
+- (Optional) Set up your personal access token following section 2.1 in [Git/GitHub](https://sselp.github.io/sdawr/git-github.html)).
 
 ## Next Class
 

@@ -1142,28 +1142,25 @@ margin-right: 0; }
 <p>The code behind the title page map:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Load libraries</span></span>
-<span id="cb1-2"><a href></a><span class="fu">library</span>(terra)</span>
-<span id="cb1-3"><a href></a><span class="fu">library</span>(viridis)</span>
-<span id="cb1-4"><a href></a><span class="fu">library</span>(rnaturalearth)</span>
-<span id="cb1-5"><a href></a></span>
-<span id="cb1-6"><a href></a><span class="co"># Query DEM data for Colombia</span></span>
-<span id="cb1-7"><a href></a>col_dem <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">&quot;COL&quot;</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
-<span id="cb1-8"><a href></a></span>
-<span id="cb1-9"><a href></a><span class="co"># Query boundary of Colombia</span></span>
-<span id="cb1-10"><a href></a>col <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="dv">10</span>, <span class="at">country =</span> <span class="st">&quot;Colombia&quot;</span>)</span>
-<span id="cb1-11"><a href></a></span>
-<span id="cb1-12"><a href></a><span class="co"># Plot the map to a png file</span></span>
-<span id="cb1-13"><a href></a><span class="fu">png</span>(<span class="st">&quot;slides/figures/colombia-dem.png&quot;</span>, <span class="at">bg =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">height =</span> <span class="dv">4</span>, </span>
-<span id="cb1-14"><a href></a>    <span class="at">width =</span> <span class="dv">4</span>, <span class="at">res =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>)</span>
-<span id="cb1-15"><a href></a></span>
-<span id="cb1-16"><a href></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb1-17"><a href></a><span class="fu">plot</span>(<span class="fu">ext</span>(col_dem), <span class="at">lty =</span> <span class="dv">0</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-18"><a href></a><span class="fu">plot</span>(col<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">border =</span> <span class="st">&quot;#f1faee&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-19"><a href></a><span class="fu">plot</span>(col_dem, <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">100</span>), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb1-20"><a href></a>     <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>, </span>
-<span id="cb1-21"><a href></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Elevation (m)&quot;</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb1-22"><a href></a>                <span class="at">title.col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">title.cex =</span> <span class="fl">0.7</span>))</span>
-<span id="cb1-23"><a href></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href></a><span class="co"># install.packages(c(&quot;sf&quot;, &quot;terra&quot;, &quot;viridis&quot;, &quot;rnaturalearth&quot;))</span></span>
+<span id="cb1-3"><a href></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-4"><a href></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-5"><a href></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb1-6"><a href></a></span>
+<span id="cb1-7"><a href></a><span class="co"># Query DEM data for Colombia</span></span>
+<span id="cb1-8"><a href></a>col_dem <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">&quot;COL&quot;</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb1-9"><a href></a></span>
+<span id="cb1-10"><a href></a><span class="co"># Query boundary of Colombia</span></span>
+<span id="cb1-11"><a href></a>col <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="dv">10</span>, <span class="at">country =</span> <span class="st">&quot;Colombia&quot;</span>)</span>
+<span id="cb1-12"><a href></a></span>
+<span id="cb1-13"><a href></a><span class="co"># Plot the map to a png file</span></span>
+<span id="cb1-14"><a href></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb1-15"><a href></a><span class="fu">plot</span>(<span class="fu">ext</span>(col_dem), <span class="at">lty =</span> <span class="dv">0</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-16"><a href></a><span class="fu">plot</span>(col<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">border =</span> <span class="st">&quot;#f1faee&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-17"><a href></a><span class="fu">plot</span>(col_dem, <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">100</span>), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb1-18"><a href></a>     <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>, </span>
+<span id="cb1-19"><a href></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Elevation (m)&quot;</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb1-20"><a href></a>                <span class="at">title.col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">title.cex =</span> <span class="fl">0.7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="introduction" class="slide level2">
@@ -1245,11 +1242,12 @@ margin-right: 0; }
 </div>
 </div></div>
 </section>
-<section id="class-overview" class="slide level2">
-<h2>Class Overview</h2>
+<section id="course-overview-1" class="slide level2">
+<h2>Course Overview</h2>
 <ul>
 <li><strong>Course approach</strong>
 <ul>
+<li>The order of the lecture might be occasionally non-linear, particularly the first two weeks.</li>
 <li>(Largely) flipped model and emphasis on problem solving
 <ul>
 <li>Programming should be fun! (or at least intriguing)</li>
@@ -1365,6 +1363,23 @@ margin-right: 0; }
 <li><strong>Very important!</strong> Install everything this week. If you run into any issues, don’t hesitate to ask for help.</li>
 </ul>
 </section>
+<section id="lets-get-set-up-1" class="slide level2">
+<h2>Let’s Get Set Up!</h2>
+<p>Open RStudio, copy these lines into the Console, and hit Enter/Return!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="co"># Load libraries</span></span>
+<span id="cb2-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;sf&quot;</span>, <span class="st">&quot;terra&quot;</span>, <span class="st">&quot;geodata&quot;</span>))</span>
+<span id="cb2-3"><a href></a><span class="fu">library</span>(terra)</span>
+<span id="cb2-4"><a href></a></span>
+<span id="cb2-5"><a href></a><span class="co"># Query DEM data for Colombia</span></span>
+<span id="cb2-6"><a href></a>col_dem <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">&quot;COL&quot;</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb2-7"><a href></a></span>
+<span id="cb2-8"><a href></a><span class="co"># Plot the map to a png file</span></span>
+<span id="cb2-9"><a href></a><span class="fu">plot</span>(col_dem, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">box =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p> </p>
+<p>Share a screenshot of your map in our Google Chat!</p>
+</section>
 <section id="homework" class="slide level2">
 <h2>Homework</h2>
 <ul>
@@ -1373,7 +1388,7 @@ margin-right: 0; }
 <li>Get yourself a GitHub account, if you haven’t</li>
 <li>Send us your GitHub name (<strong>!!</strong>)</li>
 <li>Install all necessary software on your local computer(s) if you haven’t today.</li>
-<li>Set up your personal access token following section 2.1 in <a href="https://sselp.github.io/sdawr/git-github.html">Git/GitHub</a>).</li>
+<li>(Optional) Set up your personal access token following section 2.1 in <a href="https://sselp.github.io/sdawr/git-github.html">Git/GitHub</a>).</li>
 </ul>
 </section>
 <section id="next-class" class="slide level2">
