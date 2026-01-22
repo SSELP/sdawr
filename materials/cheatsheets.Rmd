@@ -24,7 +24,7 @@ vignette: >
 
 # Cheatsheets
 - [RStudio IDE](https://raw.githubusercontent.com/rstudio/cheatsheets/master/rstudio-ide.pdf)
-- [R markdown](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+- [R markdown](https://rmarkdown.rstudio.com/lesson-15.HTML)
 - [Base R](https://raw.githubusercontent.com/rstudio/cheatsheets/master/base-r.pdf)
 - [Git/GitHub](https://education.github.com/git-cheat-sheet-education.pdf)
 - [Git/GitHub2](https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet)
