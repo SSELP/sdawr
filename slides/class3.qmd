@@ -186,7 +186,7 @@ knitr::include_graphics("figures/pkg_structure.png")
 knitr::include_graphics("figures/pkg_other.png")
 ```
 
-## Package strucure
+## Package structure
 
 You main tasks for the assignment package are update:
 
