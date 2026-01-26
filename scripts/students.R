@@ -10,8 +10,8 @@ load_roster <- function(fn){
 
 course_dir <- "/Users/leisong/Library/CloudStorage/Dropbox/teaching/Rutgers/sda320"
 
-old_roster <- load_roster(file.path(cours_dir, "excelSectionReportAllSections.xls"))
-new_roster <- load_roster(file.path(cours_dir, "excelSectionReportAllSections_21_01.xls"))
+old_roster <- load_roster(file.path(course_dir, "excelSectionReportAllSections_21_01.xls"))
+new_roster <- load_roster(file.path(course_dir, "excelSectionReportAllSections_23_01.xls"))
 
 drop_students <- setdiff(old_roster, new_roster)
 add_students <- setdiff(new_roster, old_roster)

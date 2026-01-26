@@ -108,8 +108,6 @@ include_graphics("fig/u1m1-tweet.png")
 Packages are another tool of reproducibility that we will learn to use in this class. Packages are bundles of code and documentation that provide a specific functionality for a particular language. Both `python` and `R` make extensive use of packages, as the utility of both languages depends heavily on user-contributed code. Code contributions are made through packages, which standardize and formalize the user-developed functions so that they work properly within the language, and can be easily used by the broader community. 
 Packages are also useful even if you don't intend to contribute code to the community, as they have a particular structure that can be useful for helping to organize and formalize your thinking, data analysis, and reporting. They can also save you time as they make it much easier to access functions that you have developed for one project and apply them to another. I learned these ideas from reading Hillary Parker's [blog post on personal R packages](https://hilaryparker.com/2013/04/03/personal-r-packages/), as well as Karl Broman's [R package primer](http://kbroman.org/pkg_primer/pages/why.html), and of course Hadley Wickham's [introduction](https://r-pkgs.org/introduction.html) to his *R packages* book (please read all aforementioned links).
 
-I have adopted the package structure for organizing the analyses and writing of each of my papers. For example, two of my most recent papers are structured as `R` packages that can be installed from their GitHub repositories (which can be found [here](https://github.com/agroimpacts/ecoscales) and [here](https://github.com/agroimpacts/croplandbias)). These contain all the code used to do the analyses, create the figures, and full (non-journal formatted) versions of the manuscripts. And (as you may have noticed by now), this class is also structured as an `R` package.
-
 ## Setting up
 
 ### Installations
@@ -505,7 +503,7 @@ A function can be written in any script, and then live only in that script. But 
 
 She goes on to provide a handy tutorial for using `devtools` commands to create a package, which I followed in creating my first package. In our case, we have started out with an RStudio project, so we will proceed a bit differently, but basically follow her tutorial from step 2 onwards, using the example function we created above. So, in RStudio, go to File > New File > R script (or CTRL(CMD, if Mac)-Shift-N), and copy the full body (all 9 lines) of `my_number_checker` function above into the file, and then save it into the R folder of your project as `my_number_checker.R` 
 
-Straightforward, but now, as Hillary points out, you will need to add documentation so that you can understand what your function does. First, you will have to install the `roxygen2` package, if you don't already have it (it comes with the `docker` image). Next, copy and paste the lines below *above* the body of the function in `my_number_checker.R`:
+Straightforward, but now, as Hillary points out, you will need to add documentation so that you can understand what your function does. First, you will have to install the `roxygen2` package, if you don't already have it. Next, copy and paste the lines below *above* the body of the function in `my_number_checker.R`:
 
 ```
 #' A number-checking function
