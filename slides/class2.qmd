@@ -13,7 +13,7 @@ resources:
 title-slide-attributes:
   data-background-image: figures/lucy_stone_hall.png
   data-background-position: center
-  data-background-size: 60%
+  data-background-size: 50%
 css: ["themes/default.css"]
 editor_options: 
   chunk_output_type: console
@@ -260,5 +260,5 @@ More details can go [here](https://bookdown.org/yihui/rmarkdown/html-document.ht
 
 - Make sure your package is alive locally and remotely.
 - Invite me and Arafat as the collaborator for your repo.
-- Read and try the **rmarkdown_demo**.
+- Read and try the [rmarkdown_demo](https://sselp.github.io/sdawr//rmarkdown_demo.Rmd). The knitted html is like [this](https://sselp.github.io/sdawr//rmarkdown_demo.html).
 - Read **Section 1-2** in **Unit 1, Module 2**.

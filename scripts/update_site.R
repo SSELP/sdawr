@@ -42,7 +42,7 @@ slide_paths <- gsub("^\\s*\\S+\\s+", "", changed_slides)
 slide_paths <- slide_paths[str_detect(slide_paths, "slides/")]
 
 index_fn <- here("docs/index.Rmd")
-current_class <- "Class 01"
+current_class <- "Class 02"
 
 if (length(slide_paths) == 0) {
     message("No changed qmd slides detected.")

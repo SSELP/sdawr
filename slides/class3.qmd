@@ -14,7 +14,7 @@ resources:
 title-slide-attributes:
   data-background-image: figures/random-raster.png
   data-background-position: center
-  data-background-size: 80%
+  data-background-size: 50%
 css: ["themes/default.css"]
 editor_options: 
   chunk_output_type: console
@@ -101,7 +101,7 @@ There are 6 atomic data types (or we could say classes of objects):
   * e.g. `is.na(y)`, `is.nan(y)`, `is.null(y)`, `is.infinite(y)`, `is.finite(y)`.
 
 ## Fundamentals of R
-### Dat type converting
+### Data type converting
 
 - `as.xxx(x)`:
 
@@ -118,6 +118,9 @@ There are 6 atomic data types (or we could say classes of objects):
   
       - Matrices have 2 dimensions.
       - Arrays could have higher dimensions.
+
+## Fundamentals of R
+### Vectors
 
 - Lists
 
@@ -149,8 +152,8 @@ Any objects have attributes. If nothing is set, the attributes of an object is `
 - `names`/`dimnames`/`rownames`/`colnames`
 - Overall `length`, and more specifically `dim` for matrix and array. Resetting `dim` attribute can convert a vector to matrix/array or reconstruct a matrix/array. 
 - `class`: it is a bit different from function `class`.
-- function `attr(object, attr_name)` can be used to query or set an attribute of an object. 
-- function `attributes(x)` can be used to get all attributes of an object.
+- function `attr(object, attr_name)` can query or set an attribute of an object. 
+- function `attributes(x)` can get all attributes of an object.
 - function `str(object)` will print out a nice overview of an object.
 
 ## 
