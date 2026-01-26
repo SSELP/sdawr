@@ -1,5 +1,5 @@
 ---
-title: "Geospatial Analysis with R"
+title: "Spatial Data Analysis (450:320)"
 subtitle: "Class 3"
 format:
   revealjs:
@@ -14,81 +14,151 @@ resources:
 title-slide-attributes:
   data-background-image: figures/random-raster.png
   data-background-position: center
-  data-background-size: 40%
-css: ["themes/class1.css"]
+  data-background-size: 80%
+css: ["themes/default.css"]
 editor_options: 
   chunk_output_type: console
 ---
 
+The code behind the title page map:
 
 ```{r}
 #| echo: TRUE
 #| eval: FALSE
-  
-library(raster)
-library(ggplot2)
-library(rasterVis)
-library(gstat)
 
-# dummy grids, with spatial autocorrelation, normalized
-xy <- expand.grid(1:50, 1:50)
-names(xy) <- c('x', 'y')
+lapply(c("sf", "terra", "ggplot2", "rasterVis", "gstat"), 
+       library, character.only = TRUE)
 
-set.seed(2)  # 2
-gdummy <- gstat(formula = z ~ 1, locations = ~x + y, dummy = TRUE, beta = 1,
-                model = vgm(psill = 0.35, range = 30, model = 'Sph'), 
-                nmax = 20)
+# 1. Create a 50 * 50 template SpatRaster
+xy_rast <- rast(
+    ncols = 50, nrows = 50, xmin = 0.5, xmax = 50.5, ymin = 0.5, ymax = 50.5)
 
-yy <- predict(gdummy, newdata = xy, nsim = 4)
-gridded(yy) <- ~x + y
-yy <- raster(yy)
-yy <- focal(yy, w = matrix(1, 3, 3), mean, na.rm = TRUE, pad = TRUE)
+# 2. Define the gstat object and interpolate to the raster
+set.seed(2)
+gdummy <- gstat(
+    formula = z ~ 1, locations = ~x + y, dummy = TRUE, beta = 1,
+    model = vgm(psill = 0.35, range = 30, model = 'Sph'), nmax = 20)
+r <- interpolate(xy_rast, gdummy, nsim = 1)
 
-png("inst/slides/figures/random-raster.png", height = 5, width = 5, res = 300,
-    units = "in", bg = "transparent")
-lattice.options(layout.heights = list(bottom.padding = list(x = 0), 
-                                      top.padding = list(x = 0)),
-                layout.widths = list(left.padding = list(x = 0), 
-                                     right.padding = list(x = 0)))
-levelplot(yy, scales = list(draw = FALSE), axes = FALSE,  
-          colorkey = list(axis.line = list(col = "white"), 
-                          axis.text = list(col = "white")))
-dev.off()
+# Plot
+levelplot(
+    r, scales = list(draw = FALSE), axes = FALSE,  
+    colorkey = list(axis.line = list(col = "#FAF0E6"), 
+                    axis.text = list(col = "#FAF0E6")))
 ```
 
-## Today's Topics
+## Class overview
 
-- Trouble-shooting
+- Fundamentals of `R` (data types and objects, and basic operations)
 - `R` packages
-- `git` / GitHub
+- More on Git/GitHub
 - Overview of assignment
-- Keeping up to date with class materials
-- Tips and tricks for productivity
-  - Seeking help as a skillset
 
----
+## Fundamentals of R
 
-## R packages
+Q: Why do we need to learn the fundamentals of R for working with spatial data? Hint:
 
-- File structure
-- Where packages live
-- library versus package
-- Exported functions, loading packages
+- What are the two main data types in GIS?
+- What do they look like?
 
----
+## Fundamentals of R
+### Data types
 
-## Types of packages
+There are 6 atomic data types (or we could say classes of objects):
 
-```{r}
-#| out.width: "55%"
-#| fig.align: 'center'
-#| echo: FALSE
-#| fig.cap: "http://r-pkgs.had.co.nz/package.html"
+- character, e.g. `'hello world'`, `'abc'`
+- double (real or decimal), e.g. `10`, `3.14`, `1e10`
+- integer, e.g. `1L`
+- logical, e.g. `TRUE`, `FALSE`, `T`, `F`
+- complex, e.g. `1 + 3i` (not commonly used by us)
+- *raw* (rarely used by us)
 
-knitr::include_graphics("http://r-pkgs.had.co.nz/diagrams/package-files.png") 
+## Fundamentals of R
+### Other special data types
+
+- `NULL`: means not exist
+- Missing data: `NA`. It is a special logical type, but can be convert to the specific type automatically when it is used with other data types.
+- Infinity: `Inf` (e.g. `1 / 0`) and `-Inf` (e.g. `-1 / 0`. They are special double type.
+- Undefined value: `NaN`. It is also a special double type. (e.g. `0 / 0`)
+
+## Fundamentals of R
+### Other special data types
+
+- Date: `as.Date('1970-1-5')`
+- Time: `as.POSIXct('1970-1-5')`
+- Factor: factor could be treated as integers with labels for categorical data. Function `levels(f)` can get these labels.
+
+## Fundamentals of R
+### Data type checking
+
+- `typeof(x)`
+- `is.xxx(x)`: 
+
+  * e.g. `is.double(x)`, `is.integer(x)`, `is.logical(x)`, `is.character(x)`, `is.complex(x)`, `is.raw(x)`, `is.factor`
+  
+  * `is.numeric(x)` exams that objects behave like numbers.
+  
+  * e.g. `is.na(y)`, `is.nan(y)`, `is.null(y)`, `is.infinite(y)`, `is.finite(y)`.
+
+## Fundamentals of R
+### Dat type converting
+
+- `as.xxx(x)`:
+
+  * e.g. `as.numeric(x)`, `as.double(x)`, `as.character(x)`, `as.integer(x)`, `as.logical(x)`, `as.complex(x)`, `as.raw(x)`, `as.factor(x)`, `as.Date(x)`, `as.POSIXct(x)`.
+  
+- logical < integer < double < character
+
+## Fundamentals of R
+### Vectors
+- Atomic vectors (usually refer to vector):
+
+  * A vector is a sequence of objects of the **same class**.
+  * Arrays and matrices are special type of vectors with dimensions.
+  
+      - Matrices have 2 dimensions.
+      - Arrays could have higher dimensions.
+
+- Lists
+
+  * Superficially for users, a list can contain objects of **different classes**.
+  * Like vectors, a list can also be converted to list-matrix or list-array by defining dimensions.
+  * `data.frame` and `tibble` are two S3 object-oriented objects that are created upon `list` for tabular data.
+
+## Fundamentals of R
+### Vectors
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/class2_vector.png")
 ```
 
-## Installing packages
+## Fundamentals of R
+### Creation
+
+  * Function `vector(mode, length)` can be used to initialize a vector of specific data type with defined length.
+  * More commonly, function `c` (short for concatenate) can be used to create vectors.
+  * `cbind` and `rbind` are functions can bind `vector`s to a `matrix`. Function `matrix(data_vector, nrow, ncol)` also can be used to create a matrix, and `array(data_vector, dim)` for array.
+  * Anything can feed in function `list` to create a list, the same as `data.frame`.
+  * `is.xxx(x)` and `as.xxx(x)` also works for vector, matrix, array, list, and data.frame.
+
+## Fundamentals of R
+### Atrributes
+
+Any objects have attributes. If nothing is set, the attributes of an object is `NULL`. Some common attributes include:
+
+- `names`/`dimnames`/`rownames`/`colnames`
+- Overall `length`, and more specifically `dim` for matrix and array. Resetting `dim` attribute can convert a vector to matrix/array or reconstruct a matrix/array. 
+- `class`: it is a bit different from function `class`.
+- function `attr(object, attr_name)` can be used to query or set an attribute of an object. 
+- function `attributes(x)` can be used to get all attributes of an object.
+- function `str(object)` will print out a nice overview of an object.
+
+## 
+
+- I'll leave you with a short homework to review what we’ve learned.
+- Now, let’s get back to your package.
+
+## Installing and using packages
 
 ```{r}
 #| echo: false
@@ -98,39 +168,55 @@ knitr::include_graphics("http://r-pkgs.had.co.nz/diagrams/package-files.png")
 
 knitr::include_graphics("https://r-pkgs.org/diagrams/install-load.png") 
 ```
----
 
-## `git` / GitHub
+## Package structure
 
-- Commits, pushes, pulls
-- Branching
-- Merging
+General common parts of a package.
 
----
-
-```{r}
-#| echo: false
-#| fig-cap: "kevintshoemaker.github.io/StatsChats/GIT_tutorial"
-#| fig-align: center
-#| out-width: 70%
-
-knitr::include_graphics("https://kevintshoemaker.github.io/StatsChats/GIT1.png")
-```
----
-
-```{r}
-#| echo: false
-#| fig-cap: "kevintshoemaker.github.io/StatsChats/GIT_tutorial"
-#| fig-align: center
-#| out-width: 70%
-
-knitr::include_graphics("https://kevintshoemaker.github.io/StatsChats/GIT2.png")
+```{r, out.width = "70%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/pkg_structure.png")
 ```
 
----
+## Package structure
 
+```{r, out.width = "55%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/pkg_other.png")
+```
 
-## Our Branching Model
+## Package strucure
+
+You main tasks for the assignment package are update:
+
+- DESCIPTION file to incorporate updated info (e.g. your package version)
+- `.R` files in the **R/** folder (e.g. write functions)
+- `.Rmd` files in the **vignettes/** folder (main files for assignments)
+
+## Add a function to your package
+
+- Why we need functions and packages?
+    - Reuse -> Reproducibility
+- Add a `my_number_checker` function to your package (let me show you first)
+- Add a vignette to introduce the function
+    - Use `usethis::use_vignette("vignette_name")`
+- Update and install the package locally.
+- Git add and commit **all** updates.
+
+## Git branching
+
+- Create a new branch named `test` and push to the remote repo
+    - `git branch test` (create a new branch)
+    - `git checkout test` (switch to the new branch)
+    - `git push origin test` (push the new branch to GitHub)
+- Have a look your remote repo on GitHub
+- Install your package from GitHub
+    - In R Console, run 
+    
+    ```
+    devtools::install_github("your repo", build_vignettes = TRUE, 
+                         auth_token = "paste_your_github_token_here")
+    ```
+    
+## Our Branching Model for assignments
 
 ```{r}
 #| echo: false
@@ -140,85 +226,19 @@ knitr::include_graphics("https://kevintshoemaker.github.io/StatsChats/GIT2.png")
 knitr::include_graphics("figures/class3_1.png")
 ```
 
----
+## Delete a branch
 
-## Keeping current
+- Delete the branch `test` locally and remotely
+    - `git checkout main` (park to another branch)
+    - `git branch -d test` (delete locally)
+    - `git push origin --delete test` (delete remotely)
 
-- Using `git` and GitHub
-- Following [4.3.4.](https://agroimpacts.github.io/geospaar/unit1-module1.html#cloning-the-remote-repo) of Unit 1 - Module 1
+## Homework
 
----
-
-## [Assignment 1]("https://agroimpacts.github.io/geospaar/unit1-module1.html#unit-assignment")
-
-- Due Monday (29th) 
-
----
-
-## Tips and Tricks
-
-- Tab completion and shortcuts
-- Reusing code
-- Code syntax
-- [Posting guide](https://www.r-project.org/posting-guide.html)
-
----
-
-## Knowing how to get help as a skillset
-
-- Slack posting guide
-- Getting help via the search engine
-- (Eventually) posting to listserves
-
----
-
-## Search Engine Science
-
-- Sometimes you just need the error message
-
-```{r}
-#| echo: false
-#| fig-align: center
-#| out-width: 90%
-
-knitr::include_graphics("figures/class3_4.jpeg")
-```
-
----
-
-## Search Engine Science
-
-- Sometimes you need to search
-
-  ```
-  fatal: unable to access 'https://github.com/agroimpacts/xyz346.git/': 
-  error setting certificate verify locations:
-   CAfile: C:/Users/xyz/Desktop/ADP/RStudio/xyz346/Git/mingw64/ssl/
-   certs/ca-bundle.crt
-   CApath: none
-  ```
-
-- How you search matters
-
----
-
-```{r}
-#| echo: false
-#| fig-align: center
-#| out-width: 90%
-
-knitr::include_graphics("figures/class3_5.png")
-```
-
----
-
-## Listserves
-
-```{r}
-#| echo: false
-#| fig-align: center
-#| out-width: 90%
-
-knitr::include_graphics("figures/class3_3.png")
-```
-
+- Write an R markdown that summarizes what we learned about the fundamentals of R.
+    - Ideally in your class note folder for your own records 
+    - The knitted html should look like this: [Expected output](https://sselp.github.io/sdawr//class3_overview_rmarkdown.html).
+- Post your **html** file in our Google Chat.
+- Read the rest of Unit1-Module1 and Unit1-Module 2 (we have already covered most of the material).
+- **Assignment 1 is due this Friday!**
+    - Don’t worry! After today’s class, it’ll be an easy task.

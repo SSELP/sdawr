@@ -1,95 +1,264 @@
 ---
-title: "Geospatial Analysis with R"
+title: "Spatial Data Analysis (450:320)"
 subtitle: "Class 2"
 format:
   revealjs:
-    theme: night                     # dark theme
+    theme: night
     highlight-style: github
     highlight-lines: true
     incremental: false    
     embed-resources: true
 resources:
-  - figures/clark.png
+  - figures/lucy_stone_hall.png
 title-slide-attributes:
-  data-background-image: figures/clark.png
+  data-background-image: figures/lucy_stone_hall.png
   data-background-position: center
-  data-background-size: 40%
-css: ["themes/class1.css"]
+  data-background-size: 60%
+css: ["themes/default.css"]
 editor_options: 
   chunk_output_type: console
 ---
 
-
+The code behind the title page map:
 
 ```{r}
-#| eval: FALSE
+#| eval: false
+#| echo: true
 
-library(ggmap)
-load(here::here("external/data/gkey.rda"))
-m <- get_googlemap(center = c(-71.8229, 42.2511), zoom = 17, maptype = "hybrid",
-                   key = gkey)
-mp <- ggmap(m, extent = "device")
-ggsave(filename = "docs/figures/clark.png", plot = mp, 
-       bg = "transparent", width = 4, height = 4, units = "in", dpi = 300)
+library(ggmap) # NOTE: you need to set up an API key to use Google Maps
+m <- get_googlemap(center = c(-74.435018, 40.521089), zoom = 17, 
+                   maptype = "hybrid")
+ggmap(m, extent = "device")
 ```
----
 
 ## Class overview
 
-- Installation progress/trouble-shooting
-- `R` packages
+- Installation progress (trouble shooting)/Class resources
+- R and RStudio
+- Your class `R` package!
 - `git` / GitHub
-- Tips and tricks for productivity
+- Start to use R Markdown
 
----
+We have **5** big tasks today, so please follow along closely.
 
-## R packages
+## Class resources
 
-- File structure
-- Where packages live
-- library versus package
-- Exported functions, loading packages
+In general, you will only need your own computer(s) for this class. However, you also have access to the following spaces:
 
----
+- **Classroom B266**
+    - The class schedule is posted outside the room or [online](https://geography.rutgers.edu/academics/undergraduate-program/teaching-lab-schedule-b266).
+    - You may use the room when no class is scheduled (before 4PM).
+- **Lab space B235**
+    - All students in this class have access to this lab (use **RU ID**).
+    - The lab is available for use at any time.
+- All computers in both rooms are all set. The only step you may need is to install the required `R` packages.
 
-## Types of packages
+## Class resources
+
+Once you are comfortable with **Git/GitHub**, you can:
+
+1. simply show up and work directly on a lab computer, 
+2. push your work to GitHub when finished, 
+3. and later pull everything onto your own computer(s).
+
+I personally really enjoy this part. It feels like two versions of you are working in parallel spaces. 
+
+**Today**, we will meet **Git/GitHub**, your future best friend for not losing work!
+
+## History of R
+
+R is a relatively young language:
+
+- *1992*: **R**obert Gentleman and **R**oss Ihaka started to develop R as a research project.
+- *1995*: Convinced by Martin Maechler, R became **open-source** under GPL2 license.
+- *1997 - 2000*: A critical stage for early development, including R core group, CRAN, and r-project.org. 
+- *2000*: **R 1.0.0** was released at February 29.
+
+## R system
 
 ```{r}
-#| out.width: 70%
-#| echo: FALSE
-#| fig.align: 'center'
-#| fig.cap: "http://r-pkgs.had.co.nz/package.html"
-
-knitr::include_graphics("http://r-pkgs.had.co.nz/diagrams/package-files.png") 
+#| echo: false
+#| fig-align: "center"
+#| out-width: "80%"
+knitr::include_graphics("figures/class1_r_system.png")
 ```
 
----
+## R system
 
-## Installing packages
+Let's get back to this code chunk:
 
 ```{r}
-#| echo: FALSE
-#| out.width: 70%
-#| fig.align: 'center'
-#| fig.cap: "https://r-pkgs.org/diagrams/install-load.png"
-  
-knitr::include_graphics("https://r-pkgs.org/diagrams/install-load.png") 
+#| eval: false
+#| echo: true
+
+# Load libraries
+library(terra) # library is a function from base R
+
+# Query DEM data for Colombia
+# elevation_30s is a function from R package geodata
+col_dem <- geodata::elevation_30s(country = "COL", res = 10, path = tempdir())
+
+# Plot the map to a png file
+# plot is a special function, which we call as generic function in R.
+plot(col_dem, axes = FALSE, box = FALSE)
 ```
 
----
+## RStudio
 
-## git / GitHub
+It is an **Integrated Development Environment (IDE)**. It was originally designed for `R`, but now also supports others, such as Python.
 
-- Commits, pushes, pulls
-- Branching
-- Merging
+An IDE acts like a "smart home" for coding. For example:
 
----
+- `R` is the language (like English, Chinese, Spanish, etc).
+- `RStudio` is like the Google Doc or Microsoft Word.
 
-## Tips and Tricks
+*Let’s take a quick look at R and RStudio to get a better sense of them.*
 
-- Tab completion and shortcuts
-- Reusing code
-- Code syntax
-- [Posting guide](https://www.r-project.org/posting-guide.html)
+## Your `R` package!
 
+Let's work together to create your first-ever `R` package for this class.
+
+- Set up a working directory, e.g. 
+    - `c:\My Documents\courses` (Windows)
+    - `/Users/you/courses` (macOS). 
+    
+Make sure you  remember where it is.
+
+- Install `R` package `devtools`:
+    - Run `install.packages("devtools")` in Console
+    - Or install it from Packages tab in RStudio.
+- Type **1** in the Chat if you've done these two steps.
+
+## Your `R` package!
+
+- Create an R package (let me show you first)
+- Type **2** in the Chat if you've created the package.
+
+## Version control
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+#| out-width: "60%"
+knitr::include_graphics("figures/class3_vc.png")
+```
+
+## Git and local environment
+
+Version control is the idea, and `Git` is the actual machine to do it.
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+#| out-height: "50%"
+#| out-width: "50%"
+knitr::include_graphics("figures/git_local.jpg")
+```
+
+- `git add`: you pick the good parts and put them in a staging area.
+- `git commit`: you snap the photo and file it away.
+
+## Fun time
+
+`git add` and `git commit` your updates on your own package.
+
+- Type **3** in the Chat if you've done!
+
+## Fun time
+
+- Let's make some changes to the package DESCRIPTION:
+
+```
+Package: ls320
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Jane", "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: More about what it does (maybe more than one line).
+    Continuation lines should be indented.
+```
+
+- Replace the **entire** `Authors@R` lines with two new lines:
+
+```
+Author: Your Name
+Maintainer: Your Name <your.email@domain.com>
+```
+
+- Update Title and Description.
+
+- then `git add` and `git commit` your changes
+
+- Type **4** in the Chat if you've done!
+
+## Git and GitHub
+
+- The package on your local machine is the local repo
+- GitHub is the remote repo
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+#| out-height: "60%"
+#| out-width: "60%"
+knitr::include_graphics("figures/GIT_part.png")
+```
+
+## Remote repo on GitHub
+
+- You should have already set up your GitHub account and SSH.
+- Go to either your personal GitHub account or [SSELP](https://github.com/SSELP)
+    - It is easier for me to monitor your work if you create the repo under SSELP
+    - But the choice is entirely up to you.
+- Create a new **private** repo (let me show you first)
+
+## Link local repo to remote repo on GitHub
+
+- Run what you have been told on GitHub
+- Run `git push origin main` in terminal or hit the **Push** button in Git tab.
+- Type **5** in the Chat if you can see everything on your remote repo!
+- Invite me and Arafat as the collaborator for your repo (**!!**)
+    - Only after you do this, will we be able to access your repo.
+    
+## Class notes (Highly recommended) 
+
+- You can create a folder, for example, named as "docs" or "notes" within your class package.
+- Organize all your class notes in this folder using **R Markdown**.
+
+## R Markdown
+
+One of the many benefits of using RStudio is that it makes writing R Markdown convenient. But **why** R Markdown?
+
+- Has an accessible learning curve (rich text syntax)
+- Integrate R code directly into writing
+    - Reproducibility!
+- Offers many output formats (HTML, PDF, Word, etc.)
+
+## R Markdown
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+#| 
+knitr::include_graphics("figures/class2_markdown.png")
+```
+
+## R Markdown
+### Syntax
+
+Let's run a demo together to learn the syntax (if have time).
+
+More details can go [here](https://bookdown.org/yihui/rmarkdown/html-document.html).
+
+## Homework
+
+- Make sure your package is alive locally and remotely.
+- Invite me and Arafat as the collaborator for your repo.
+- Read and try the **rmarkdown_demo**.
+- Read **Section 1-2** in **Unit 1, Module 2**.
