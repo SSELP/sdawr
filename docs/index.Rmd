@@ -102,14 +102,14 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">1</td>
       <td>Jan 21</td>
       <td>Welcome, setup, Git & GitHub</td>
-      <td class="current">[Class 01](class1.html)</td>
+      <td>[Class 01](class1.html)</td>
       <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">2</td>
       <td>Jan 26, 28</td>
       <td>Reproducibility, R package and R markdown</td>
-      <td>Class 02, Class 03</td>
+      <td class="current">[Class 02](class2.html), [Class 03](class3.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 1 (Jan 30)</td>
     </tr>
     <tr>

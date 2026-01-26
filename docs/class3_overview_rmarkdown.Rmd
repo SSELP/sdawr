@@ -1,8 +1,8 @@
 ---
-title: 'Class 2: Objects and operations'
+title: 'Class 3: Objects and operations'
 author: 
 - Your name^1^
-- ^1^ Clark Unversity
+- ^1^ Rutgers Unversity
 date: "`r Sys.time()`"
 output: 
   html_document:
