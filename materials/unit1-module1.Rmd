@@ -756,13 +756,16 @@ For the first assignment of this class, you are going to do the following:
 - Now change the function that it is named `my_multiplier`. Change the main argument ("x") to "value", update the documentation to reflect that change and the change in the function name, in all places that it seems relevant, and edit the first `print` statement so that instead of "Too low!", a character output, you multiply "value" by 1 (`value * 1`, unquoted). Replace the `print` with `return`. Do the same for the second statement, by change the multiplier to 5, and for the final one change it to multiply by 10.
 - Save the file in the R/ folder so that it has the same name as the function (with .R extension). Then run `devtools::document()` to update the package.
 - Update your vignette so that it demonstrates how `my_multiplier` is used, in addition to the demonstration of `my_number_checker` that you have already added. You could write a short reflection to explain how `my_multiplier` works. After you done all editing, update this line in the YAML header to `%\VignetteIndexEntry{Unit 1 Module 1 assignment 1}` and change the name of this vignette `.Rmd` file into "Unit1_module1".
-- Commit and push your changes. Before committing, delete the `hello.Rd` (in /man folder) and `hello.R` (in /R folder) files, as we do not want those. Also do not commit any html files in your vignettes folder (You many want to delete these html files). Test installing your packages so that it builds with a browsable vignette. Use both `devtools::install`, and also `devtools::install_github` to make sure that it does. If everything is good, you will see a page in your browser like this:
+
+- Test installing your packages so that it builds with a browsable vignette. Use both `devtools::install`, and also `devtools::install_github` to make sure that it does. If everything is good, you will see a page in your browser like this:
 
 ```{r out.width = "100%", fig.align='center', echo=FALSE}
 include_graphics("fig/u1m1_a1.png") 
 ```
 
-- Once complete, create a new branch called "a1" in your local repo. Push that branch to GitHub as well.  Then switch back into (i.e. `git checkout main`) your main branch. 
+- Commit and push your changes. Before committing, delete the `hello.Rd` (in /man folder) and `hello.R` (in /R folder) files, as we do not want those. Also do not commit any html files in your vignettes folder (You many want to delete these html files). A reminder of what you should do: `git add`, `git commit` and `git push origin main`. Remember to do each properly.
+
+- Once complete, create a new branch called "a1" in your local repo (how to do it? run `git branch a1` first, then `git checkout a1` or you can click the button in Git tab in RStudio to create a new one). Push that branch to GitHub as well (`git push origin a1`.  Then switch back into (i.e. `git checkout main`) your main branch.
 - You are done. 
 
 ***
