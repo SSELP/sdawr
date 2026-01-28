@@ -22,17 +22,6 @@ if (length(file_paths) == 0) {
         ohtml <- here("docs", paste0(gsub("\\.Rmd", "", basename(fn)), ".html"))
         render(input = here(fn), output_file = ohtml)
     }
-    
-    # 3. Git commit and push
-    # Add the Rmds and the newly generated HTMLs
-    # Note there might be other updates as well.
-    system("git add .") 
-    
-    commit_msg <- paste("Auto-knit updates for:", paste(basename(file_paths), collapse = ", "))
-    system(paste0('git commit -m "', commit_msg, '"'))
-    
-    message("Pushing to GitHub...")
-    system("git push")
 }
 
 # Filter class slides
@@ -86,15 +75,15 @@ if (length(slide_paths) == 0) {
     }
     writeLines(x, index_fn)
     render(input = index_fn, output_file = gsub(".Rmd", ".html", index_fn))
-    
-    # 5. Git commit and push
-    # Add the Rmds and the newly generated HTMLs
-    # Note there might be other updates as well.
-    system("git add .") 
-    
-    commit_msg <- paste("Auto-knit updates for:", paste(basename(slide_paths), collapse = ", "))
-    system(paste0('git commit -m "', commit_msg, '"'))
-    
-    message("Pushing to GitHub...")
-    system("git push")
 }
+
+# 5. Git commit and push
+# Add the Rmds and the newly generated HTMLs
+# Note there might be other updates as well.
+system("git add .") 
+
+commit_msg <- "Auto-knit updates for site:"
+system(paste0('git commit -m "', commit_msg, '"'))
+
+message("Pushing to GitHub...")
+system("git push")
