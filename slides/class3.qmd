@@ -53,6 +53,28 @@ levelplot(
 - `R` packages
 - More on Git/GitHub
 - Overview of assignment
+- Trouble shooting
+
+## A few coding tips
+
+- Use `<-` for assignment and `=` for passing arguments to functions.
+    - This is the standard convention in R, and I expect you to follow it.
+    - You may encounter R code that uses `=` for assignment. That is acceptable to read and understand.
+- Shortcut for `<-`
+    - MacOS: `option` + `-`
+    - Windows: `Alt` + `-`
+    
+## A few coding tips
+
+- In R Markdown, shortcut to insert an R code chunk
+    - Windows: `Ctrl` + `Alt` + `I`
+    - MacOS: `option` + `command` + `I`
+- Shortcut to run selected lines
+    - Windows: `Ctrl` + `Enter`
+    - MacOS: `command` + `Enter`
+- Help
+    - `?function`
+    - `??function`
 
 ## Fundamentals of R
 
@@ -151,14 +173,10 @@ Any objects have attributes. If nothing is set, the attributes of an object is `
 
 - `names`/`dimnames`/`rownames`/`colnames`
 - Overall `length`, and more specifically `dim` for matrix and array. Resetting `dim` attribute can convert a vector to matrix/array or reconstruct a matrix/array. 
-- `class`: it is a bit different from function `class`.
-- function `attr(object, attr_name)` can query or set an attribute of an object. 
-- function `attributes(x)` can get all attributes of an object.
-- function `str(object)` will print out a nice overview of an object.
 
 ## 
 
-- I'll leave you with a short homework to review what we’ve learned.
+- I'll leave you with a short **homework** to review what we’ve learned.
 - Now, let’s get back to your package.
 
 ## Installing and using packages
@@ -242,6 +260,8 @@ knitr::include_graphics("figures/class3_1.png")
     - Ideally in your class note folder for your own records 
     - The knitted html should look like this: [Expected output](https://sselp.github.io/sdawr//class3_overview_rmarkdown.html).
 - Post your **html** file in our Google Chat.
+    - This counts for your **participation**.
 - Read the rest of Unit1-Module1 and Unit1-Module 2 (we have already covered most of the material).
 - **Assignment 1 is due this Friday!**
+    - It is at the end of Unit1-Module1
     - Don’t worry! After today’s class, it’ll be an easy task.
