@@ -375,5 +375,7 @@ library(DG320)
 ## Homework
 
 - **Read** Section 1-3 in Unit1-Module3.
-- Sync your class notes of this week to Github (I will check for participation)
+- Sync your class notes of this week to Github 
+    - I will check them for **participation**
+    - I might give **bonus point** for impressive ones
 - Make sure you are okay with GitHub (**!!**)
