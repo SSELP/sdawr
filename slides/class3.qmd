@@ -246,38 +246,6 @@ You main tasks for the assignment package are update:
 - Update and install the package locally.
 - Git add and commit **all** updates.
 
-## Git branching
-
-- Create a new branch named `test` and push to the remote repo
-    - `git branch test` (create a new branch)
-    - `git checkout test` (switch to the new branch)
-    - `git push origin test` (push the new branch to GitHub)
-- Have a look your remote repo on GitHub
-- Install your package from GitHub
-    - In R Console, run 
-    
-    ```
-    devtools::install_github("your repo", build_vignettes = TRUE, 
-                         auth_token = "paste_your_github_token_here")
-    ```
-    
-## Our Branching Model for assignments
-
-```{r}
-#| echo: false
-#| fig-align: center
-#| out-width: 70%
-
-knitr::include_graphics("figures/class3_1.png")
-```
-
-## Delete a branch
-
-- Delete the branch `test` locally and remotely
-    - `git checkout main` (park to another branch)
-    - `git branch -d test` (delete locally)
-    - `git push origin --delete test` (delete remotely)
-
 ## Homework
 
 - Write an R markdown that summarizes what we learned about the fundamentals of R.

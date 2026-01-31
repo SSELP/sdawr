@@ -1,0 +1,319 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 4"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/hillshade_nj.png
+title-slide-attributes:
+  data-background-image: figures/hillshade_nj.png
+  data-background-position: center
+  data-background-size: 40%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+The code behind the title page map:
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+
+# install.packages("tigris")
+# install.packages("tidyterra")
+library(dplyr); library(sf); library(terra); library(tidyterra); library(ggplot2)
+
+# Get elevation
+nj <- tigris::counties(state = "NJ", cb = TRUE, class = "sf") %>% 
+    st_transform(4326)
+nj_dem <- geodata::elevation_30s(
+    country = "USA", path = tempdir(), res = 0.5) %>% crop(nj) %>% mask(nj)
+
+# Calculate hillshade
+slope <- terrain(nj_dem, "slope", unit = "radians")
+aspect <- terrain(nj_dem, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 10, 340)
+
+ggplot() +
+    geom_spatraster(data = hill, show.legend = FALSE) +
+    # Note the scale, grey colors
+    scale_fill_gradientn(
+        colours = grey(0:100 / 100),
+        na.value = "transparent") +
+    labs(title = "Hillshade of New Jersey") +
+    theme_void() +
+    theme(plot.title = element_text(
+        hjust = 0.5, # Centered
+        face = "bold.italic", # font face
+        family = "sans", size = 24, # font family and size
+        color = "#cc0033")) # Rutgers red
+```
+
+## So far...
+
+- We should know:
+    - Key concepts/tools of reproducibility and why we use them
+    - How to keep project synced between local and remote repos
+        - git add, git commit, git push.
+        - Set up [SSH Key](https://pennlinc.github.io/docs/Basics/sshKeys/).
+    - How to set up R package project with `git` in RStudio
+    - What is R Markdown
+    - Atomic data types, `vector`, `data.frame` in R
+    - Frequently used shortcuts
+
+## So far...
+
+- What you might have done but might not know:
+    - What the key ingredients in a package are
+    - How to document functions
+    - git branching, merging, and pull
+    - How R Markdown works
+
+## Today
+
+- More on GitHub: git branching, merging, and pull
+- Package structure
+- Overview of assignment
+- More on R Markdown
+- More on `vector`, `data.frame`
+
+## Git branching
+
+- git add and commit all your updates so far
+- Create a new branch named `test` and push to the remote repo
+    - `git branch test` (create a new branch)
+    - `git checkout test` (switch to the new branch)
+    - `git push origin test` (push the new branch to GitHub)
+- Have a look your remote repo on GitHub
+
+## Switch branches
+
+- check which branch you are currently on (Hint: `git branch`)
+- switch to `test` branch if you are not on (Hint: `git checkout test`)
+
+## Merging
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| out-width: 50%
+
+knitr::include_graphics("figures/class4_gitmerge.png")
+```
+
+## Merging
+- create a README file: File - New File - Markdown File, and save it as "README" (Uppercase)
+    - Write a short description to introduce the repo
+- commit this change and push it to GitHub, observe differences between branches.
+- switch back to branch `main` and observe changes in your local repo.
+- merge changes from `test` into `main` (Hint: `git merge test`, then `git push origin main`).
+
+## Delete a branch
+
+- Delete the branch `test` locally and remotely
+    - `git checkout main` (park to another branch)
+    - `git branch -d test` (delete locally)
+    - `git push origin --delete test` (delete remotely)
+
+## Our Branching Model for assignments
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| out-width: 70%
+
+knitr::include_graphics("figures/class3_1.png")
+```
+
+## Installing and using packages
+
+```{r}
+#| echo: false
+#| fig-cap: "http://r-pkgs.had.co.nz/package.html"
+#| fig-align: center
+#| out-width: 90%
+
+knitr::include_graphics("https://r-pkgs.org/diagrams/install-load.png") 
+```
+
+## Package structure
+
+General common parts of a package.
+
+```{r, out.width = "70%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/pkg_structure.png")
+```
+
+## Package structure
+
+```{r, out.width = "55%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/pkg_other.png")
+```
+
+## Package structure
+
+You main tasks for the assignment package are update:
+
+- DESCIPTION file to incorporate updated info (e.g. your package version)
+- `.R` files in the **R/** folder (e.g. write functions)
+- `.Rmd` files in the **vignettes/** folder (main files for assignments)
+
+## Add a function to your package
+
+- Why we need functions and packages?
+    - Reuse -> Reproducibility
+- Add a `my_number_checker` function to your package
+- Add a vignette to introduce the function
+    - Use `usethis::use_vignette("vignette_name")`
+- Update and install the package locally.
+- Git add and commit **all** updates, and push them to GitHub.
+
+## Function
+
+As an author, we should write the help document of all functions as clear as possible.
+
+```
+#' An example of function documentation
+#'
+#' @description This function shows an example function.
+#' @param arg1 numeric, the first argument.
+#' @param arg2 logical, the secoond argument.
+#' @return describe about the return.
+#' @export
+#' @examples
+#' func_exp(32, TRUE)
+
+func_exp <- function(arg1, arg2) {
+  do something here
+  return(rts)
+}
+```
+
+## Vignette
+
+Vignette is a special R markdown. It has extra parameters setting in YAML header:
+
+```
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```
+    
+## Install your package from GitHub
+
+- [Personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens), more similar to a password
+- In R Console, run 
+    
+```{r}
+#| echo: true
+#| eval: false
+devtools::install_github("your repo", build_vignettes = TRUE, 
+                     auth_token = "paste_your_github_token_here")
+```
+
+- Compared with installing the package `sdadata` (public):
+
+```{r}
+#| echo: true
+#| eval: false
+devtools::install_github("SSELP/sdadata")
+```
+
+## More on R Markdown
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+#| 
+knitr::include_graphics("figures/class2_markdown.png")
+```
+
+## R Markdown
+### Syntax
+
+Let's run a demo together to learn the basic syntax.
+
+## Fundamentals of R
+
+```{r}
+#| echo: false
+#| fig-align: "center"
+knitr::include_graphics("figures/class2_objects.png")
+```
+
+## Practice 1
+
+- Create a vector `x` of length **12** containing any integers you like (`c`).
+- Convert this vector into a matrix `m` with 3 rows. (`matrix`)
+- Convert this vector into an array `a` with dimensions 2 * 2 * 3 (`array`).
+- print `typeof(x)`, `x`, `m`, and `a` and share your results in Google chat.
+
+```{r}
+#| echo: false
+set.seed(123)
+x <- as.integer(sample(1:100, 12, replace = FALSE))
+m <- matrix(x, nrow = 3)
+a <- array(x, dim = c(2, 2, 3))
+
+typeof(x)
+x
+m
+a
+```
+
+## Practice 2
+
+- create two vectors: `x1` is a character vector of length 5; `x2` is a double vector of length 5.
+- Bind them by row into a matrix `matr`. (`rbind(v1, v2)`)
+- Bind them by column into a matrix `matc`. (`cbind(v1, v2)`)
+- Repeat the same task using a data frame `df` instead of a matrix (`data.frame`).
+    - Have a guess: what you will have by running `names(df)` and `colnames(df)`?
+- Print your `matr`, `matc` and `df`, and share your results in Google chat.
+
+```{r}
+#| echo: false
+x1 <- letters[1:5]
+x2 <- 1:5
+
+matr <- rbind(x1, x2)
+matc <- cbind(x1, x2)
+df <- data.frame(x1, x2)
+```
+
+## Practice 3
+
+- Convert the previous data frame `df` into (Hint: `as.xxx`):
+    - A list `dfl`
+    - A matrix `dfm`
+- Print your `dfl` and `dfm`, and share your results in Google chat.
+    
+```{r}
+#| echo: false
+dfl <- as.list(df)
+dfm <- as.matrix(df)
+```
+
+## Homework
+
+- Finish reading **Unit1-Module 2**.
+- **Assignment 1 before Wed's class!**
+- Write an R markdown that summarizes what we learned about the fundamentals of R.
+    - Ideally in your class note folder for your own records 
+    - The knitted html should look like this: [Expected output](https://sselp.github.io/sdawr//class3_overview_rmarkdown.html).
