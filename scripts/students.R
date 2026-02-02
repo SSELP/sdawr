@@ -29,9 +29,9 @@ githubs <- c("zennaahmed", "stevenaraujov", "noa20-pixel", "ananya-bongoni",
 
 repos <- c("za320", "SA320", "noa320", "asb320", 
            "rd320", "bg320", "DG320", "", 
-           "sjl239", "", "", "", 
-           "", "ag320", "", "", 
-           "", "", "charley")
+           "sjl239", "", "", "fm320", 
+           "", "ag320", "", "tp320", 
+           "", "cw320", "cy320")
 
 students <- new_roster %>% select(Student, `Net ID`) %>% 
     mutate(github = githubs, repo = repos)

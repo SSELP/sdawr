@@ -65,7 +65,7 @@ ggplot() +
         - Set up [SSH Key](https://pennlinc.github.io/docs/Basics/sshKeys/).
     - How to set up R package project with `git` in RStudio
     - What is R Markdown
-    - Atomic data types, `vector`, `data.frame` in R
+    - Atomic data types, `vector`, `list`, `data.frame` in R
     - Frequently used shortcuts
 
 ## So far...
@@ -73,16 +73,26 @@ ggplot() +
 - What you might have done but might not know:
     - What the key ingredients in a package are
     - How to document functions
-    - git branching, merging, and pull
+    - git branching and merging
     - How R Markdown works
 
 ## Today
 
-- More on GitHub: git branching, merging, and pull
+- More on GitHub: git branching and merging
 - Package structure
 - Overview of assignment
 - More on R Markdown
-- More on `vector`, `data.frame`
+- More on `vector`, `list`, `data.frame`
+
+## Git branching
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| out-width: 50%
+
+knitr::include_graphics("figures/class4_gitmerge.png")
+```
 
 ## Git branching
 
@@ -98,6 +108,12 @@ ggplot() +
 - check which branch you are currently on (Hint: `git branch`)
 - switch to `test` branch if you are not on (Hint: `git checkout test`)
 
+## Make some updates on `test` branch
+
+- create a README file: File - New File - Markdown File, and save it as "README" (Uppercase)
+    - Write a short description to introduce the repo
+- commit this change and push it to GitHub, observe differences between branches.
+
 ## Merging
 
 ```{r}
@@ -109,9 +125,7 @@ knitr::include_graphics("figures/class4_gitmerge.png")
 ```
 
 ## Merging
-- create a README file: File - New File - Markdown File, and save it as "README" (Uppercase)
-    - Write a short description to introduce the repo
-- commit this change and push it to GitHub, observe differences between branches.
+
 - switch back to branch `main` and observe changes in your local repo.
 - merge changes from `test` into `main` (Hint: `git merge test`, then `git push origin main`).
 
@@ -165,16 +179,6 @@ You main tasks for the assignment package are update:
 - `.R` files in the **R/** folder (e.g. write functions)
 - `.Rmd` files in the **vignettes/** folder (main files for assignments)
 
-## Add a function to your package
-
-- Why we need functions and packages?
-    - Reuse -> Reproducibility
-- Add a `my_number_checker` function to your package
-- Add a vignette to introduce the function
-    - Use `usethis::use_vignette("vignette_name")`
-- Update and install the package locally.
-- Git add and commit **all** updates, and push them to GitHub.
-
 ## Function
 
 As an author, we should write the help document of all functions as clear as possible.
@@ -215,6 +219,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 ```
+
+## Add a function to your package
+
+- Why we need functions and packages?
+    - Reuse -> Reproducibility
+- Add a `my_number_checker` function to your package
+- Add a vignette to introduce the function
+    - Use `usethis::use_vignette("vignette_name")`
+- Update and install the package locally.
+- Git add and commit **all** updates, and push them to GitHub.
     
 ## Install your package from GitHub
 
