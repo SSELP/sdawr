@@ -82,7 +82,7 @@ if (length(slide_paths) == 0) {
 # Note there might be other updates as well.
 system("git add .") 
 
-commit_msg <- "Auto-knit updates for site:"
+commit_msg <- "Auto-knit updates for site."
 system(paste0('git commit -m "', commit_msg, '"'))
 
 message("Pushing to GitHub...")
