@@ -70,10 +70,12 @@ knitr::include_graphics("figures/class3_operation.png")
 
 - Create a numeric vector `x1` of length **8** with values between 1-10.
 - Create another vector `x2` of length **3** with values between 1-10.
-- Run `x1 + x2`, `x1 * x2`, and `c(x1, x2)`.
-- Observe what is going on.
+- Run `x1 + x2`, `x1 * c(x2, 1)`, observe what is going on.
+- Run `c(x1, x2)`, `rbind(x1, x2)`, and `cbind(x1, c(x2, 1))`.
 
 ```{r}
+#| echo: false
+#| eval: false
 set.seed(123)
 x1 <- sample(1:10, 8)
 x2 <- sample(1:10, 3)
@@ -81,8 +83,11 @@ x2 <- sample(1:10, 3)
 x1
 x2
 x1 + x2
-x1 * x2
+x1 * c(x2, 1)
 c(x1, x2)
+
+rbind(x1, x2)
+cbind(x1, c(x2, 1))
 ```
 
 ##
@@ -107,6 +112,9 @@ class(x)
 is(x, "data.frame")
 is(x, "Lei")
 ```
+
+- **Task for you**: create your own version of `x` about yourself. The role could be anything: e.g., student, football player, cat lover, meteorologist, geographer, etc. Then update the class of `x` to include your name, just like what I did.
+- Print your `x` out.
 
 ## Factor
 
@@ -139,7 +147,12 @@ knitr::include_graphics("figures/class3_factor.png")
 #| echo: true
 #| eval: false
 levels(x_f)
+
+labels(x_f)
+
 as.integer(x_f)
+
+as.character(x_f)
 ```
 
 ## Practice 2
@@ -150,10 +163,49 @@ as.integer(x_f)
 #| echo: true
 #| eval: false
 levels(f)
+
+labels(f)
+
 as.integer(f)
+
+as.character(f)
 ```
 
 - Challenge: what if I want to convert `f` to integer, but keep the original values?
+
+```{r}
+#| echo: false
+#| eval: false
+
+as.integer(as.character(f))
+```
+
+## Specify the levels
+
+- Customize the order of the levels.
+
+```{r}
+#| echo: true
+#| eval: false
+x_f2 <- factor(c("John", "Chris", "Rachel"), levels = c("John", "Chris", "Rachel"))
+x_f2
+x_f
+```
+
+## Something more crazy
+
+- Remap the values (usually not necessary).
+
+```{r}
+#| echo: true
+#| eval: false
+x_f3 <- factor(c("John", "Chris", "Rachel"), 
+               levels = c("John", "Chris", "Rachel"), # map from
+               labels = c("Male", "Male", "Female")) # map to
+x_f3
+levels(x_f3)
+labels(x_f3)
+```
 
 ## Functions
 
@@ -183,6 +235,10 @@ Can be extended
 #| eval: false
 plot(x = 1:10, y = 2:11)
 
+# Check if x is still yourself
+is(x, "Lei")
+plot(x)
+
 plot.Lei <- function(obj){
     print(obj$name)
 }
@@ -190,6 +246,8 @@ plot(x)
 
 methods("plot")
 ```
+
+- **your task:** create a function `plot` for yourself class. Let the function do something that you want.
 
 ## Function components
 
