@@ -1382,7 +1382,7 @@ margin-right: 0; }
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href></a><span class="co"># Define the function</span></span>
 <span id="cb20-2"><a href></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fah =</span> <span class="dv">0</span>){</span>
-<span id="cb20-3"><a href></a>  </span>
+<span id="cb20-3"><a href></a>  <span class="co"># Add your code</span></span>
 <span id="cb20-4"><a href></a>}</span>
 <span id="cb20-5"><a href></a></span>
 <span id="cb20-6"><a href></a><span class="co"># Initialize the temperature vector</span></span>
@@ -1390,34 +1390,39 @@ margin-right: 0; }
 <span id="cb20-8"><a href></a></span>
 <span id="cb20-9"><a href></a><span class="co"># Loop over the temperature to check</span></span>
 <span id="cb20-10"><a href></a><span class="cf">for</span> (fah <span class="cf">in</span> fahs){</span>
-<span id="cb20-11"><a href></a>  </span>
-<span id="cb20-12"><a href></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The result should be:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;Stay inside.&quot;
-[1] -12.22222</code></pre>
-</div>
+<span id="cb20-11"><a href></a>    <span class="co"># Call your function</span></span>
+<span id="cb20-12"><a href></a>    cel <span class="ot">&lt;-</span> <span class="fu">c_to_f</span>(fah)</span>
+<span id="cb20-13"><a href></a>    <span class="cf">if</span> (cel <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">10</span>){</span>
+<span id="cb20-14"><a href></a>        <span class="co"># Add your code</span></span>
+<span id="cb20-15"><a href></a>    }</span>
+<span id="cb20-16"><a href></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="practice-3-1" class="slide level2">
 <h2>Practice 3</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fah =</span> <span class="dv">0</span>){</span>
-<span id="cb22-2"><a href></a>  <span class="co"># returns the the temperature in Celsius </span></span>
-<span id="cb22-3"><a href></a>  <span class="co"># when get a value in Fahrenheit</span></span>
-<span id="cb22-4"><a href></a>  <span class="co"># Example: c_to_f(25)</span></span>
-<span id="cb22-5"><a href></a>  (fah <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">/</span> <span class="fl">1.8</span></span>
-<span id="cb22-6"><a href></a>}</span>
-<span id="cb22-7"><a href></a>fahs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">34</span>, <span class="dv">25</span>, <span class="dv">10</span>, <span class="dv">89</span>, <span class="dv">92</span>, <span class="dv">15</span>)</span>
-<span id="cb22-8"><a href></a><span class="cf">for</span> (fah <span class="cf">in</span> fahs){</span>
-<span id="cb22-9"><a href></a>  cel <span class="ot">&lt;-</span> <span class="fu">c_to_f</span>(fah)</span>
-<span id="cb22-10"><a href></a>  <span class="cf">if</span> (cel <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">10</span>){</span>
-<span id="cb22-11"><a href></a>    <span class="fu">print</span>(<span class="st">&#39;Stay inside.&#39;</span>)</span>
-<span id="cb22-12"><a href></a>    <span class="fu">print</span>(cel)</span>
-<span id="cb22-13"><a href></a>  }</span>
-<span id="cb22-14"><a href></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href></a><span class="co"># Define the function</span></span>
+<span id="cb21-2"><a href></a>c_to_f <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fah =</span> <span class="dv">0</span>){</span>
+<span id="cb21-3"><a href></a>  <span class="co"># This is a function to convert Fahrenheit to Celsius.</span></span>
+<span id="cb21-4"><a href></a>  <span class="co"># The argument is fah with a default value 0.</span></span>
+<span id="cb21-5"><a href></a>  (fah <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">/</span> <span class="fl">1.8</span></span>
+<span id="cb21-6"><a href></a>}</span>
+<span id="cb21-7"><a href></a></span>
+<span id="cb21-8"><a href></a><span class="co"># Initialize the temperature vector</span></span>
+<span id="cb21-9"><a href></a>fahs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">34</span>, <span class="dv">25</span>, <span class="dv">10</span>, <span class="dv">89</span>, <span class="dv">92</span>, <span class="dv">15</span>)</span>
+<span id="cb21-10"><a href></a></span>
+<span id="cb21-11"><a href></a><span class="co"># Loop over the temperature to check</span></span>
+<span id="cb21-12"><a href></a><span class="cf">for</span> (fah <span class="cf">in</span> fahs){</span>
+<span id="cb21-13"><a href></a>  cel <span class="ot">&lt;-</span> <span class="fu">c_to_f</span>(fah)</span>
+<span id="cb21-14"><a href></a>  <span class="cf">if</span> (cel <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">10</span>){</span>
+<span id="cb21-15"><a href></a>    <span class="fu">print</span>(<span class="st">&#39;Stay inside.&#39;</span>)</span>
+<span id="cb21-16"><a href></a>    <span class="fu">print</span>(cel)</span>
+<span id="cb21-17"><a href></a>  }</span>
+<span id="cb21-18"><a href></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;Stay inside.&quot;
+[1] -12.22222</code></pre>
+</div>
 </div>
 </section>
 <section id="lexical-scoping" class="slide level2">

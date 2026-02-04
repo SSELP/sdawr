@@ -282,7 +282,7 @@ $$Celsius = (Fahrenheit - 32) / 1.8$$
 #| eval: false
 # Define the function
 c_to_f <- function(fah = 0){
-  
+  # Add your code
 }
 
 # Initialize the temperature vector
@@ -290,14 +290,18 @@ fahs <- c(70, 34, 25, 10, 89, 92, 15)
 
 # Loop over the temperature to check
 for (fah in fahs){
-  
+    # Call your function
+    cel <- c_to_f(fah)
+    if (cel < -10){
+        # Add your code
+    }
 }
 ```
 
-The result should be:
+## Practice 3
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: true
 # Define the function
 c_to_f <- function(fah = 0){
@@ -310,27 +314,6 @@ c_to_f <- function(fah = 0){
 fahs <- c(70, 34, 25, 10, 89, 92, 15)
 
 # Loop over the temperature to check
-for (fah in fahs){
-  cel <- c_to_f(fah)
-  if (cel < -10){
-    print('Stay inside.')
-    print(cel)
-  }
-}
-```
-
-## Practice 3
-
-```{r}
-#| echo: true
-#| eval: false
-c_to_f <- function(fah = 0){
-  # returns the the temperature in Celsius 
-  # when get a value in Fahrenheit
-  # Example: c_to_f(25)
-  (fah - 32) / 1.8
-}
-fahs <- c(70, 34, 25, 10, 89, 92, 15)
 for (fah in fahs){
   cel <- c_to_f(fah)
   if (cel < -10){
