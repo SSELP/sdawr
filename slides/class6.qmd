@@ -1,0 +1,271 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 6"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/leaflet.png
+title-slide-attributes:
+  data-background-image: figures/leaflet.png
+  data-background-position: center
+  data-background-size: 60%
+css: ["themes/class6.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(leaflet)
+
+m <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addMarkers(lng = -74.435019,
+               lat = 40.521036,
+               popup = "<b>B266, Lucy Stone Hall</b>") # Add a clickable marker
+m      # Print the map
+```
+
+The code for the alive map:
+
+```{r}
+#| echo: true
+#| eval: false
+#| out.width: "120%"
+
+library(leaflet)
+
+m <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addMarkers(lng = -74.435019,
+               lat = 40.521036,
+               popup = "<b>B266, Lucy Stone Hall</b>") # Add a clickable marker
+m      # Print the map
+```
+
+## This week
+
+- Data operation with basic R
+
+## Today
+
+- Get help as a skillset 
+- Simulation and sampling
+- Indexing, subsetting and replacing
+
+## Get help as a skillset
+
+Error message often tells you what is wrong.
+
+- What's wrong?
+
+    ```
+    my_number_checker(12)
+    Error in my_number_checker(12) : 
+      could not find function "my_number_checker"
+    ```
+
+- How about this one?
+
+    ```
+    ls320::my_number_checker(12, 2)
+    Error in ls320::my_number_checker(12, 2) : unused argument (2)
+    ```
+
+- Sometimes, it gets trickier
+
+    ```
+    systemfonts/libs/systemfonts.so.dSYM/Contents/Resources/DWARF/systemfonts.so: truncated gzip input: Unknown error: -1
+    tar: Error exit delayed from previous errors.
+    Error: file ‘/var/folders/ft/75t6c_c16yq_6yyw38w131nm0000gn/T//RtmpcMt7ru/downloaded_packages/systemfonts_1.3.1.tgz’ is not a macOS binary package
+    In addition: There were 16 warnings (use warnings() to see them)
+    ```
+    
+## Simulation and sampling
+
+- `runif`, generate random number from a uniform distribution.
+- `rnorm`, generate random number from a normal distribution.
+- `sample`, get samples from a vector.
+
+## Set seed
+
+In terms of reproducibility, it is a MUST to set seed (function `set.seed()`) every time before using any simulation and sampling functions. 
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# run one time
+runif(5, 0, 1)
+
+# run another time, get the different numbers
+runif(5, 0, 1)
+
+# set seed
+set.seed(10)
+runif(5, 0, 1)
+
+# run again, get the same numbers
+set.seed(10)
+runif(5, 0, 1)
+```
+
+## Set seed
+
+Different seed will control to generate different numbers.
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# use seed 10
+set.seed(10)
+rnorm(5, mean = 1, sd = 2)
+
+# use seed 11
+set.seed(11)
+rnorm(5, mean = 1, sd = 2)
+
+# use seed 567
+set.seed(567)
+rnorm(5, mean = 1, sd = 2)
+```
+
+## Set seed
+
+`set.seed()` sets the random number generator state. All random functions draw from and advance this state. It is good practice to call `set.seed()` immediately before a random operation every time if you want that result to be reproducible.
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Set seed
+set.seed(11)
+sample(1:100, 10)
+
+sample(1:100, 10)
+
+# Set the same seed
+set.seed(11)
+sample(1:100, 10)
+
+sample(1:100, 10)
+```
+
+## Create your own data
+
+Create the following 1-d structures:
+
+- `a`: a random vector of integers with 10 elements drawn from 1-20:
+  - Use the `sample` function with `set.seed(10)`
+  - Name the elements of `a` with a vector of names starting with "V1" and ending with "V10". 
+      - Use the `paste0` function to create those names.
+      - Create the identical vector of names using the `paste` function.
+- `b`: randomly select 10 elements from `letters` using the same seed 10. 
+- `d`: a random vector of integers with 10 elements from a normal distribution with a mean = 100 and an sd of 20:
+  - Use `rnorm` function with `set.seed(12)`.
+- Create a list `l` from `a`, `b`, `d`. 
+    - Assign the name "a", "b", and "d" for the corresponding `l`'s element.
+
+## Create your own data
+
+Create the following 2-d structures:
+
+- `m`: a matrix with three integer columns named "V1", "V2", "V3"
+  - Create each column first as its own vector, then combine
+     - `V1` is 1:10
+     - `V2` is a random sample between 1:100 using `set.seed(50)`
+     - `V3` is drawn from a random uniform distribution between 0 and 50. Use the same seed as before.
+  - Inspect the `str` and `class` of `m`
+- `dat`, a data.frame built from `V1`, `V2`, `V3`, and `V4`
+  - `V4` is a random selection of the letters A-E (Try `LETTERS`?), use the same seed as above.
+  
+## Indexing
+
+- Vectors
+
+  * A vector of positive number(s), e.g. `x[c(1, 3, 5)]`
+  * A vector of negative number(s), e.g. `x[-c(1:2)]`
+  * A vector of names, e.g. `x[c('name1', 'name3')]`
+  * A vector of logical, e.g. `x[c(F, T, T, F)]`. But be careful of the length.
+  * Nothing, e.g. `x[]`. Got a full vector
+  * Zero, e.g. `x[0]`. Got a vector with length 0
+
+Be careful of index out of bound!!
+
+## Indexing
+
+- Array/Matrix
+
+  * Each dimension is the same as vector indexing.
+  * Matrix `m[row, col]`, the thing before comma is row, and the thing after comma is the col.
+  * Array `a[row, col, higher-dim]`.
+  * E.g. `m[1:3, ]` or `a[c(1, 3, 4), , c(T, F, F, T)]`.
+  
+- List
+
+  * If we take each item within a list as a list, all vector indexing could work on list. E.g. `l[1]`, `l[1:3]`, `l[c(T, F, T)]`, `l[c('name1', 'name3')]`.
+  * But every time we will still get a **list** return.
+  * In order to get a simple vector, we could use `[[]]` or `$`. E.g. `l[[1]]` or `l[1][[1]]`, `l[['id']]`, `l$id`.
+  * `[[]]` only can get one item from a list as a vector each time.
+
+## Indexing
+### Data.frame
+
+- The matrix syntax `df[row, col]` works for data.frame.
+- The list syntax also works, but the columns of data.frame correspond to elements of list. E.g. `df[col]`, `df[c('col_name')]`.
+- The `[[]]` and `$` syntax to get the simple vector also works. E.g. `df[1][[1]]`, `df[['id']]`, `df$id`.
+
+## Changing values
+
+All indexing methods to get the values out can also be used to change values by just assigning new values.
+
+## 1-d Indexing/subsetting/replacing
+
+- Select the 1st, 2nd, and 10th elements from `a`
+- Select the elements of `a` named V1, V2, V3 (use the names)
+- Replace the second to last value of `a` with the word "sasquatch"
+    - Use code to find the index value, not the actual integer value of the index
+- Select from `b` the values "c", "d", "e" if there is any (`%in%`)
+- Identify the index position in `b` of values "c", "d", "e" if there is any
+- Select the first 5 values of `d` and the last 5 values of `d` into two separate vectors and multiply them.
+- Select from `d` all values > 100:
+    - How many values are there?
+- Select from `d` all values between 95 and 105, and replace them with 100
+- Repeat steps 1, 3, 4, and 8 above, but do it by accessing `a`, `b`, and `d` from `l`
+
+## 2-d Indexing/subsetting/replacing
+
+- Select the first 10 values from `m`, using a single vector and no row or column information
+- Use a single vector to select the last row, column value from `m`
+- Replace the value selected in 2 above with -99
+- Now select row 3, columns 1:2 from `m`, and replace them with their values multiplied by 10
+- Do the same, but select the columns by their name, and reset the new values by dividing by 10
+- Select from `dat` the values of V3, and square them. Do it using index notation, column name in `[]`, and `$`
+- Subset the first two rows and columns of `dat` into a new data.frame `datss`.
+- Replace `dat` rows 1:2, column 1:2 with the values -1:-4
+- Reset the part of `dat` you just changed with the values in `datss`
+
+## Useful summary functions
+
+Only works for numbers. Try these for `m`:
+
+- `rowsSums`
+- `colSums`
+- `rowMeans`
+- `colMeans`
+
+## Homework
+
+- **Read** Section 4 in Unit1-Module3.
+- [class_indexing_demo](https://sselp.github.io/sdawr//class6_indexing_demo.R)
+- [class_indexing_practice answer](https://sselp.github.io/sdawr//class6_practice_answer.Rmd)
+- Assignment 2 is due this Friday.

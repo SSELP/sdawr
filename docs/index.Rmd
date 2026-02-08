@@ -116,14 +116,14 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">3</td>
       <td>Feb 2, 4</td>
       <td>R data structure and environments</td>
-      <td class="current">[Class 04](class4.html), [Class 05](class5.html)</td>
+      <td>[Class 04](class4.html), [Class 05](class5.html)</td>
       <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">4</td>
       <td>Feb 9, 11</td>
       <td>Basic data operation and control flow</td>
-      <td>Class 06, Class 07</td>
+      <td class="current">[Class 06](class6.html), [Class 07](class7.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 2 (Feb 13)</td>
     </tr>
     <tr>
