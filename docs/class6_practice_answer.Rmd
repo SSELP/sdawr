@@ -3,6 +3,8 @@ title: "Class 5 indexing, subsetting, and replacing"
 author: "Lei Song"
 date: "3/10/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -135,8 +137,9 @@ dat
 
 ### Indexing, subsetting, and replacing
 
-- Select the first 10 values from `m`, using a single vector and no row or column information
+- Select the *first 10 values* from `m`.
 - Use a single vector to select the last row, column value from `m`
+    - Think about different ways!
 - Replace the value selected in 2 above with -99
 - Now select row 3, columns 1:2 from `m`, and replace them with their values multiplied by 10
 - Do the same, but select the columns by their name, and reset the new values by dividing by 10
@@ -147,7 +150,7 @@ dat
 
 ```{r}
 ## m
-m[1:12] length(m)
+m[1:10]
 
 m[length(m)]
 m[nrow(m), ncol(m)]
