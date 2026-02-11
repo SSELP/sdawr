@@ -1,0 +1,137 @@
+---
+title: "Code Cracker"
+date: "2026-02-11"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data
+
+```{r}
+# Read the data directly from online (GitHub in this case)
+crops <- read.csv("https://sselp.github.io/sdawr//Crop_recommendation.csv")
+
+# Check the data
+head(crops) # first 6 records
+```
+
+# Task example
+
+- How many columns in the dataset?
+- How many rows in the dataset?
+- Is there any NA in the dataset? (Hint: function `anyNA`)
+
+Rule: finish the questions and put the answers together.
+
+```{r}
+# Example answer
+nc <- ncol(crops)
+nr <- nrow(crops)
+has_na <- anyNA(crops)
+if (paste0(nc, nr, has_na) == "82200FALSE") print("CRACKED!")
+```
+
+# Task 1: diversity check
+
+- How many unique crop types are in the label column? (Hint: function `unique`)
+- What is the name of the crop that appears first alphabetically? (Hint: function `sort`)
+- What is the name of the crop that appears last alphabetically? (Hint: set a parameter in `sort`)
+
+```{r}
+# Your code here, note that you should use the specified name for the objects
+
+if (paste0(n_crops, first_crop, last_crop) == "22applewatermelon") print("CRACKED!")
+```
+
+# Task 2: The "High N" club
+
+- What is the maximum N (Nitrogen) value for maize? (Hint: `max`, `==`, like `crops$label == "apple"` or `crops$P == 0`)
+- How many rows in the dataset have an N value of exactly 0?
+- Which crop label has the highest single N value in the whole dataset? (If more than one appears, pick the first one)
+
+```{r}
+# Your code here, note that you should use the specified name for the objects
+
+if (paste0(max_n, zero_n, crop_mn) == "10027cotton") print("CRACKED!")
+```
+
+# Task 3: Soil chemistry
+
+- What is the mean pH across all rows? (Round to 2 decimals). (Hint: function `mean` and `round`)
+- How many rows have an ph greater than 7?
+- Which crop has the lowest minimum ph value?
+
+```{r}
+# Your code here, note that you should use the specified name for the objects
+
+if (paste0(ph_mean, rows_7, crop_lph) == "6.47468mothbeans") print("CRACKED!")
+```
+
+# Task 4: Tropical conditions
+
+- How many rows have a temperature > 30 and humidity > 80? (Hint: `&` like `crops$label == "apple" & crops$N == 0`)
+- How many crop types found in those "Tropical" conditions?
+- What is the average rainfall for that specific subset? (Round to 0 decimals).
+
+```{r}
+# Your code here, note that you should use the specified name for the objects
+
+if (paste0(n_rows, n_crops, avg_rainfall) == "11822119") print("CRACKED!")
+```
+
+# Task 5: The "Ideal" Rice
+
+- What is the average temperature for rice? (Round to 1 decimal).
+- What is the max humidity for "rice"? (Round to 1 decimal). (Hint: `max`)
+- What is the min pH for "rice"? (Round to 1 decimal). (Hint: `min`)
+
+```{r}
+# Your code here, note that you should use the specified name for the objects
+
+if (paste0(avg_temp, max_hmd, min_ph) == "23.7855") print("CRACKED!")
+```
+
+
+# Class 7
+## Control structure
+### If-else
+
+```{r}
+
+```
+
+### switch
+
+```{r}
+
+```
+
+### for
+
+```{r}
+
+```
+
+### While
+
+```{r}
+
+```
+
+### Repeat
+
+```{r}
+
+```
+
+### `apply` practice on crops dataset
+
+```{r}
+
+```
+
