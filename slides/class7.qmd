@@ -348,6 +348,8 @@ mapply(function(x, y){
 - Get the range of column of temperature, humidity and rainfall. (use `lapply`, and function `range`)
 - Calculate mean rainfall per crop types. (use `tapply`)
 - Calculate a custom score `N + (P * 2)` across all rows. (use `mapply`)
+- Subset only numeric columns of crops dataset
+    - Try `colSums` and `rowMeans`.
 
 ## Homework
 
