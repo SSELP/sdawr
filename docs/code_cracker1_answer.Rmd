@@ -43,8 +43,10 @@ if (paste0(nc, nr, has_na) == "82200FALSE") print("CRACKED!")
 - What is the name of the crop that appears last alphabetically? (Hint: set a parameter in `sort`)
 
 ```{r}
-# Your code here, note that you should use the specified name for the objects
-
+crop_types <- unique(crops[["label"]])
+n_crops <- length(crop_types)
+first_crop <- sort(crop_types)[1]
+last_crop <- sort(crop_types, decreasing = TRUE)[1]
 if (paste0(n_crops, first_crop, last_crop) == "22applewatermelon") print("CRACKED!")
 ```
 
@@ -55,8 +57,9 @@ if (paste0(n_crops, first_crop, last_crop) == "22applewatermelon") print("CRACKE
 - Which crop label has the highest single N value in the whole dataset? (If more than one appears, pick the first one)
 
 ```{r}
-# Your code here, note that you should use the specified name for the objects
-
+max_n <- max(crops[crops$label == "maize", "N"])
+zero_n <- sum(crops$N == 0)
+crop_mn <- crops[crops$N == max(crops$N), "label"][1]
 if (paste0(max_n, zero_n, crop_mn) == "10027cotton") print("CRACKED!")
 ```
 
@@ -67,8 +70,9 @@ if (paste0(max_n, zero_n, crop_mn) == "10027cotton") print("CRACKED!")
 - Which crop has the lowest minimum ph value?
 
 ```{r}
-# Your code here, note that you should use the specified name for the objects
-
+ph_mean <- round(mean(crops$ph), 2)
+rows_7 <- sum(crops$ph > 7)
+crop_lph <- crops[crops$ph == min(crops$ph), "label"]
 if (paste0(ph_mean, rows_7, crop_lph) == "6.47468mothbeans") print("CRACKED!")
 ```
 
@@ -79,8 +83,10 @@ if (paste0(ph_mean, rows_7, crop_lph) == "6.47468mothbeans") print("CRACKED!")
 - What is the average rainfall for that specific subset? (Round to 0 decimals).
 
 ```{r}
-# Your code here, note that you should use the specified name for the objects
-
+crops_sub <- crops[crops$temperature > 30 & crops$humidity > 80, ]
+n_rows <- nrow(crops_sub)
+n_crops <- length(unique(crops_sub$label))
+avg_rainfall <- round(mean(crops_sub$rainfall), 0)
 if (paste0(n_rows, n_crops, avg_rainfall) == "1183119") print("CRACKED!")
 ```
 
@@ -91,11 +97,11 @@ if (paste0(n_rows, n_crops, avg_rainfall) == "1183119") print("CRACKED!")
 - What is the min pH for "rice"? (Round to 1 decimal). (Hint: `min`)
 
 ```{r}
-# Your code here, note that you should use the specified name for the objects
-
+avg_temp <- round(mean(crops[crops$label == "rice", "temperature"]), 1)
+max_hmd <- round(max(crops[crops$label == "rice", "humidity"]), 1)
+min_ph <- round(min(crops[crops$label == "rice", "ph"]), 1)
 if (paste0(avg_temp, max_hmd, min_ph) == "23.7855") print("CRACKED!")
 ```
-
 
 # Class 7
 ## Control structure
@@ -134,4 +140,3 @@ if (paste0(avg_temp, max_hmd, min_ph) == "23.7855") print("CRACKED!")
 ```{r}
 
 ```
-
