@@ -1,6 +1,6 @@
 ---
 title: "Spatial Data Analysis (450:320)"
-subtitle: "Class 6"
+subtitle: "Class 7"
 format:
   revealjs:
     code-block-height: 650px
@@ -19,6 +19,14 @@ css: ["themes/class6.css"]
 editor_options: 
   chunk_output_type: console
 ---
+
+## 
+
+```{r, out.width = "70%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/code-cracker.svg")
+```
+
+Download [this R markdown](https://sselp.github.io/sdawr//code_cracker1.Rmd) and put in your class note folder.
 
 ## Today
 
@@ -48,6 +56,7 @@ Commonly used control structure:
 #| 
 # one line
 if (4 > 5) print('4 is larger than 5.') else print("4 is smaller than 5.")
+if (4 > 5) print('4 is larger than 5.')
 
 # paragraph
 if (4 > 5) {
@@ -69,6 +78,18 @@ x <- 4
 y <- 10
 z <- ifelse(x > y, x, y)
 ```
+
+## Control structure
+### Your turn to use "if-else" on Crops dataset
+
+- Isolate the data for Row **70** of the dataset.
+- Logic Check: 
+    - If the label is "rice": 
+        * Add **2** to its temperature. 
+        * If this new temperature is higher than **25**, print: "Vulnerable to climate change". 
+        * Otherwise, print: "Resistant to climate change".
+    
+    - If the label is not "rice", print: "Not rice".
 
 ## Control structure
 ### `switch`
@@ -102,6 +123,16 @@ switch(x,
 The last component of a `switch()` should always throw an error, otherwise unmatched inputs will invisibly return `NULL`.
 
 ## Control structure
+### Your turn to use "switch" on Crops dataset
+
+- Randomly select **1** rows from the dataset. Use seed 10.
+- Check: 
+    - If the label is "pigeonpeas", print "Drought tolerant"
+    - If the label is "kidneybeans", print "Nutritious"
+    - If the label is "muskmelon", print "Juicy"
+    - All others, "Invalid value"
+
+## Control structure
 ### `for`
 
 ```{r}
@@ -126,6 +157,14 @@ for (i in 1:10){
 ```
 
 ## Control structure
+### Your turn to use "for" on Crops dataset
+
+- Loop over the first 10 rows of the crops dataset
+- Identify "Acidic High-Nitrogen" samples:
+    - If pH is less than 6.0 and N is greater than 80, print "Row [Number]: Action Required". E.g. "Row 1: Action Required". (Hint: use `paste`)
+    - Otherwise, print "Row [Number]: Stable"
+
+## Control structure
 ### `while` and `repeat`
 
 ```{r}
@@ -133,7 +172,7 @@ for (i in 1:10){
 #| eval: false
 #| 
 # while
-x <- 0
+x <- 0 # important
 while(x < 10){
   print(x)
   x <- x + 1 # Change the checking condition
@@ -150,6 +189,14 @@ repeat{
   }
 }
 ```
+
+## Control structure
+### Do the same but with "while" and "repeat"
+
+- Loop over the first 10 rows of the crops dataset
+- Identify "Acidic High-Nitrogen" samples:
+    - If pH is less than 6.0 and N is greater than 80, print "Row [Number]: Action Required"
+    - Otherwise, print "Row [Number]: Stable"
 
 ## Control structure
 ### `break` and `next`
@@ -218,6 +265,8 @@ knitr::include_graphics("figures/class7_apply.png")
 m <- matrix(c(1:5, 11:15, 21:25), nrow = 5, ncol = 3)
 m
 apply(m, 2, function(x) x + 2)
+
+apply(m, 2, function(x) x + 2, simplify = FALSE)
 
 apply(m, 1, function(x) x + 2) ## what will happen?
 ```
@@ -293,25 +342,15 @@ mapply(function(x, y){
 }, df$price, df$product)
 ```
 
-## Looping practice
+## `apply` practice on crops dataset
 
-Create a matrix `m` and do evaluation:
-
-  - `m <- cbind(a = 16:11, b = sample(1:100, 6))` with seed 10.
-  - Use `apply()` to find the row means of `m`.
-  - Use `apply()` to sort the columns of `m` (`sort()` for sort).
-  - Apply function `deri <- function(x) log10(x) - 5` on the rows of `m` and observe the result.
-
-Create a list `l` and do evaluation:
-
-  - `l <- list(a = matrix(sample(2:50, 6), nrow = 2), b = data.frame(m = runif(10, 0, 10), n = rnorm(10, mean = 3, sd = 1)))` with seed 12.
-  - Use `lapply()` to find the sums of each element in `l`.
-  - Do the same with function `sapply()`.
-  - Use `sapply()` to find the find which elements of `l` is `matrix`.
-  - Use `lapply()` to calculate the `colMeans` of each elements in `l`.  
+- Calculate the sum of N, P, K for all ROWs. (use `apply`)
+- Get the range of column of temperature, humidity and rainfall. (use `lapply`, and function `range`)
+- Calculate mean rainfall per crop types. (use `tapply`)
+- Calculate a custom score `N + (P * 2)` across all rows. (use `mapply`)
 
 ## Homework
 
 - **Assignment 2** is due this Friday.
 - **Read** Unit1-Module4.
-- [class_apply_practice answer](https://sselp.github.io/sdawr//class7_apply_practice.R)
+- [answer of in-class practice](https://sselp.github.io/sdawr//code_cracker1_answer.Rmd)
