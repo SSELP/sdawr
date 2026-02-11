@@ -24,7 +24,7 @@ for (i in 1:nrow(students)){
                    sprintf(personal_url, stu$github, stu$repo))
     
     if (dir.exists(file.path(ass_dir, stu$repo))){
-        system(sprintf("cd %s/%s; git pull", ass_dir, stu$repo))
+        system(sprintf("cd %s/%s; git pull; git fetch --all", ass_dir, stu$repo))
     } else{
         system(sprintf("cd %s; git clone %s", ass_dir, repo))
     }
