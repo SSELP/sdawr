@@ -22,3 +22,37 @@ ggplot() +
         aes(x = X, y = Y, label = adm0_a3_pk), 
         position = position_dodge(1)) +
     theme_void()
+
+# Get tropical bird data
+library(rgbif)
+birds <- c("Harpia harpyja", "Ara macao", 
+           "Ramphastos sulfuratus", "Amazilia tzacatl")
+clean_keys <- name_backbone_checklist(birds) %>% pull(usageKey)
+
+download_job <- occ_download(
+    pred_in("taxonKey", clean_keys),
+    pred("occurrenceStatus", "PRESENT"),
+    pred("hasCoordinate", TRUE),
+    pred("hasGeospatialIssue", FALSE),
+    pred_gte("distanceFromCentroidInMeters", 10), 
+    pred("taxonomicStatus", "ACCEPTED"), 
+    pred_gte("year", 1980), 
+    format = "SIMPLE_CSV")
+
+occ_download_get(download_job, path = ".", overwrite = TRUE)
+dat <- read.delim("0010202-260208012135463.csv") %>% 
+    select(family, species, decimalLatitude, decimalLongitude,
+           day, month, year)
+
+vars <- rast("bioclim.tif")
+
+vars <- extract(
+    subset(vars, c("bio01", "bio12")), 
+    dat %>% st_as_sf(coords = c("decimalLongitude", "decimalLatitude"), 
+                     crs = 4326) %>% st_transform(crs(vars)))
+
+dat <- cbind(dat, vars) %>% 
+    select(family, species, decimalLatitude, decimalLongitude, month, year, bio01, bio12) %>% 
+    rename(latitude = decimalLatitude, longitude = decimalLongitude,
+           temperature = bio01, precipitation = bio12)
+write.csv(dat, 'tropical_birds.csv', row.names = TRUE)
