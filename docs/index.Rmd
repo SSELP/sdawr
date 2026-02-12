@@ -84,6 +84,8 @@ The class materials were designed by Lyndon Estes and Lei Song.
 
 (*Subject to change*)
 
+**Weekly homework page:** https://lei-song.shinyapps.io/SDA320-homework/
+
 <table class="table" style="width:100%;">
   <thead>
     <tr>
