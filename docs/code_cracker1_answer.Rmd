@@ -50,6 +50,14 @@ last_crop <- sort(crop_types, decreasing = TRUE)[1]
 if (paste0(n_crops, first_crop, last_crop) == "22applewatermelon") print("CRACKED!")
 ```
 
+`dplyr`
+
+```{r}
+n_crops <- crops %>% pull(label) %>% unique() %>% length()
+first_crop <- crops %>% pull(label) %>% unique() %>% sort() %>% `[`(1)
+last_crop <- crops %>% pull(label) %>% unique() %>% sort(decreasing = TRUE) %>% `[`(1)
+```
+
 # Task 2: The "High N" club
 
 - What is the maximum N (Nitrogen) value for maize? (Hint: `max`, `==`, like `crops$label == "apple"` or `crops$P == 0`)
@@ -103,36 +111,118 @@ min_ph <- round(min(crops[crops$label == "rice", "ph"]), 1)
 if (paste0(avg_temp, max_hmd, min_ph) == "23.7855") print("CRACKED!")
 ```
 
-# Class 7
+# Class 8
+## Warm up
+
+1. Identify all rows where pH greater than 8 and crop is "chickpea".
+2. For only those rows, replace the current rainfall value with the maximum Nitrogen (N) value in this subset.
+3. From this subset, randomly select 5 rows with seed of 10.
+    - Compute: mean(rainfall) + mean(temperature) using those 5 rows.
+    - Round the final result to 0.
+    - Report the resulting value out loud once you finish.
+    
+```{r}
+# 1. Identify the target rows
+targets <- crops$ph > 8 & crops$label == "chickpea"
+
+# 2. Extract the subset for calculation
+chickpea_sub <- crops[targets, ]
+
+# 3. Get the max N from the subset and replace rainfall
+max_n_sub <- max(chickpea_sub$N)
+chickpea_sub$rainfall <- max_n_sub
+
+# 4. Randomly select 5 rows with seed 10
+set.seed(10)
+random_rows <- sample(1:nrow(chickpea_sub), 5)
+final_subset <- chickpea_sub[random_rows, ]
+
+# 5. Final math and rounding
+raw_result <- mean(final_subset$rainfall) + mean(final_subset$temperature)
+final_val <- round(raw_result, 0)
+final_val
+```
+
 ## Control structure
 ### If-else
 
 ```{r}
+# 1. Select row No. 70
+row70 <- crops[70, ]
 
+# 2. Run the logic
+if (row70$label == "rice") {
+  # Add 2 to the temperature
+  mod_temp <- row70$temperature + 2
+  
+  if (mod_temp > 25) {
+    print("Vulnerable to climate change")
+  } else {
+    print("Resistant to climate change")
+  }
+  
+} else {
+  print("Not rice")
+}
 ```
 
 ### switch
 
 ```{r}
+set.seed(10)
+rows <- crops[sample(1:nrow(crops), 1), ]
 
+switch(rows$label,
+    pigeonpeas = "Drought tolerant",
+    kidneybeans = "Nutritious",
+    muskmelon = "Juicy",
+    stop("Invalid value")
+)
 ```
 
 ### for
 
 ```{r}
-
+for (i in 1:10) {
+  if (crops$ph[i] < 6.0 & crops$N[i] > 80) {
+    print(paste("Row", i, ": Action Required"))
+  } else {
+    print(paste("Row", i, ": Stable"))
+  }
+}
 ```
 
 ### While
 
 ```{r}
-
+i <- 1
+while (i <= 10) {
+  if (crops$ph[i] < 6.0 & crops$N[i] > 80) {
+    print(paste("Row", i, ": Action Required"))
+  } else {
+    print(paste("Row", i, ": Stable"))
+  }
+  i <- i + 1  # Crucial step!
+}
 ```
 
 ### Repeat
 
 ```{r}
-
+i <- 1
+repeat {
+  if (crops$ph[i] < 6.0 & crops$N[i] > 80) {
+    print(paste("Row", i, ": Action Required"))
+  } else {
+    print(paste("Row", i, ": Stable"))
+  }
+  
+  i <- i + 1
+  
+  if (i > 10) {
+    break  # Stops the loop after row 50
+  }
+}
 ```
 
 ### `apply` practice on crops dataset
