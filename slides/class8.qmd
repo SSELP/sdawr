@@ -50,7 +50,7 @@ Open your code cracker [R markdown](https://sselp.github.io/sdawr//code_cracker1
 
 1. Identify all rows where pH greater than 8 and crop is "chickpea".
 2. For only those rows, replace the current rainfall value with the maximum Nitrogen (N) value in this subset.
-3. From this subset, extract the first 5 rows.
+3. From this subset, randomly select 5 rows with seed 10.
     - Compute: mean(rainfall) + mean(temperature) using those 5 rows.
     - Round the final result to 0.
     - Report the resulting value out loud once you finish.
@@ -98,7 +98,7 @@ if (4 > 5) {
 ifelse(4 > 5, print('4 is larger than 5.'), print("4 is smaller than 5."))
 x <- 4
 y <- 10
-z <- ifelse(x > y, x, y)
+z <- ifelse(x > y, x + 1, y - 1)
 ```
 
 ## Control structure
@@ -264,7 +264,7 @@ These functions allow you process the data in batches looply. The primary differ
 - `x`: an array. other types (e.g. data.frame) will convert to matrix.
 - `MARGIN`: we could take it as the dimension to take batches, 1 indicates rows, 2 indicates columns, etc. etc. It can take more than one values, e.g. `c(1, 2)` means across both rows and columns.
 - `FUN`: the function applied to the batch.
-- returns a vector or *array*, sometimes a list.
+- returns a vector or *array*, sometimes a list (`simplify = FALSE`).
 
 ## `apply()`
 
@@ -316,7 +316,21 @@ l
 lapply(l, sum)
 ```
 
-**The magic of `do.call` with `dplyr`: try `do.call(c, lapply(l, sum))` by yourself.
+## `lapply()`
+
+**The magic of `do.call` with `dplyr`** 
+
+Try by yourself:
+
+- `do.call(c, lapply(l, sum))`
+- `do.call(rbind, lapply(l, sum))`
+- `do.call(cbind, lapply(l, sum))`
+
+## `lapply()` vs  `sapply()`
+
+```{r, out.width = "70%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("figures/class7_lapply.png")
+```
 
 ## `sapply()`
 
@@ -335,12 +349,6 @@ sapply(l, sum)
 \
 
 **Q:** How to modify the code to calculate the `max − min` price for each element in `l` ? (Hint: use anonymous function)
-
-## `lapply()` vs  `sapply()`
-
-```{r, out.width = "70%", echo=FALSE, fig.align='center'}
-knitr::include_graphics("figures/class7_lapply.png")
-```
 
 ## Others
 
@@ -377,7 +385,7 @@ mapply(function(x, y){
 ## `apply` practice on crops dataset
 
 - Calculate the sum of N, P, K for all ROWs. (use `apply`)
-- Get the range of column of temperature, humidity and rainfall. (use `lapply`, and function `range`)
+- *Get the range of column of temperature, humidity and rainfall (use `lapply`, and function `range`). And collect the results into a matrix by row.*
 - Calculate mean rainfall per crop types. (use `tapply`)
 - Calculate a custom score `N + (P * 2)` across all rows. (use `mapply`)
 - Subset only numeric columns of crops dataset
