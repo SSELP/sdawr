@@ -125,14 +125,14 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">4</td>
       <td>Feb 9, 11</td>
       <td>Basic data operation and control flow</td>
-      <td class="current">[Class 06](class6.html), [Class 07](class7.html)</td>
+      <td>[Class 06](class6.html), [Class 07](class7.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 2 (Feb 13)</td>
     </tr>
     <tr>
       <td style="text-align: center;">5</td>
       <td>Feb 16, 18</td>
       <td>tidyverse, working with data</td>
-      <td>Class 08, Class 09</td>
+      <td class="current">[Class 08](class8.html), [Class 09](class9.html)</td>
       <td></td>
     </tr>
     <tr>

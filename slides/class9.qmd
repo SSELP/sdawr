@@ -1,0 +1,271 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 9"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/sentinel2_plot.png
+title-slide-attributes:
+  data-background-image: figures/sentinel2_plot.png
+  data-background-position: center
+  data-background-size: 60%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## We have learned
+
+- Fundamentals of R.
+- Functions, packages, environment, and namespace.
+- Reproducibility.
+- Getting help.
+- Git/GitHub
+- Indexing, subsetting, and replacing
+- `*apply` family
+
+## Today
+
+- tidy data and `tidyverse`
+- Read, write data and paths
+
+## Tidy data
+
+1. Each variable is a column; each column is a variable.
+2. Each observation is a row; each row is an observation.
+3. Each value is a cell; each cell is a single value.
+
+## Tidy data
+
+```{r}
+#| echo: false
+library(tidyr)
+library(tibble)
+classroom <- tribble(
+  ~name,    ~assignment1, ~assignment2, ~quiz1,
+  "Billy",  NA,     "D",    "C",
+  "Suzy",   "F",    NA,     NA,
+  "Lionel", "B",    "C",    "B",
+  "Jenny",  "A",    "A",    "B")
+classroom
+```
+
+Is this table tidy? 
+
+## Tidy data
+
+```{r}
+#| echo: false
+classroom <- classroom %>% 
+    pivot_longer(2:4, names_to = "assessment", values_to = "grade")
+classroom
+```
+
+## Tidy data
+
+How about this one?
+
+```{r}
+#| echo: false
+classroom <- tribble(
+  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,
+  "assignment1",     NA,     "F",   "B",     "A",
+  "assignment2",     "D",    NA,    "C",     "A",
+  "quiz1",     "C",    NA,    "B",     "B")
+classroom
+```
+
+## Tidy data
+
+```{r}
+#| echo: false
+classroom <- classroom %>% 
+    pivot_longer(2:5, names_to = "student", values_to = "grade")
+classroom
+```
+
+## Introduction to `tidyverse`
+
+A collection of packages to create, process and manipulate tidy data.
+
+- `dplyr`, provides functions for data manipulation
+- `tidyr`, provide functions to get to tidy data
+- `ggplot2`, a system to create figures.
+- `stringr`, provides functions to deal with strings
+
+Visit [tidyverse web](https://www.tidyverse.org/packages/) together.
+
+## `dplyr` vs base R
+
+- `filter` (by condition) and `slice` (by index) to subset rows
+- `select` to subset columns
+- `pull` to read a column as a vector (like the double bracket `[[]]`)
+- `mutate` to add a new column
+
+## Run an example
+
+```{r}
+#| echo: true
+#| eval: true
+library(dplyr)
+classroom
+# filter
+good_stu <- filter(classroom, grade == "A")
+good_stu
+
+first_stus <- slice(classroom, 1:2)
+first_stus
+```
+
+## Run an example
+
+```{r}
+#| echo: true
+#| eval: true
+# select
+students <- select(classroom, c(student, grade))
+students
+# pull
+stuts <- pull(classroom, student)
+stuts
+```
+
+## Run an example
+
+```{r}
+#| echo: true
+#| eval: true
+# mutate
+classroom <- mutate(classroom, good = ifelse(grade == "A", 1, 0))
+classroom
+```
+
+## Revisit Task 1 in code cracker
+
+- How many unique crop types are in the label column?
+- What is the name of the crop that appears first alphabetically?
+- What is the name of the crop that appears last alphabetically?
+
+```{r}
+#| echo: true
+#| eval: false
+crop_types <- unique(crops[["label"]])
+n_crops <- length(crop_types)
+first_crop <- sort(crop_types)[1]
+last_crop <- sort(crop_types, decreasing = TRUE)[1]
+```
+
+**Use `dplyr` syntax to redo this task. Share your solution in Chat.**
+
+## Pipeline
+
+- For these two lines:
+```{r}
+#| echo: true
+#| eval: false
+crop_types <- unique(crops[["label"]])
+n_crops <- length(crop_types)
+```
+
+\
+
+- I can chain all functions into a single pipeline using `%>%`.
+
+```{r}
+#| echo: true
+#| eval: false
+n_crops <- crops %>% pull(label) %>% unique() %>% length()
+```
+
+## Pipeline
+
+- The full version is: 
+
+```{r}
+#| echo: true
+#| eval: false
+n_crops <- crops %>% pull(., label) %>% unique(.) %>% length(.)
+```
+
+- Use `.` to refer to the result from the previous step. By default, the result is passed as the first argument.
+
+\
+
+- Sometimes you may want to control **where** the result is passed in the next function call:
+
+```{r}
+#| echo: true
+#| eval: false
+crops %>% pull(label) %>% unique() %>% length() %>% paste0("Crop number is: ", .)
+```
+
+## Your try
+
+Revisit task 2 in code cracker:
+
+- What is the maximum N (Nitrogen) value for maize? 
+
+Your task: 
+
+- **Get the result in one `dplyr` pipeline**
+- Share your solution in Chat.
+
+## Your try (10 mins)
+
+- Redo all 5 code cracker tasks using `dplyr` syntax.
+- **Challenge:** try to finish every step in a single pipeline.
+- **Ask** questions if you get stuck.
+
+## Read and write data
+  
+- `read.csv` to read csv file
+- `write.csv` to save csv file
+  
+```{r}
+#| echo: true
+#| eval: false
+
+# Base R
+soemthing <- read.csv("/path/to/the/file", stringsAsFactors = FALSE)
+write.csv(something, "/path/for/the/new/file", row.names = FALSE)
+```
+
+## Paths
+
+- Interactive environment (e.g. console):
+  
+  - `getwd()` to get the working directory
+  - `setwd()` to set the new working directory
+  - relative paths are relative to this working directory.
+  
+- R markdown knit directory:
+
+  - Document directory
+  - Project directory
+  - Current working directory
+  
+- R script
+
+  - Current working directory
+  
+## Strategies to work with paths
+
+Package `here` will definitely what you should try.
+
+- Function `here` of package `here` will specify the right path of a file within a project:
+  
+  - `here::here()` will give you the project root path
+  - `here::here("/a/path/relative/to/your/project/root")` to specify the right path of a file within your package.
+
+## Homework
+
+- Finish reading Unit1-Module4.
+- Finish rewriting all five code cracker tasks using `dplyr` if you did not complete them earlier in class.
+- Read this [online section](https://tidyr.tidyverse.org/articles/tidy-data.html) to know better about tidy data.
+- **Important:** Finish [Homework](https://lei-song.shinyapps.io/SDA320-homework/#section-tidyversing-the-crop-dataset) (“Tidyversing” the crop dataset section).
