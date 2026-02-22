@@ -104,7 +104,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">1</td>
       <td>Jan 21</td>
       <td>Welcome, setup, Git & GitHub</td>
-      <td>[[[Class 01](class11.html)](class10.html)](class1.html)</td>
+      <td>[Class 01](class1.html)</td>
       <td></td>
     </tr>
     <tr>
@@ -139,7 +139,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">6</td>
       <td>Feb 23, 25</td>
       <td>Data manipulation and visualization</td>
-      <td class="current">Class 10, Class 11</td>
+      <td class="current">[Class 10](class10.html), [Class 11](class11.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 3 (Feb 27)</td>
     </tr>
     <tr style="background-color: #f8f9fa; font-weight: bold;">

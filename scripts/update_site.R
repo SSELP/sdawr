@@ -49,7 +49,7 @@ if (length(slide_paths) == 0) {
         file.rename(gsub(".qmd", ".html", here(fn)), ohtml)
         
         # 3. Update index.Rmd
-        cls_index <- str_extract(fn, "class[0-9]{1}")
+        cls_index <- str_extract(fn, "class[0-9]+")
         cls_index <- as.integer(gsub("class", "", cls_index))
         cls_index <- sprintf("Class %.2d", cls_index)
         
