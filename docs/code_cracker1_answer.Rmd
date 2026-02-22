@@ -71,6 +71,14 @@ crop_mn <- crops[crops$N == max(crops$N), "label"][1]
 if (paste0(max_n, zero_n, crop_mn) == "10027cotton") print("CRACKED!")
 ```
 
+`dplyr`
+
+```{r}
+max_n <- crops %>% filter(label == "maize") %>% select(N) %>% max()
+zero_n <- crops %>% filter(N == 0) %>% nrow()
+crop_mn <- crops %>% filter(N == max(N)) %>% select(label) %>% slice(1)
+```
+
 # Task 3: Soil chemistry
 
 - What is the mean pH across all rows? (Round to 2 decimals). (Hint: function `mean` and `round`)
@@ -82,6 +90,14 @@ ph_mean <- round(mean(crops$ph), 2)
 rows_7 <- sum(crops$ph > 7)
 crop_lph <- crops[crops$ph == min(crops$ph), "label"]
 if (paste0(ph_mean, rows_7, crop_lph) == "6.47468mothbeans") print("CRACKED!")
+```
+
+`dplyr`
+
+```{r}
+ph_mean <- crops %>% pull(ph) %>% mean() %>% round(2)
+rows_7 <- crops %>% filter(ph > 7) %>% nrow()
+crop_lph <- crops %>% filter(ph == min(ph)) %>% select(label)
 ```
 
 # Task 4: Tropical conditions
@@ -98,6 +114,16 @@ avg_rainfall <- round(mean(crops_sub$rainfall), 0)
 if (paste0(n_rows, n_crops, avg_rainfall) == "1183119") print("CRACKED!")
 ```
 
+`dplyr`
+
+```{r}
+n_rows <- crops %>% filter(temperature > 30 & humidity > 80) %>% nrow()
+n_crops <- crops %>% filter(temperature > 30 & humidity > 80) %>% 
+    pull(label) %>% unique() %>% length()
+avg_rainfall <- crops %>% filter(temperature > 30 & humidity > 80) %>% 
+    pull(rainfall) %>% mean() %>% round(0)
+```
+
 # Task 5: The "Ideal" Rice
 
 - What is the average temperature for rice? (Round to 1 decimal).
@@ -109,6 +135,17 @@ avg_temp <- round(mean(crops[crops$label == "rice", "temperature"]), 1)
 max_hmd <- round(max(crops[crops$label == "rice", "humidity"]), 1)
 min_ph <- round(min(crops[crops$label == "rice", "ph"]), 1)
 if (paste0(avg_temp, max_hmd, min_ph) == "23.7855") print("CRACKED!")
+```
+
+`dplyr`
+
+```{r}
+avg_temp <- crops %>% filter(label == "rice") %>% 
+    pull(temperature) %>% mean() %>% round(1)
+max_hmd <- crops %>% filter(label == "rice") %>% 
+    pull(humidity) %>% max() %>% round(1)
+min_ph <- crops %>% filter(label == "rice") %>% 
+    pull(ph) %>% min() %>% round(1)
 ```
 
 # Class 8
@@ -228,5 +265,23 @@ repeat {
 ### `apply` practice on crops dataset
 
 ```{r}
+row_sums <- apply(crops[, c("N", "P", "K")], 1, sum)
 
+col_ranges <- lapply(crops[, c("temperature", "humidity", "rainfall")], range)
+col_ranges <- do.call(rbind, col_ranges)
+col_ranges
+
+crop_rain <- tapply(crops$rainfall, crops$label, mean)
+
+# use lapply
+crop_rain <- do.call(c, lapply(unique(crops$label), function(x){
+    mean(crops[crops$label == x, "rainfall"])
+}))
+
+scores <- mapply(function(n, p) n + (p * 2), crops$N, crops$P)
+
+# use lapply
+scores <- do.call(c, lapply(1:nrow(crops), function(x) {
+    crops$N[x] + crops$P[x] * 2
+}))
 ```

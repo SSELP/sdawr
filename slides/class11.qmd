@@ -1,0 +1,487 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 11"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/zambia_farmer_repsperweek.png
+title-slide-attributes:
+  data-background-image: figures/zambia_farmer_repsperweek.png
+  data-background-position: center
+  data-background-size: 80%
+css: ["themes/class10.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## We have learned
+
+- All necessary data manipulation!
+- Of course you could learn more by yourself
+
+## Today
+
+- Figures
+- Tables
+
+**Note**: create an R markdown for today's class.
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(ggplot2)
+```
+
+## Tables
+
+Package [`kableExtra`](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
+
+Basic syntax is:
+
+```{r}
+#| echo: true
+#| eval: true
+library(kableExtra)
+crops <- read.csv(here('docs/Crop_recommendation.csv')) %>% slice(1:5)
+
+crops %>% 
+    kbl(digits = 1, caption = 'First 5 observations') %>%
+    kable_paper(lightable_options = 'basic', # could be basic, striped, or hover
+                html_font = 'helvetica', # could be any font installed on your machine.
+                font_size = 12, # font size
+                full_width = FALSE, # full width or not
+                position = "left", # center, left, right, or float-left and float-right
+                fixed_thead = T) %>% # for a very long cross-pages table.
+    column_spec(1, bold = T, background = 'pink') %>% # customize a column
+    row_spec(1:5, color = 'white') %>% 
+    row_spec(which(crops$temperature == max(crops$temperature)),
+             italic = TRUE, color = 'red') # customize a row
+```
+
+## Base scatterplot
+
+```{r}
+#| echo: true
+#| eval: false
+crops <- read.csv(here('docs/Crop_recommendation.csv'))
+# set the margin, c(bottom, left, top, right)
+par(mar = c(3, 4, 3, 4)) 
+# Make the main plot
+plot(x = crops$ph, y = crops$rainfall, # set x and y
+     pch = 20, col = 'blue', # set points style
+     main = 'Relationship between ph and rainfall', # add main
+     col.main = 'brown', # set main color
+     xlab = 'ph', ylab = 'Rainfall') # set x and y axis
+
+# Add a fit line
+abline(lm(crops$rainfall ~ crops$ph),
+       lty = 3, lwd = 3, col = 'black')
+
+# Add legend
+legend("topright", pch = c(20, 18), 
+       col = "blue", 
+       legend = "Rainfall")
+```
+
+## Base scatterplot
+
+```{r, echo=F, fig.align='center', fig.width=8, fig.height=5, dpi=600}
+crops <- read.csv(here('docs/Crop_recommendation.csv'))
+# set the margin, c(bottom, left, top, right)
+par(mar = c(3, 4, 3, 4)) 
+# Make the main plot
+plot(x = crops$ph, y = crops$rainfall, # set x and y
+     pch = 20, col = 'blue', # set points style
+     main = 'Relationship between ph and rainfall', # add main
+     col.main = 'brown', # set main color
+     xlab = 'ph', ylab = 'Rainfall') # set x and y axis
+
+# Add a fit line
+abline(lm(crops$rainfall ~ crops$ph),
+       lty = 3, lwd = 3, col = 'black')
+
+# Add legend
+legend("topright", pch = c(20, 18), 
+       col = "blue", 
+       legend = "Rainfall")
+```
+
+## Your turn
+
+- Copy the code and revise the arguments (variables, colors, etc) to your own choices.
+- Share your figure in Google chat.
+
+More choices on style of points or lines:
+
+- `pch`: http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r
+- `lty`: http://www.sthda.com/english/wiki/line-types-in-r-lty
+
+## Double y axises
+
+```{r}
+#| echo: true
+#| eval: false
+# set the margin, c(bottom, left, top, right)
+par(mar = c(3, 4, 3, 4)) 
+# Make the main plot
+plot(crops$ph, crops$rainfall, # set x and y
+     pch = 20, col = 'blue', # set points style
+     main = 'Relationship between ph, rainfall and humidity', # add main
+     col.main = 'brown', # set main color
+     xlab = 'ph', ylab = 'Rainfall') # set x and y axis
+
+# Add a fit line
+abline(lm(crops$rainfall ~ crops$ph),
+       lty = 3, lwd = 3, col = 'blue')
+
+# THE TRICK: Add another scatterplot using points
+## Reset plot window
+plot.window(xlim = range(crops$ph), 
+            ylim = range(crops$humidity))
+
+## Another syntax to use plot: with(dataset, plot(x, y))
+with(crops, points(ph, humidity,
+                   pch = 18, col = 'orange'))
+# Add fit line
+with(crops, abline(lm(humidity ~ ph),
+                   lty = 4, lwd = 2, 
+                   col = 'orange'))
+
+# Add another axis
+axis(4, col.axis = "orange")
+## Add lab for this axis
+mtext(side = 4, line = 2, "Humidity", col = 'orange')
+
+# Add legend
+legend("topright", pch = c(20, 18), 
+       col = c("blue", "orange"), 
+       legend = c("Rainfall", "Humidity"))
+```
+
+## Double y axises
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 8
+#| fig-height: 6
+#| dpi: 300
+# set the margin, c(bottom, left, top, right)
+par(mar = c(3, 4, 3, 4)) 
+# Make the main plot
+plot(crops$ph, crops$rainfall, # set x and y
+     pch = 20, col = 'blue', # set points style
+     main = 'Relationship between ph, rainfall and humidity', # add main
+     col.main = 'brown', # set main color
+     xlab = 'ph', ylab = 'Rainfall') # set x and y axis
+
+# Add a fit line
+abline(lm(crops$rainfall ~ crops$ph),
+       lty = 3, lwd = 3, col = 'blue')
+
+# THE TRICK: Add another scatterplot using points
+## Reset plot window
+plot.window(xlim = range(crops$ph), 
+            ylim = range(crops$humidity))
+
+## Another syntax to use plot: with(dataset, plot(x, y))
+with(crops, points(ph, humidity,
+                   pch = 18, col = 'orange'))
+# Add fit line
+with(crops, abline(lm(humidity ~ ph),
+                   lty = 4, lwd = 2, 
+                   col = 'orange'))
+
+# Add another axis
+axis(4, col.axis = "orange")
+## Add lab for this axis
+mtext(side = 4, line = 2, "Humidity", col = 'orange')
+
+# Add legend
+legend("topright", pch = c(20, 18), 
+       col = c("blue", "orange"), 
+       legend = c("Rainfall", "Humidity"))
+```
+
+## Your turn
+
+The same:
+
+- Copy the code and revise the arguments (variables, colors, etc) to your own choices.
+- Share your figure in Google chat.
+
+## Others
+
+- `hist` (histogram)
+- `boxplot`
+- `par(mfrow = c(1, 3))` to organize multiple points.
+
+Very good examples of [base plotting system](https://rstudio-pubs-static.s3.amazonaws.com/84527_6b8334fd3d9348579681b24d156e7e9d.html).
+
+## Example
+
+```{r}
+#| echo: true
+#| eval: false
+# set the layer, c(row, col)
+par(mfrow = c(1, 2), mar = c(6, 2, 2, 2))
+
+hist(crops$temperature,
+     col = 'lightblue', border = 'purple', # colors
+     main = 'The distribution of temperature', # title
+     xlab = 'Temperature') # title of x axis
+boxplot(temperature ~ label, # boxplot temperature by label
+        crops, # dataset
+        xlab = '', # set title of x axis to empty
+        ylab = 'Temperature', # title of y axis
+        las = 2) # set labels perpendicular to the axis
+```
+
+## Example
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 8
+#| fig-height: 4
+#| dpi: 300
+# set the layer, c(row, col)
+par(mfrow = c(1, 2), mar = c(6, 2, 2, 2))
+
+hist(crops$temperature,
+     col = 'lightblue', border = 'purple', # colors
+     main = 'The distribution of temperature', # title
+     xlab = 'Temperature') # title of x axis
+boxplot(temperature ~ label, # boxplot temperature by label
+        crops, # dataset
+        xlab = '', # set title of x axis to empty
+        ylab = 'Temperature', # title of y axis
+        las = 2) # set labels perpendicular to the axis
+```
+
+## Your turn
+
+The same:
+
+- Copy the code and revise the arguments (variables, colors, etc) to your own choices.
+- Share your figure in Google chat.
+
+## `ggplot2`
+
+Details in [`ggplot2` package document](https://ggplot2.tidyverse.org/reference/index.html).
+
+- Basic syntax
+
+```{r}
+#| echo: true
+#| eval: false
+my_plot <- ggplot(dt, aes(x = ., y = ., fill = ., color = ., ...)) + # Data
+  geom_point(aes(...)) + # geom
+  ... +
+  facet_wrap() + # organize sub-plots
+  # scale
+  scale_fill_manual(values=c("red", "blue", ...)) + # customize fill color
+  scale_color_manual(values=c("red", "green", ...)) + # customize color
+  labs(x = 'x axis', y = 'y axis', title = 'main title') + # titles
+  coord_polar() + # sometimes you might want to change the coordinate system
+  theme_bw()  + # ggplot2 theme
+  theme() # Customize other settings
+```
+
+An aesthetic is a visual property of the objects in your plot. It includes things like the size, the shape, or the color of your points. So if you want `ggplot2` to take your settings of these things, you have to put them into aesthetic.
+
+## Some geom functions in `ggplot2`
+
+- `geom_point()`: scatter plot
+- `geom_line()`: line plot
+- `geom_histogram()`: histogram
+- `geom_bar()`: bar plot with base on the x-axis
+- `geom_boxplot()`: standard box plot with boxes and whiskers
+- `geom_smooth()`: smooth curve
+
+## `ggplot2` vs. base R
+
+Let's reconstruct all example figures with `ggplot2`.
+
+## Same scatterplot with `ggplot2`
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 8
+#| fig-height: 6
+#| dpi: 300
+#| 
+ggplot(crops) +
+  geom_point(aes(x = ph, y = rainfall), 
+             color = 'blue') +
+  geom_smooth(aes(x = ph, y = rainfall),
+              method = "lm", se = FALSE, 
+              color = 'blue', linetype = 2) + 
+  geom_point(aes(x = ph, y = humidity*3), 
+             color = 'orange') +
+  geom_smooth(aes(x = ph, y = humidity*3),
+              method = "lm", se = FALSE, 
+              color = 'orange', linetype = 3) +
+  # Add a second axis and specify its features
+  scale_y_continuous(
+    sec.axis = sec_axis(~.*(1 / 3), name = "Humidity")) + 
+  labs(x = "ph",
+       title = 'Relationship between ph, rainfall and humidity') +
+  theme_bw() +
+  theme(axis.text.y.right = element_text(color = "orange"),
+        axis.title.y.right = element_text(color = "orange"),
+        plot.title = element_text(color = "brown", hjust = 0.5))
+```
+
+## Same scatterplot with `ggplot2`
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(crops) + # data
+    # add scatter points for rainfall
+    geom_point(aes(x = ph, y = rainfall), 
+               color = 'blue') +
+    # add the fitted line for rainfall
+    geom_smooth(aes(x = ph, y = rainfall), 
+                method = "lm", se = FALSE, 
+                color = 'blue', linetype = 2) + 
+    # add scatter points for humidity
+    geom_point(aes(x = ph, y = humidity * 3), 
+               color = 'orange') +
+    # add fitted line for humidity
+    geom_smooth(aes(x = ph, y = humidity * 3), 
+                method = "lm", se = FALSE, 
+                color = 'orange', linetype = 3) +
+    # Add a second axis and specify its features
+    scale_y_continuous(
+        # make sure the ranges match
+        sec.axis = sec_axis(~.*(1 / 3), name = "Humidity")) + 
+    # Set titles
+    labs(x = "ph",
+         title = 'Relationship between ph, rainfall and humidity') +
+    # Set theme
+    theme_bw() +
+    theme(axis.text.y.right = element_text(color = "orange"),
+          axis.title.y.right = element_text(color = "orange"),
+          plot.title = element_text(color = "brown", hjust = 0.5))
+```
+
+## Same histogram with boxplot
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 8
+#| fig-height: 4
+#| dpi: 300
+p1 <- ggplot(crops) +
+  geom_histogram(aes(x = temperature), 
+                 fill = 'lightblue', color = 'purple') +
+  labs(x = 'Temperature', title = 'The distribution of temperature') +
+  theme_classic()
+p2 <- ggplot(crops) +
+  geom_boxplot(aes(x = label, y = temperature)) +
+  labs(y = 'Temperature', x = '') +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+cowplot::plot_grid(p1, p2, labels = "AUTO")
+```
+
+## Same histogram with boxplot
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Plot the histogram
+p1 <- ggplot(crops) + # set data
+    # add histogram
+    geom_histogram(aes(x = temperature), 
+                   fill = 'lightblue', color = 'purple') +
+    # set titles
+    labs(x = 'Temperature', title = 'The distribution of temperature') +
+    # Set theme
+    theme_classic()
+
+# plot the boxplot
+p2 <- ggplot(crops) +
+    geom_boxplot(aes(x = label, y = temperature)) +
+    labs(y = 'Temperature', x = '') +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Put together, need package cowplot
+cowplot::plot_grid(p1, p2, labels = "AUTO")
+```
+
+## Groups in `ggplot2`
+
+- Set color or shape in `aes`.
+
+```{r}
+#| echo: true
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 5
+#| fig-height: 4
+#| dpi: 300
+# Subset the dataset
+set.seed(12)
+crops_sub <- crops %>% 
+  filter(label %in% sample(unique(crops$label), 4))
+
+## Use different shape for groups
+ggplot(crops_sub) +
+  geom_point(aes(x = ph, y = rainfall,
+                 shape = label)) +
+  labs(x = 'ph', 
+       y = 'Rainfall',
+       title = 'Relationship between ph and rainfall') +
+  theme_light()
+```
+
+## Your turn
+
+- Adjust the code to use different colors for groups.
+
+## Facets in `ggplot2`
+
+- Use different panels
+
+```{r}
+#| echo: true
+#| eval: true
+#| fig-align: "center"
+#| fig-width: 4
+#| fig-height: 4
+#| dpi: 300
+ggplot(crops_sub) +
+  geom_point(aes(x = ph, y = rainfall), color = 'orange') +
+  facet_wrap(~ label) + # Split which into different panels
+  labs(x = 'ph', 
+       y = 'Rainfall',
+       title = 'Relationship between ph and rainfall') +
+  theme_light() +
+  theme(plot.title = element_text(color = "brown", hjust = 0.5))
+```
+
+## Homework
+
+- Assignment 3 due this Friday.
+- **Important:** finish [Weekly homework](https://lei-song.shinyapps.io/SDA320-homework/#section-spotted-hyenas-distribution) (Spotted Hyenas Distribution).

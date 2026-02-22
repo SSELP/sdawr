@@ -218,7 +218,7 @@ Your task:
 
 ## Your try (10 mins)
 
-- Redo all 5 code cracker tasks using `dplyr` syntax.
+- Redo all 5 code cracker tasks using `dplyr` syntax **one by one**.
 - **Challenge:** try to finish every step in a single pipeline.
 - **Ask** questions if you get stuck.
 
