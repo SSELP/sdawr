@@ -209,16 +209,18 @@ Create the example data
 #| echo: true
 #| eval: true
 #| 
-set.seed(10)
-crop_rmd <- read.csv(here('docs/Crop_recommendation.csv')) %>% 
-    sample_n(size = 20)
+crop_rmd <- read.csv(here('docs/Crop_recommendation.csv')) 
 
+crop_rmd2 <- crop_rmd %>% 
+    group_by(label) %>% 
+    summarise_at(c('temperature', 'humidity', 'rainfall',
+                   'N', 'P', 'K', 'ph'), mean) %>% data.frame()
 crop_rmd_weather <- crop_rmd %>% 
-  select(label, temperature, humidity, rainfall)
-
+    select(label, temperature, humidity, rainfall) %>% 
+    slice(-c(1:2))
 crop_rmd_soil <- crop_rmd %>% 
-  select(label, N, P, K, ph) %>% 
-  slice(1:18)
+    select(label, N, P, K, ph) %>% 
+    slice(1:18)
 ```
 \
 

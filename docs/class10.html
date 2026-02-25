@@ -1308,16 +1308,18 @@ margin-right: 0; }
 </ul>
 <p>Create the example data</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb5-2"><a href></a>crop_rmd <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&#39;docs/Crop_recommendation.csv&#39;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href></a>    <span class="fu">sample_n</span>(<span class="at">size =</span> <span class="dv">20</span>)</span>
-<span id="cb5-4"><a href></a></span>
-<span id="cb5-5"><a href></a>crop_rmd_weather <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
-<span id="cb5-6"><a href></a>  <span class="fu">select</span>(label, temperature, humidity, rainfall)</span>
-<span id="cb5-7"><a href></a></span>
-<span id="cb5-8"><a href></a>crop_rmd_soil <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
-<span id="cb5-9"><a href></a>  <span class="fu">select</span>(label, N, P, K, ph) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-10"><a href></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a>crop_rmd <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&#39;docs/Crop_recommendation.csv&#39;</span>)) </span>
+<span id="cb5-2"><a href></a></span>
+<span id="cb5-3"><a href></a>crop_rmd2 <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href></a>    <span class="fu">group_by</span>(label) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href></a>    <span class="fu">summarise_at</span>(<span class="fu">c</span>(<span class="st">&#39;temperature&#39;</span>, <span class="st">&#39;humidity&#39;</span>, <span class="st">&#39;rainfall&#39;</span>,</span>
+<span id="cb5-6"><a href></a>                   <span class="st">&#39;N&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;ph&#39;</span>), mean) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
+<span id="cb5-7"><a href></a>crop_rmd_weather <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href></a>    <span class="fu">select</span>(label, temperature, humidity, rainfall) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href></a>    <span class="fu">slice</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>))</span>
+<span id="cb5-10"><a href></a>crop_rmd_soil <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
+<span id="cb5-11"><a href></a>    <span class="fu">select</span>(label, N, P, K, ph) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-12"><a href></a>    <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><br>
 </p>
@@ -1348,13 +1350,13 @@ margin-right: 0; }
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
-  label      variable    value
-  &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
-1 pigeonpeas N            23  
-2 pigeonpeas P            55  
-3 pigeonpeas K            16  
-4 pigeonpeas temperature  21.0
-5 pigeonpeas humidity     69.7</code></pre>
+  label variable    value
+  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;
+1 rice  N            90  
+2 rice  P            42  
+3 rice  K            43  
+4 rice  temperature  20.9
+5 rice  humidity     82.0</code></pre>
 </div>
 </div>
 <ul>
@@ -1370,13 +1372,13 @@ margin-right: 0; }
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href></a>crop_rmd <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">precipitation =</span> rainfall)</span>
 <span id="cb8-2"><a href></a><span class="fu">head</span>(crop_rmd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   N  P  K temperature humidity       ph precipitation       label
-1 23 55 16    21.01142 69.69141 5.111489     185.20391  pigeonpeas
-2 37 65 16    22.83520 18.97268 5.683548      63.59277 kidneybeans
-3 83 15 49    28.92706 91.39357 6.438008      23.20077   muskmelon
-4  0 18 14    29.77149 92.00720 7.207991     114.41618      orange
-5 87  6 45    29.82729 90.79007 6.400772      22.84204   muskmelon
-6 35 66 47    31.70184 91.66232 6.953439      48.83811      papaya</code></pre>
+<pre><code>   N  P  K temperature humidity       ph precipitation label
+1 90 42 43    20.87974 82.00274 6.502985      202.9355  rice
+2 85 58 41    21.77046 80.31964 7.038096      226.6555  rice
+3 60 55 44    23.00446 82.32076 7.840207      263.9642  rice
+4 74 35 40    26.49110 80.15836 6.980401      242.8640  rice
+5 78 42 42    20.13017 81.60487 7.628473      262.7173  rice
+6 69 37 42    23.05805 83.37012 7.073454      251.0550  rice</code></pre>
 </div>
 </div>
 </section>
@@ -1392,22 +1394,20 @@ margin-right: 0; }
 <span id="cb10-4"><a href></a>              <span class="at">precp_mean =</span> <span class="fu">mean</span>(precipitation))</span>
 <span id="cb10-5"><a href></a>tp_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 13 × 3
+<pre><code># A tibble: 22 × 3
    label       temp_mean precp_mean
    &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
- 1 apple            23.7      119. 
- 2 coffee           27.3      141. 
- 3 grapes           10.7       65.3
- 4 jute             23.5      183. 
- 5 kidneybeans      19.2       85.5
- 6 mango            28.9       97.0
- 7 mungbean         27.1       37.5
- 8 muskmelon        29.4       23.0
- 9 orange           23.7      112. 
-10 papaya           31.7       48.8
-11 pigeonpeas       21.0      185. 
-12 pomegranate      19.8      103. 
-13 watermelon       24.4       44.6</code></pre>
+ 1 apple            22.6      113. 
+ 2 banana           27.4      105. 
+ 3 blackgram        30.0       67.9
+ 4 chickpea         18.9       80.1
+ 5 coconut          27.4      176. 
+ 6 coffee           25.5      158. 
+ 7 cotton           24.0       80.4
+ 8 grapes           23.8       69.6
+ 9 jute             25.0      175. 
+10 kidneybeans      20.1      106. 
+# ℹ 12 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -1424,22 +1424,20 @@ margin-right: 0; }
 <span id="cb12-5"><a href></a>                 <span class="st">&#39;N&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;ph&#39;</span>), mean)</span>
 <span id="cb12-6"><a href></a>all_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 13 × 8
-   label       temperature humidity precipitation     N     P      K    ph
-   &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
- 1 apple              23.7     92.6         119.   22.5 141   204.    5.89
- 2 coffee             27.3     55.2         141.  103    40    30     6.35
- 3 grapes             10.7     80.0          65.3  21   134   202     6.43
- 4 jute               23.5     72.3         183.   88.5  48.5  38     6.59
- 5 kidneybeans        19.2     21.4          85.5  34.5  61    17     5.69
- 6 mango              28.9     48.1          97.0  38    15    30     5.08
- 7 mungbean           27.1     89.9          37.5  35    52    19     6.70
- 8 muskmelon          29.4     91.1          23.0  85    10.5  47     6.42
- 9 orange             23.7     93.0         112.   17.8  20.8   8.75  7.00
-10 papaya             31.7     91.7          48.8  35    66    47     6.95
-11 pigeonpeas         21.0     69.7         185.   23    55    16     5.11
-12 pomegranate        19.8     88.9         103.   29    16    36     5.74
-13 watermelon         24.4     87.1          44.6 101    17    55     6.45</code></pre>
+<pre><code># A tibble: 22 × 8
+   label       temperature humidity precipitation     N     P     K    ph
+   &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 apple              22.6     92.3         113.   20.8 134.  200.   5.93
+ 2 banana             27.4     80.4         105.  100.   82.0  50.0  5.98
+ 3 blackgram          30.0     65.1          67.9  40.0  67.5  19.2  7.13
+ 4 chickpea           18.9     16.9          80.1  40.1  67.8  79.9  7.34
+ 5 coconut            27.4     94.8         176.   22.0  16.9  30.6  5.98
+ 6 coffee             25.5     58.9         158.  101.   28.7  29.9  6.79
+ 7 cotton             24.0     79.8          80.4 118.   46.2  19.6  6.91
+ 8 grapes             23.8     81.9          69.6  23.2 133.  200.   6.03
+ 9 jute               25.0     79.6         175.   78.4  46.9  40.0  6.73
+10 kidneybeans        20.1     21.6         106.   20.8  67.5  20.0  5.75
+# ℹ 12 more rows</code></pre>
 </div>
 </div>
 </section>
