@@ -1314,10 +1314,10 @@ margin-right: 0; }
 <span id="cb5-4"><a href></a>    <span class="fu">group_by</span>(label) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-5"><a href></a>    <span class="fu">summarise_at</span>(<span class="fu">c</span>(<span class="st">&#39;temperature&#39;</span>, <span class="st">&#39;humidity&#39;</span>, <span class="st">&#39;rainfall&#39;</span>,</span>
 <span id="cb5-6"><a href></a>                   <span class="st">&#39;N&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;ph&#39;</span>), mean) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
-<span id="cb5-7"><a href></a>crop_rmd_weather <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href></a>crop_rmd_weather <span class="ot">&lt;-</span> crop_rmd2 <span class="sc">%&gt;%</span> </span>
 <span id="cb5-8"><a href></a>    <span class="fu">select</span>(label, temperature, humidity, rainfall) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-9"><a href></a>    <span class="fu">slice</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>))</span>
-<span id="cb5-10"><a href></a>crop_rmd_soil <span class="ot">&lt;-</span> crop_rmd <span class="sc">%&gt;%</span> </span>
+<span id="cb5-10"><a href></a>crop_rmd_soil <span class="ot">&lt;-</span> crop_rmd2 <span class="sc">%&gt;%</span> </span>
 <span id="cb5-11"><a href></a>    <span class="fu">select</span>(label, N, P, K, ph) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-12"><a href></a>    <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

@@ -215,10 +215,10 @@ crop_rmd2 <- crop_rmd %>%
     group_by(label) %>% 
     summarise_at(c('temperature', 'humidity', 'rainfall',
                    'N', 'P', 'K', 'ph'), mean) %>% data.frame()
-crop_rmd_weather <- crop_rmd %>% 
+crop_rmd_weather <- crop_rmd2 %>% 
     select(label, temperature, humidity, rainfall) %>% 
     slice(-c(1:2))
-crop_rmd_soil <- crop_rmd %>% 
+crop_rmd_soil <- crop_rmd2 %>% 
     select(label, N, P, K, ph) %>% 
     slice(1:18)
 ```
