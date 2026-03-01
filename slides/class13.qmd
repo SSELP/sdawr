@@ -1,0 +1,300 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 13"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/weekly-rf.png
+title-slide-attributes:
+  data-background-image: figures/weekly-rf.png
+  data-background-position: center
+  data-background-size: 50%
+css: ["themes/class10.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+- Attribute operations
+- Geometric measurements
+- Geometric operations
+- Geometry operations
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+```
+
+## Use `osmdata` to query some vectors
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+library(dplyr)
+library(osmdata) # has to install first
+
+q <- opq(bbox = st_bbox(
+    c(xmin = -74.448598, xmax = -74.429830, 
+      ymax = 40.532277, ymin = 40.518258), crs = st_crs(4326)))
+
+# Building
+buildings <- q %>% 
+  add_osm_feature(key = 'building') %>%
+  osmdata_sf() %>% `[[`('osm_polygons') %>% 
+  filter(!is.na(name))
+
+# Streets
+streets <- q %>% 
+  add_osm_feature(key = 'highway') %>%
+  osmdata_sf() %>% `[[`('osm_lines') %>% 
+  filter(!is.na(name))
+
+# Trees
+trees <- q %>% 
+  add_osm_feature(key = c('natural')) %>%
+  osmdata_sf() %>% `[[`('osm_points')
+```
+
+```{r}
+#| echo: false
+#| eval: true
+load("figures/buildings.rda")
+load("figures//streets.rda")
+load("figures/trees.rda")
+```
+
+## The data
+
+```{r}
+#| echo: true
+#| eval: true
+#| 
+plot(buildings$geometry, col = "black")
+plot(streets %>% st_geometry(), add = T, col = "brown")
+plot(st_geometry(trees), pch = 20, add = TRUE, col = "darkgreen")
+```
+
+## Attribute operations
+
+- `sf` is a data.frame, so all base R and `dplyr` syntax works on it. E.g.
+
+  - subsetting
+  - aggregation (group)
+  - joining
+
+- `st_drop_geometry()` to drop geometry column
+
+## Practice 1
+
+Tasks:
+
+- Select out `streets` that are residential or path.
+- Count the number of `streets` by types.
+
+```{r}
+#| echo: false
+#| eval: true
+# 1
+streets_sub <- streets %>% filter(highway %in% c('residential', 'path'))
+
+# 2
+streets %>% st_drop_geometry() %>% 
+  group_by(highway) %>% 
+  summarize(count = n())
+```
+
+## Geometric measurements
+
+  - `st_area`
+  - `st_length`
+  - `st_distance`
+
+## `st_area`
+
+```{r}
+#| echo: true
+#| eval: true
+#| 
+buildings <- buildings %>% 
+    mutate(area = st_area(.)) %>% 
+    select(name, area)
+
+head(buildings, 3) # Observe column area
+
+ggplot(buildings) +
+    geom_sf(color = "black", aes(alpha = as.numeric(area))) +
+    labs(alpha = "Area (m^2)") +
+    theme_void()
+```
+
+## Units
+
+`units::set_units()`
+
+```{r}
+#| echo: true
+#| eval: true
+#| 
+# Examples of usage
+x <- 10 %>% units::set_units('km2')
+x
+
+# Remove units
+x <- units::set_units(x, NULL)
+x
+
+buildings$area <- units::set_units(buildings$area, 'ha')
+head(buildings, 3)
+```
+
+## Practice 2
+
+`streets`:
+
+- Calculate the length of each street in **km** and save to a new column "length" to `streets`.
+- Calculate the average length by street types (in column highway).
+  
+`trees`: Calculate the distance between the first two tree in **miles**.
+
+```{r}
+#| echo: false
+#| eval: true
+#| 
+# 1
+streets %>% 
+    mutate(length = st_length(.) %>% units::set_units("km")) %>% 
+    select(osm_id, name, highway, length) %>% 
+    st_drop_geometry() %>% 
+    group_by(highway) %>% 
+    summarise(avg_length = mean(length))
+
+# 2
+dist <- st_distance(trees[1, ], trees[2, ]) %>% units::set_units("miles")
+```
+
+## Geometric operations
+
+  - `st_centroid` (get the centroid of objects)
+  - `st_buffer` (add buffer to any objects)
+  - `st_coordinates` (get coordinates of objects)
+  - `st_simplify` (reduce the complexity of objects)
+  - `st_bbox` (get the bounding box of objects)
+  
+**Practice 3**
+
+- Simplify the buildings and get the centroid of the them.
+- Reproject streets to Albers Equal Area (EPSG:5070) and add a 10 meter buffer to them.
+- Get the coordinates of trees.
+
+```{r}
+#| echo: false
+#| eval: false
+# 1
+buildings %>% st_simplify() %>% 
+    st_centroid() %>% st_geometry() %>% plot()
+# 2
+streets %>% st_transform("EPSG:5070") %>% st_buffer(10) %>% 
+    st_geometry() %>% plot()
+# 3
+st_coordinates(trees) %>% head(4)
+```
+
+## Geometry operations
+
+- Clipping/overlapping
+
+  - `st_intersection`
+  - `st_difference` & `st_sym_difference`
+  - `st_union`: return `sfc`
+
+## Practice 4
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Your building from osmdata
+building_osm <- buildings %>% filter(name == '...')
+
+# building polygon you created
+building_mine <- ...
+
+# try these operations
+bld_itst <- st_intersection(building_mine, building_osm)
+dif_osm_bld <- st_difference(building_osm, building_mine)
+dif_bld_osm <- st_difference(building_mine, building_osm)
+bld_union <- st_union(building_mine, building_osm)
+bld_bbox <- st_bbox(bld_union) %>% 
+  st_as_sfc() %>% st_sf()
+
+# plot the results and learn each function
+plot(bld_bbox$geometry, col = 'lightblue')
+plot(building_osm$geometry, border = "black", add = T)
+plot(building_mine$geometry, border = "brown", add = T)
+
+plot(dif_osm_bld$geometry, col = 'red', add = T)
+plot(dif_bld_osm$geometry, col = 'blue', add = T)
+plot(bld_itst$geometry, col = 'yellow', add = T)
+```
+  
+```{r}
+#| echo: false
+#| eval: false
+#| 
+# Your building from osmdata
+building_osm <- buildings %>% filter(name == 'Lucy Stone Hall')
+
+# building polygon you created
+building_mine <- rbind(c(40.522340, -74.435752),
+                c(40.522296, -74.435594),
+                c(40.522351, -74.435456),
+                c(40.522058, -74.434914),
+                c(40.521882, -74.435069),
+                c(40.521109, -74.434980),
+                c(40.521150, -74.435071),
+                c(40.520980, -74.435245),
+                c(40.520842, -74.435011),
+                c(40.521023, -74.434842),
+                c(40.521117, -74.434687),
+                c(40.521936, -74.434735),
+                c(40.522093, -74.434554),
+                c(40.522780, -74.435722),
+                c(40.522340, -74.435752)) %>% 
+  `[`(, c(2, 1)) %>% list() %>% st_polygon() %>%
+  st_sfc() %>% st_set_crs(4326) %>%
+  st_sf() %>% mutate(name = "Lucy Stone Hall")
+
+# try these operations
+bld_itst <- st_intersection(building_mine, building_osm)
+dif_osm_bld <- st_difference(building_osm, building_mine)
+dif_bld_osm <- st_difference(building_mine, building_osm)
+bld_union <- st_union(building_mine, building_osm)
+bld_bbox <- st_bbox(bld_union) %>% 
+  st_as_sfc() %>% st_sf()
+
+# plot the results and learn each function
+plot(bld_bbox$geometry, col = 'lightblue')
+plot(building_osm$geometry, border = "black", add = T)
+plot(building_mine$geometry, border = "brown", add = T)
+
+plot(dif_osm_bld$geometry, col = 'red', add = T)
+plot(dif_bld_osm$geometry, col = 'blue', add = T)
+plot(bld_itst$geometry, col = 'yellow', add = T)
+```
+
+## Homework
+
+- No homework
+- But please finish reading Unit2-Module1 and do all the practices (!!)
