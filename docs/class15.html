@@ -1372,7 +1372,23 @@ margin-right: 0; }
 <h2>Plot them using <code>ggplot2</code></h2>
 <p>The main function in <code>ggplot2</code> to plot <code>sf</code> is <code>geom_sf</code>. All <code>ggplot2</code> syntax that we learned before still work.</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">ggplot</span>(liv_campus) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">&#39;pink&#39;</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> blds_inside, <span class="fu">aes</span>(<span class="at">fill =</span> name)) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">rainbow</span>(<span class="fu">nrow</span>(blds_inside))) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> blds_inside <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="#cb3-8"></a>      <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">&#39;Lucy Stone Hall&#39;</span>),</span>
+<span id="cb3-9"><a href="#cb3-9"></a>      <span class="at">fill =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="co"># Show label in figure</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="fu">geom_sf_label</span>(<span class="at">data =</span> blds_inside <span class="sc">%&gt;%</span> </span>
+<span id="cb3-12"><a href="#cb3-12"></a>      <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">&#39;Lucy Stone Hall&#39;</span>), </span>
+<span id="cb3-13"><a href="#cb3-13"></a>      <span class="fu">aes</span>(<span class="at">label =</span> name)) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> bld_nst_lsh, <span class="at">fill =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> bld_samples, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="at">size =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&#39;Livingston campus&#39;</span>) <span class="sc">+</span> </span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&#39;bottom&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="interactive-maps" class="slide level2">

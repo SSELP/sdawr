@@ -163,7 +163,7 @@ bld_samples <- blds_inside %>%
 The main function in `ggplot2` to plot `sf` is `geom_sf`. All `ggplot2` syntax that we learned before still work.
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: false
 #| 
 library(ggplot2)

@@ -244,4 +244,5 @@ plot(streets_crop$geometry, add = TRUE, col = "blue")
 
 ## Homework
 
-Finish homework ["Interactive Piscataway Map"](https://lei-song.shinyapps.io/SDA320-homework/#section-interactive-piscataway-map). And share your knitted html file in Google chat.
+- Finish homework ["Interactive Piscataway Map"](https://lei-song.shinyapps.io/SDA320-homework/#section-interactive-piscataway-map). And share your knitted html file in Google chat.
+- Read this paper: [A Cappadocian Speculation](https://sselp.github.io/sdawr/231039a0.pdf) to have a sense of how spatial relations hidden in simple settings can be uncovered through geographic thinking. 
