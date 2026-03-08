@@ -149,14 +149,14 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">7</td>
       <td>Mar 2, 4</td>
       <td>Woking with vectors</td>
-      <td class="current">[Class 12](class12.html), [Class 13](class13.html)</td>
+      <td>[Class 12](class12.html), [Class 13](class13.html)</td>
       <td></td>
     </tr>
     <tr>
       <td style="text-align: center;">8</td>
       <td>Mar 9, 11</td>
       <td>More on vectors</td>
-      <td>Class 14, Class 15</td>
+      <td class="current">[Class 14](class14.html), [Class 15](class15.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 4 (Mar 13)</td>
     </tr>
     <tr class="text-muted">

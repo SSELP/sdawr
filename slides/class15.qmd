@@ -1,0 +1,198 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 15"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/zambia_farmer_repsperweek.png
+title-slide-attributes:
+  data-background-image: figures/zambia_farmer_repsperweek.png
+  data-background-position: center
+  data-background-size: 70%
+css: ["themes/class10.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+sf_use_s2(FALSE)
+```
+
+- Some operation practice
+- Visualization
+
+## Operation practice 1
+
+Get the Hyenas occurrence data:
+
+```{r}
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+# Prepare data
+library(rnaturalearth)
+cnts_africa <- ne_countries(
+    continent = 'africa', 
+    returnclass = 'sf') %>% dplyr::select(name)
+dt_url <- 'https://sselp.github.io/sdawr//hyenas_occurrence.csv'
+occurrence <- read.csv(dt_url, stringsAsFactors = F) %>% 
+  dplyr::select(gbifID, decimalLatitude, decimalLongitude) %>% 
+  st_as_sf(coords = c('decimalLongitude', 'decimalLatitude'), crs = 4326)
+```
+
+## Operation practice 1
+
+- Use base R to plot all countries in Africa and overlay with countries having occurrence.
+- Get the number of occurrence within each country.
+- Calculate the area and the perimeter of each country polygon.
+- Use `ggplot2` to plot number of occurrence against area and perimeter respectively (use `facet_wrap`).
+
+```{r}
+#| echo: false
+#| eval: false
+library(tidyr)
+# 1
+cnts_occ <- cnts_africa %>% slice(unique(unlist(st_intersects(occurrence, cnts_africa))))
+plot(cnts_africa$geometry)
+plot(cnts_occ$geometry, add = TRUE, col = "yellow")
+
+# 2
+occ_nums <- occurrence %>% 
+  st_join(cnts_africa) %>% 
+  filter(!is.na(name)) %>% 
+  group_by(name) %>% 
+  summarise(n = n()) %>% 
+  st_drop_geometry()
+
+# 3
+cnts_smr <- cnts_africa %>% 
+    mutate(area = st_area(.) %>% as.numeric(),
+           perimeter = st_length(.) %>% as.numeric()) %>% 
+    left_join(occ_nums, by = "name")
+
+# 4
+dat_plot <- cnts_smr %>% st_drop_geometry() %>% 
+    filter(!is.na(n)) %>% 
+    pivot_longer(2:3, names_to = "item", values_to = "value")
+
+ggplot(dat_plot) +
+    geom_point(aes(x = n, y = value)) +
+    geom_smooth(aes(x = n, y = value), method = "lm") +
+    facet_wrap(~item, nrow = 1, scales = "free_y") +
+    xlab("Number of occurrence") + ylab("") +
+    theme_bw() +
+    theme(text = element_text(size = 12),
+          strip.text = element_text(size = 18))
+```
+
+## Operation practice 2
+
+Prepare the buildings and Livingston campus polygon.
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+library(dplyr)
+library(osmdata) # has to install first
+
+q <- opq(bbox = st_bbox(
+    c(xmin = -74.448598, xmax = -74.429830, 
+      ymax = 40.532277, ymin = 40.518258), crs = st_crs(4326)))
+
+# Campus
+liv_campus <- q %>%
+    add_osm_feature(key = "amenity", value = "university") %>% 
+    osmdata_sf() %>% `[[`('osm_polygons') %>% 
+    filter(name == "Rutgers Livingston Campus") %>% select(name)
+
+buildings <- opq(bbox = st_bbox(liv_campus)) %>% 
+  add_osm_feature(key = 'building') %>%
+  osmdata_sf() %>% `[[`('osm_polygons') %>% 
+  filter(!is.na(name)) %>% select(name)
+```
+
+## Operation practice 2
+
+- Save `liv_campus` and `buildings` to your class note folder as geojson file.
+- Read them again into the working environment from the saved files.
+
+## Operation practice 2
+
+- Use campus polygon to get buildings that are inside of the campus polygon (`blds_inside`).
+- Get the nearest building (`bld_nst_jch`) to Lucy Stone Hall in `blds_inside`.
+- Get 10 samples (`bld_samples`) from each polygon of `blds_inside`.
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+# Operations
+blds_inside <- buildings %>% 
+  slice(st_contains(liv_campus, buildings) %>% unlist())
+
+bld_nst_lsh <- blds_inside %>% 
+  filter(name != 'Lucy Stone Hall') %>% 
+  slice(st_nearest_feature(
+    blds_inside %>% 
+      filter(name == 'Lucy Stone Hall'), .))
+
+bld_samples <- blds_inside %>% 
+  st_sample(seed = 10,
+            size = rep(10, nrow(.)),
+            exact = T) %>% st_sf()
+```
+
+## Plot them using `ggplot2`
+
+The main function in `ggplot2` to plot `sf` is `geom_sf`. All `ggplot2` syntax that we learned before still work.
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+library(ggplot2)
+
+ggplot(liv_campus) +
+  geom_sf(fill = 'pink') +
+  geom_sf(data = blds_inside, aes(fill = name)) + 
+  scale_fill_manual(values = rainbow(nrow(blds_inside))) +
+  geom_sf(data = blds_inside %>% 
+      filter(name == 'Lucy Stone Hall'),
+      fill = 'black') +
+  # Show label in figure
+  geom_sf_label(data = blds_inside %>% 
+      filter(name == 'Lucy Stone Hall'), 
+      aes(label = name)) +
+  geom_sf(data = bld_nst_lsh, fill = 'black') +
+  geom_sf(data = bld_samples, pch = 20, color = 'grey', size = 0.6) +
+  theme_bw() + ggtitle('Livingston campus') + 
+  theme(legend.position = 'bottom')
+```
+
+## Interactive maps
+
+- `leaflet` (using pipeline syntax)
+- `mapview` (more similar to `ggplot2`)
+
+Go to class homework page [Livingston building teamwork](https://lei-song.shinyapps.io/SDA320-homework/#section-livingston-building-teamwork).
+
+## Homework
+
+- Assignment 4 is due this week.
+- Make an interactive map of whatever that you are interested in. And share your knitted html file in Google chat.

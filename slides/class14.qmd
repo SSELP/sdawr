@@ -1,0 +1,247 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 14"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/zambia_farmer_repsperweek.png
+title-slide-attributes:
+  data-background-image: figures/zambia_farmer_repsperweek.png
+  data-background-position: center
+  data-background-size: 70%
+css: ["themes/class10.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+sf_use_s2(FALSE)
+```
+
+**Geometry confirmation**
+
+- Topological relations (returns are index). E.g.:
+
+  - `st_within` (interior)
+  - `st_is_within_distance` = `st_buffer` + `st_intersects`
+  - `st_touches` (boundary)
+  - `st_overlaps` (partial interior)
+  - `st_intersects` (any type of "hit")
+  - `st_disjoint` (no relations)
+
+- Spatial joining:
+
+  - `st_join`
+
+- `st_distance`: works for all geometries, but only points.
+
+## Run some examples together
+
+Query some data
+
+```{r}
+#| echo: false
+#| eval: true
+load("figures/liv_campus.rda")
+load("figures//streets.rda")
+load("figures/trees.rda")
+```
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+library(dplyr)
+library(osmdata) # has to install first
+
+q <- opq(bbox = st_bbox(
+    c(xmin = -74.448598, xmax = -74.429830, 
+      ymax = 40.532277, ymin = 40.518258), crs = st_crs(4326)))
+
+# Campus
+liv_campus <- q %>%
+    add_osm_feature(key = "amenity", value = "university") %>% 
+    osmdata_sf() %>% `[[`('osm_polygons') %>% 
+    filter(name == "Rutgers Livingston Campus") %>% select(name)
+
+# Streets
+streets <- q %>% 
+    add_osm_feature(key = 'highway') %>%
+    osmdata_sf() %>% `[[`('osm_lines') %>% 
+    filter(!is.na(name)) %>% select(name)
+
+# Trees
+trees <- q %>% 
+    add_osm_feature(key = c('natural')) %>%
+    osmdata_sf() %>% `[[`('osm_points') %>% select()
+
+plot(liv_campus$geometry)
+plot(streets$geometry, add = TRUE, col = "brown")
+plot(trees$geometry, add = TRUE, col = "darkgreen")
+```
+
+## Run some examples together
+
+```{r}
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+# Get the trees within Livingston Campus
+## st_within(x, y), check every geometry in x one by one if it is in y or not.
+ids_tl <- st_within(trees, liv_campus)
+# st_contains
+ids_lt <- st_contains(liv_campus, trees)
+# More general st_intersects
+ids_ints_lt <- st_intersects(liv_campus, trees)
+# Observe the difference
+ids_ints_tl <- st_intersects(trees, liv_campus)
+```
+
+**Task: use whatever function, continue to get the trees within Livingston Campus.**
+
+Hint: think about how to get the row index to subset `trees`.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+ids_tree <- sapply(ids_tl, function(x) length(x) > 0)
+trees_sub <- trees %>% filter(ids_tree)
+
+# Or
+trees_sub <- trees %>% slice(unique(unlist(ids_lt)))
+
+plot(liv_campus$geometry)
+plot(trees_sub$geometry, add = TRUE, col = "darkgreen")
+```
+
+## Practice 1
+
+Get the data:
+
+```{r}
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+# Prepare data
+library(rnaturalearth)
+cnts_africa <- ne_countries(
+    continent = 'africa', 
+    returnclass = 'sf') %>% dplyr::select(name)
+dt_url <- 'https://sselp.github.io/sdawr//hyenas_occurrence.csv'
+occurrence <- read.csv(dt_url, stringsAsFactors = F) %>% 
+  dplyr::select(gbifID, decimalLatitude, decimalLongitude) %>% 
+  st_as_sf(coords = c('decimalLongitude', 'decimalLatitude'), crs = 4326)
+
+plot(cnts_africa %>% st_geometry())
+plot(occurrence$geometry, add = T, pch = 20, col = 'purple')
+```
+
+## Practice 1
+
+- Manipulate `cnts_africa` and `occurrence` to get countries that have more than 100 occurrences. Hint: `st_join`, `group_by`.
+- Get the countries that touch with Tanzania. Hint: `st_touches`.
+- Get the occurrence inside of Tanzania (`st_intersects`, `st_contains` or `st_within`).
+- Get the occurrence outside of Tanzania (`st_disjoint`).
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+# 1
+cnts_selected <- occurrence %>% 
+  st_join(cnts_africa) %>% 
+  filter(!is.na(name)) %>% 
+  group_by(name) %>% 
+  summarise(n = n()) %>% 
+  st_drop_geometry() %>% 
+  filter(n > 100) %>% 
+  pull(name)
+
+# 2
+tz <- cnts_africa %>% 
+  filter(name == 'Tanzania')
+tz_touches <- cnts_africa %>% 
+  slice(st_touches(tz, cnts_africa) %>% unlist())
+
+# 3
+occ_tz <- occurrence %>% 
+  slice(st_intersects(tz, occurrence) %>% unlist())
+
+# 4
+occ_out_tz <- occurrence %>% 
+  slice(st_disjoint(tz, occurrence) %>% unlist())
+```
+
+## Other geometry operations
+
+- `st_nearest_feature`
+
+```{r}
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+#| 
+# st_nearest_feature(x, y) returns the index of the feature in y that is
+# closest to each feature in x
+ids <- st_nearest_feature(streets, trees)
+# For example, the first ids is 343. What does this mean?
+
+plot(streets[1, ]$geometry)
+plot(trees$geometry, add = T, pch = 20, col = "darkgreen")
+plot(trees[343, ]$geometry, add = T, pch = 20, col = "purple")
+```
+
+**Task: plot the 10th street and the nearest tree to it.**
+
+## More operations
+
+- `st_convex_hull` (smallest convex polygon)
+- `st_crop` (cropped by the bbox actually)
+
+```{r}
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+#| 
+
+# Note we need to use st_union first for multiple points
+ch_trees <- st_convex_hull(st_union(trees))
+
+plot(trees$geometry)
+plot(ch_trees, add = TRUE, border = "brown")
+
+# Observe the plot
+streets_crop <- st_crop(streets, liv_campus)
+
+plot(liv_campus$geometry)
+plot(streets$geometry, add = TRUE, col = "pink")
+plot(streets_crop$geometry, add = TRUE, col = "blue")
+```
+
+## Homework
+
+Finish homework ["Interactive Piscataway Map"](https://lei-song.shinyapps.io/SDA320-homework/#section-interactive-piscataway-map). And share your knitted html file in Google chat.
