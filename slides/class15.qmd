@@ -46,6 +46,7 @@ Get the Hyenas occurrence data:
 #| message: false
 # Prepare data
 library(rnaturalearth)
+sf_use_s2(FALSE)
 cnts_africa <- ne_countries(
     continent = 'africa', 
     returnclass = 'sf') %>% dplyr::select(name)
@@ -62,10 +63,16 @@ occurrence <- read.csv(dt_url, stringsAsFactors = F) %>%
 - Calculate the area and the perimeter of each country polygon.
 - Use `ggplot2` to plot number of occurrence against area and perimeter respectively (use `facet_wrap`).
 
+## Operation practice 1
+
 ```{r}
 #| echo: false
 #| eval: false
+#| warning: false
+#| message: false
+#| fig-width: 4
 library(tidyr)
+library(ggplot2)
 # 1
 cnts_occ <- cnts_africa %>% slice(unique(unlist(st_intersects(occurrence, cnts_africa))))
 plot(cnts_africa$geometry)
