@@ -1281,17 +1281,25 @@ margin-right: 0; }
 <section id="conversion-between-raster-and-vector" class="slide level2">
 <h2>Conversion between raster and vector</h2>
 <ul>
+<li><code>sf</code> vs. <code>vect</code></li>
 <li><code>rasterize</code>: vector to raster</li>
 <li><code>as.polygons</code>, <code>as.points</code>, etc.: raster to vector</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># Raster to vector</span></span>
-<span id="cb7-2"><a href></a>cnts_rst <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(countries_sa, pop_global, <span class="at">field =</span> <span class="st">&quot;name&quot;</span>)</span>
-<span id="cb7-3"><a href></a>cnts_rst <span class="ot">&lt;-</span> <span class="fu">trim</span>(cnts_rst)</span>
-<span id="cb7-4"><a href></a></span>
-<span id="cb7-5"><a href></a><span class="co"># vector to raster</span></span>
-<span id="cb7-6"><a href></a>cnts_vct <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(cnts_rst, <span class="at">dissolve =</span> T) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-7"><a href></a>    <span class="fu">st_as_sf</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># sf vs vect</span></span>
+<span id="cb7-2"><a href></a><span class="fu">class</span>(tza)</span>
+<span id="cb7-3"><a href></a>tza <span class="ot">&lt;-</span> <span class="fu">vect</span>(tza)</span>
+<span id="cb7-4"><a href></a><span class="fu">class</span>(tza)</span>
+<span id="cb7-5"><a href></a>tza <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(tza)</span>
+<span id="cb7-6"><a href></a><span class="fu">class</span>(tza)</span>
+<span id="cb7-7"><a href></a></span>
+<span id="cb7-8"><a href></a><span class="co"># Raster to vector</span></span>
+<span id="cb7-9"><a href></a>cnts_rst <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(countries_sa, pop_global, <span class="at">field =</span> <span class="st">&quot;name&quot;</span>)</span>
+<span id="cb7-10"><a href></a>cnts_rst <span class="ot">&lt;-</span> <span class="fu">trim</span>(cnts_rst)</span>
+<span id="cb7-11"><a href></a></span>
+<span id="cb7-12"><a href></a><span class="co"># vector to raster</span></span>
+<span id="cb7-13"><a href></a>cnts_vct <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(cnts_rst, <span class="at">dissolve =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-14"><a href></a>    <span class="fu">st_as_sf</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="practice-2" class="slide level2">

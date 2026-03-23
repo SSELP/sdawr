@@ -243,13 +243,21 @@ writeRaster(pop_global, "your_classnote_folder/population_k_2020.tif")
 
 ## Conversion between raster and vector
 
+- `sf` vs. `vect`
 - `rasterize`: vector to raster
 - `as.polygons`, `as.points`, etc.: raster to vector
 
 ```{r}
 #| echo: true
 #| eval: false
-#| 
+
+# sf vs vect
+class(tza)
+tza <- vect(tza)
+class(tza)
+tza <- st_as_sf(tza)
+class(tza)
+
 # Raster to vector
 cnts_rst <- rasterize(countries_sa, pop_global, field = "name")
 cnts_rst <- trim(cnts_rst)
