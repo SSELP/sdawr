@@ -1,0 +1,281 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 16"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/colombia-dem.png
+title-slide-attributes:
+  data-background-image: figures/colombia-dem.png
+  data-background-position: center
+  data-background-size: 50%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+sf_use_s2(FALSE)
+```
+
+- Read and write raster data
+- Create rasters
+- Raster and its attributes
+- Conversion between raster and vector
+
+## A warm up practice
+
+1. Read the country and carnivorous plant data, then convert both to the projection `ESRI:54009`.
+2. Keep only the countries in **South America**, then use a spatial join to identify the plant records located in South America.
+3. Use `ggplot2` to make a map of South America with plant occurrence points colored by family.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+library(dplyr)
+library(sf)
+library(terra)
+library(ggplot2)
+sf_use_s2(FALSE)
+
+# Define CRS
+proj_use <- "ESRI:54009"
+
+# Read data
+countries <- rnaturalearth::ne_countries(scale = 110) %>% 
+    select(continent, name) %>% 
+    st_transform(proj_use)
+    
+car_plants <- read.csv("../docs/Riched_Carnivorous_Plant.csv") %>% 
+    st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>% 
+    st_transform(proj_use)
+
+countries_sa <- countries %>% 
+    filter(continent == "South America")
+
+car_plants_sa <- car_plants %>% 
+    st_join(countries_sa) %>% filter(!is.na(continent))
+
+ggplot() +
+    geom_sf(data = countries_sa, fill = "transparent", color = "grey") +
+    geom_sf(data = car_plants_sa, aes(color = family)) +
+    scale_color_brewer(name = "Family", palette = "Dark2") +
+    theme_void()
+```
+
+## A warm up practice
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Load libraries
+
+# Read data
+countries <- rnaturalearth::ne_countries(scale = 110) %>% 
+    select(continent, name)
+
+# Add extra code to process countries here, then
+# Filter countries in South America
+countries_sa <- 
+    
+# Load carnivorous plant data
+car_plants <- read.csv("docs/Riched_Carnivorous_Plant.csv")
+
+# Add extra code to process car_plants here
+car_plants <- 
+
+# Subset carnivorous plant to South America only
+car_plants_sa <- 
+
+# Plot
+ggplot() +
+    # finish this line
+    geom_sf(data = countries_sa, ) + 
+    # finish this line
+    geom_sf(data = car_plants_sa, ) + 
+    # Add extra setting
+```
+
+## Read raster
+
+`rast` in package `terra` to read raster.
+
+```{r}
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+library(terra)
+fname <- system.file('extdata/bioclim.tif', package = 'sdadata')
+
+# read one band
+bio2 <- rast(fname, lyrs = 2)
+
+# Read the whole raster stack
+bioclim_vars <- rast(fname)
+```
+
+## Raster attributes
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Check info
+res(bioclim_vars)
+crs(bioclim_vars)
+ext(bioclim_vars)
+nlyr(bioclim_vars)
+names(bioclim_vars)
+
+# Get pixel values
+vals <- values(bioclim_vars)
+
+# Set values
+values(bioclim_vars) <- vals
+
+# Get one layer using $
+bio1 <- bioclim_vars$bio01
+
+# Or subset multiple layers
+sub_vars <- subset(bioclim_vars, c(1, 3, 5))
+```
+
+## Create a raster
+
+The same, `rast` in package `terra`.
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# From extent
+e <- ext(bioclim_vars)
+rst <- rast(e, nrows = 10, ncols = 10, 
+              crs = crs("EPSG:4326"), # important
+              vals = 1:100)
+plot(rst)
+
+# From scratch
+rst <- rast(nrows = 10, ncols = 10, 
+              xmin = 29.59, xmax = 40.44,
+              ymin = -11.76, ymax = -0.98)
+crs(rst) <- crs("EPSG:4326")
+values(rst) <- sample(1:100, 100)
+
+# From another raster
+rst <- rast(bioclim_vars) # Just a blank raster, no values
+
+# Choose layer
+rst <- rast(bioclim_vars, nlyrs = 1)
+```
+
+## Reproject
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Use a defined CRS object
+vars_proj <- project(bioclim_vars, crs("ESRI:54009"))
+
+# Or get crs from an existing object
+vars_latlon <- project(vars_proj, crs(bioclim_vars))
+
+# Or directly use an existing object
+vars_latlon_rep <- project(vars_proj, bioclim_vars)
+```
+
+## Write raster
+
+`writeRaster` to save out a raster.
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+dst_fname <- "your_class_note/bioclim_vars.tif"
+writeRaster(bioclim_vars, dst_fname, overwrite = TRUE)
+```
+
+## Practice 1
+
+- Download the global gridded population of 2020 using `population` function in package `geodata`.
+- Project the layer to projection of `ESRI:54009`.
+- Change the values of population to population / 1000.
+- Save it to your class note folder with name "population_k_2020.tif".
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+library(geodata)
+
+pop_global <- population(
+  year = 2020, res = 5,
+  path = tempdir())
+
+pop_global <- project(pop_global, "ESRI:54009")
+
+pop_global <- pop_global / 1000
+
+writeRaster(pop_global, "your_classnote_folder/population_k_2020.tif")
+```
+
+## Conversion between raster and vector
+
+- `rasterize`: vector to raster
+- `as.polygons`, `as.points`, etc.: raster to vector
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Raster to vector
+cnts_rst <- rasterize(countries_sa, pop_global, field = "name")
+cnts_rst <- trim(cnts_rst)
+
+# vector to raster
+cnts_vct <- as.polygons(cnts_rst, dissolve = T) %>% 
+    st_as_sf()
+```
+
+## Practice 2
+
+- Rasterize `car_plants_sa` with `pop_global` as the template.
+- Convert the raster back to points.
+- Save the points to your class note folder with name "car_plants_occurrence.geojson".
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+car_plants_rst <- rasterize(car_plants_sa, pop_global)
+car_plants_rst <- trim(car_plants_rst)
+
+# vector to raster
+car_plants_vct <- as.points(car_plants_rst) %>% st_as_sf()
+```
+
+## Homework
+
+- Finish reading Unit2 - Module 2a. 

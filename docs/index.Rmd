@@ -156,7 +156,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">8</td>
       <td>Mar 9, 11</td>
       <td>More on vectors</td>
-      <td class="current">[Class 14](class14.html), [Class 15](class15.html)</td>
+      <td>[Class 14](class14.html), [Class 15](class15.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 4 (Mar 13)</td>
     </tr>
     <tr class="text-muted">
@@ -168,7 +168,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">10</td>
       <td>Mar 23, 25</td>
       <td>Working with rasters</td>
-      <td>Class 16, Class 17</td>
+      <td class="current">[Class 16](class16.html), Class 17</td>
       <td></td>
     </tr>
     <tr>
