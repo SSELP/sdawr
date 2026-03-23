@@ -221,8 +221,8 @@ writeRaster(bioclim_vars, dst_fname, overwrite = TRUE)
 
 - Download the global gridded population of 2020 using `population` function in package `geodata`.
 - Project the layer to projection of `ESRI:54009`.
-- Change the values of population to population / 1000.
-- Save it to your class note folder with name "population_k_2020.tif".
+- Change the values of population to log(population + 1).
+- Save it to your class note folder with name "population_log_2020.tif".
 
 ```{r}
 #| echo: false
@@ -236,9 +236,9 @@ pop_global <- population(
 
 pop_global <- project(pop_global, "ESRI:54009")
 
-pop_global <- pop_global / 1000
+pop_global <- log(pop_global + 1)
 
-writeRaster(pop_global, "your_classnote_folder/population_k_2020.tif")
+writeRaster(pop_global, "your_classnote_folder/population_log_2020.tif")
 ```
 
 ## Conversion between raster and vector
@@ -252,6 +252,7 @@ writeRaster(pop_global, "your_classnote_folder/population_k_2020.tif")
 #| eval: false
 
 # sf vs vect
+tza <- rnaturalearth::ne_countries(country = "United Republic of Tanzania")
 class(tza)
 tza <- vect(tza)
 class(tza)

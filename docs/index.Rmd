@@ -168,7 +168,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">10</td>
       <td>Mar 23, 25</td>
       <td>Working with rasters</td>
-      <td class="current">[Class 16](class16.html), Class 17</td>
+      <td class="current">[Class 16](class16.html), [Class 17](class17.html)</td>
       <td></td>
     </tr>
     <tr>
