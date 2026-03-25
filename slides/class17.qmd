@@ -45,15 +45,19 @@ sf_use_s2(FALSE)
 #| eval: false
 #| 
 library(geodata)
+library(dplyr)
+library(sf)
 
 tza <- rnaturalearth::ne_countries(country = "United Republic of Tanzania")
 
-car_plants <- read.csv("../docs/Riched_Carnivorous_Plant.csv") %>% 
+car_plants <- read.csv("https://sselp.github.io/sdawr//Riched_Carnivorous_Plant.csv") %>% 
     st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 pop_global <- population(
   year = 2020, res = 5,
   path = tempdir())
+
+pop_global <- log(pop_global + 1)
 ```
     
 ## Raster and vector
@@ -67,8 +71,8 @@ pop_global <- population(
 #| 
 
 # Overlay: crop and mask, compare the difference
-pop_tza <- mask(pop_global, tza)
-pop_tza <- mask(crop(pop_global, tza), tza)
+pop_tza1 <- mask(pop_global, tza)
+pop_tza2 <- mask(crop(pop_global, tza), tza)
 
 # Extract, compare the difference
 pop_plants <- extract(pop_global, car_plants)
@@ -83,14 +87,18 @@ Local operations do operations **cell-by-cell** in one or several layers.
 Let's do a practice:
   
 - Download sentinel-2 bands in 20m from [here](https://www.dropbox.com/scl/fi/rfhwd1b79qwis889bzlr9/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif?rlkey=6kli129kmtck5snyxnwp3mirz&st=mzg36ufc&dl=0). Bands are B2 (blue), B3 (green), B4 (red), B5 (vegetation red edge 1), B6 (vegetation red edge 2), B7 (vegetation red edge 3), B11 (SWIR 1), B12 (SWIR 2), and B8A (NIR) in order.
+- Put it in your class note folder (update `.gitignore` together**!!**)
 - Read the raster stack into R.
+
+##
+
 - Make a simple water mask using NDVI. (What value of NDVI indicate water?)
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: false
 #| 
-fname <- 'S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif'
+fname <- 'your_class_note_folder/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif'
 s2 <- rast(fname)
 
 names(s2) <- paste0('B', c(2:7, 11:12, 8))
@@ -102,7 +110,7 @@ plot(water_mask)
 
 ## Raster calculation - Local
 
-- `reclassify` takes a matrix of values to reclassify a raster.
+- `classify` takes a matrix of values to reclassify a raster.
   
 ```{r}
 #| echo: true
@@ -118,13 +126,24 @@ rcl <- matrix(
 
 lc <- classify(ndvi, rcl, include.lowest = TRUE)
 
-lc <- ratify(lc)
-levels(lc)[[1]]$landcover <- c(
-  "water", "Urban",
-  "sparse vegetation",
-  "dense vegetation")
+plot(lc)
+lc
 
-tm_shape(lc) + tm_raster()
+# Convert to categorical map
+lc <- as.factor(lc)
+levels(lc) <- data.frame(
+  value = 1:4,
+  landcover = c(
+    "water",
+    "Urban",
+    "sparse vegetation",
+    "dense vegetation"
+  )
+)
+
+plot(lc)
+lc
+levels(lc)
 ```
 
 ## Raster calculation - "Neighborhood"
@@ -138,11 +157,14 @@ tm_shape(lc) + tm_raster()
 #| eval: false
 
 # Aggregate, result is a raster with coarse resolution
-rainfall_af_mean <- mean(rainfall_africa)
-rainfall_agg <- aggregate(rainfall_af_mean, fact = 8, fun = mean)
+pop_tza_coarse <- aggregate(pop_tza, fact = 8, fun = mean)
 
-# Zonal, result is a matrix 
-rainfall_zonal <- zonal(rainfall_af_mean, cnts_rst, fun = max)
+# Zonal, result is a matrix! 
+cnts <- rnaturalearth::ne_countries()
+cnts_rst <- rasterize(cnts, pop_global, "name")
+pop_zonal <- zonal(pop_global, cnts_rst, fun = mean)
+
+# Observe values in pop_zonal, what might be wrong? 
 ```
 
 ## 
@@ -153,40 +175,38 @@ rainfall_zonal <- zonal(rainfall_af_mean, cnts_rst, fun = max)
 
 # Focal, result is a raster as well.
 ## Use s2 NIR band as an example
-fname <- 'S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif'
-nir_band <- raster(
-  file.path('/Users/leisong/Downloads', 
-            fname), 4)
+fname <- 'your_class_note_folder/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif'
+nir_band <- rast(fname, lyrs = 9)
+
 # weight matrix could not the square, 
 # but ncol and nrow must be uneven numbers
+
 ## Reproduce Sobel edge detection
-wx <- matrix(c(-1, -2, -1, 0, 0, 0, 1, 2, 1), nrow = 3)
-wy <- matrix(c(1, 0, -1, 2, 0, -2, 1, 0, -1), nrow = 3)
+wx <- matrix(c(-1, -2, -1, 0, 0, 0, 1, 2, 1), nrow = 3, byrow = TRUE)
+wy <- matrix(c(1, 0, -1, 2, 0, -2, 1, 0, -1), nrow = 3, byrow = TRUE)
+
+# Apply focal calculation
 nir_x <- focal(nir_band, w = wx)
 nir_y <- focal(nir_band, w = wy)
+
+# Simply band calculation
 nir_edge <- sqrt(nir_x^2 + nir_y^2)
-writeRaster(nir_edge, '/Users/leisong/downloads/edge.tif')
+
+writeRaster(nir_edge, 'your_class_note_folder/edge.tif')
 ```
 
 ## Raster  - Global
 
-- Statistics: e.g. `cellStats(rainfall_af_mean, sd)`, `hist(rainfall_af_mean)`
+- Statistics: e.g. `global(pop_global, FUN)`, `hist(pop_global)`
 - distance
 
 ```{r}
 #| echo: true
 #| eval: false
 
-# Calculate the distance to the farmers
-library(sf)
-rst_template <- raster(system.file('extdata/demalb.tif', package = 'geospaar'))
-farmers <- read.csv(system.file('extdata/farmer_spatial.csv', package = 'geospaar'),
-                    stringsAsFactors = F) %>% 
-  st_as_sf(coords = c('x', 'y'), crs = 4326) %>%
-  st_transform(crs(rst_template)) %>% 
-  as_Spatial()
-farmers_rst <- rasterize(farmers, field = 1, rst_template)
-dis_farmers <- raster::distance(farmers_rst)
+# Calculate the distance to the carnivore plant observations
+car_plants_rst <- rasterize(car_plants, field = 1, pop_tza2)
+dis_plants <- terra::distance(car_plants_rst)
 ```
 
 ## Homework

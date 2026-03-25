@@ -1153,15 +1153,19 @@ margin-right: 0; }
 <h2>Load data for today</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="fu">library</span>(geodata)</span>
-<span id="cb1-2"><a href></a></span>
-<span id="cb1-3"><a href></a>tza <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">&quot;United Republic of Tanzania&quot;</span>)</span>
+<span id="cb1-2"><a href></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-4"><a href></a></span>
-<span id="cb1-5"><a href></a>car_plants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../docs/Riched_Carnivorous_Plant.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-6"><a href></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;longitude&quot;</span>, <span class="st">&quot;latitude&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb1-7"><a href></a></span>
-<span id="cb1-8"><a href></a>pop_global <span class="ot">&lt;-</span> <span class="fu">population</span>(</span>
-<span id="cb1-9"><a href></a>  <span class="at">year =</span> <span class="dv">2020</span>, <span class="at">res =</span> <span class="dv">5</span>,</span>
-<span id="cb1-10"><a href></a>  <span class="at">path =</span> <span class="fu">tempdir</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href></a>tza <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">&quot;United Republic of Tanzania&quot;</span>)</span>
+<span id="cb1-6"><a href></a></span>
+<span id="cb1-7"><a href></a>car_plants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://sselp.github.io/sdawr//Riched_Carnivorous_Plant.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-8"><a href></a>    <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;longitude&quot;</span>, <span class="st">&quot;latitude&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb1-9"><a href></a></span>
+<span id="cb1-10"><a href></a>pop_global <span class="ot">&lt;-</span> <span class="fu">population</span>(</span>
+<span id="cb1-11"><a href></a>  <span class="at">year =</span> <span class="dv">2020</span>, <span class="at">res =</span> <span class="dv">5</span>,</span>
+<span id="cb1-12"><a href></a>  <span class="at">path =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb1-13"><a href></a></span>
+<span id="cb1-14"><a href></a>pop_global <span class="ot">&lt;-</span> <span class="fu">log</span>(pop_global <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="raster-and-vector" class="slide level2">
@@ -1172,8 +1176,8 @@ margin-right: 0; }
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="co"># Overlay: crop and mask, compare the difference</span></span>
-<span id="cb2-2"><a href></a>pop_tza <span class="ot">&lt;-</span> <span class="fu">mask</span>(pop_global, tza)</span>
-<span id="cb2-3"><a href></a>pop_tza <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(pop_global, tza), tza)</span>
+<span id="cb2-2"><a href></a>pop_tza1 <span class="ot">&lt;-</span> <span class="fu">mask</span>(pop_global, tza)</span>
+<span id="cb2-3"><a href></a>pop_tza2 <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(pop_global, tza), tza)</span>
 <span id="cb2-4"><a href></a></span>
 <span id="cb2-5"><a href></a><span class="co"># Extract, compare the difference</span></span>
 <span id="cb2-6"><a href></a>pop_plants <span class="ot">&lt;-</span> <span class="fu">extract</span>(pop_global, car_plants)</span>
@@ -1187,33 +1191,60 @@ margin-right: 0; }
 <p>Let’s do a practice:</p>
 <ul>
 <li>Download sentinel-2 bands in 20m from <a href="https://www.dropbox.com/scl/fi/rfhwd1b79qwis889bzlr9/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif?rlkey=6kli129kmtck5snyxnwp3mirz&amp;st=mzg36ufc&amp;dl=0">here</a>. Bands are B2 (blue), B3 (green), B4 (red), B5 (vegetation red edge 1), B6 (vegetation red edge 2), B7 (vegetation red edge 3), B11 (SWIR 1), B12 (SWIR 2), and B8A (NIR) in order.</li>
+<li>Put it in your class note folder (update <code>.gitignore</code> together<strong>!!</strong>)</li>
 <li>Read the raster stack into R.</li>
+</ul>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<ul>
 <li>Make a simple water mask using NDVI. (What value of NDVI indicate water?)</li>
 </ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href></a>fname <span class="ot">&lt;-</span> <span class="st">&#39;your_class_note_folder/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif&#39;</span></span>
+<span id="cb3-2"><a href></a>s2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(fname)</span>
+<span id="cb3-3"><a href></a></span>
+<span id="cb3-4"><a href></a><span class="fu">names</span>(s2) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;B&#39;</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>, <span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb3-5"><a href></a></span>
+<span id="cb3-6"><a href></a>ndvi <span class="ot">&lt;-</span> (s2<span class="sc">$</span>B8 <span class="sc">-</span> s2<span class="sc">$</span>B4) <span class="sc">/</span> (s2<span class="sc">$</span>B8 <span class="sc">+</span> s2<span class="sc">$</span>B4)</span>
+<span id="cb3-7"><a href></a>water_mask <span class="ot">&lt;-</span> ndvi <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb3-8"><a href></a><span class="fu">plot</span>(water_mask)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="raster-calculation---local-1" class="slide level2">
 <h2>Raster calculation - Local</h2>
 <ul>
-<li><code>reclassify</code> takes a matrix of values to reclassify a raster.</li>
+<li><code>classify</code> takes a matrix of values to reclassify a raster.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href></a><span class="co"># A clear way to define the reclassify matrix</span></span>
-<span id="cb3-2"><a href></a>rcl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb3-3"><a href></a>  <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="co"># class 1</span></span>
-<span id="cb3-4"><a href></a>    <span class="dv">0</span>, <span class="fl">0.2</span>, <span class="dv">2</span>, <span class="co"># class 2</span></span>
-<span id="cb3-5"><a href></a>    <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="dv">3</span>, <span class="co"># class 3</span></span>
-<span id="cb3-6"><a href></a>    <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">4</span>), <span class="co"># class 4</span></span>
-<span id="cb3-7"><a href></a>  <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> T)</span>
-<span id="cb3-8"><a href></a></span>
-<span id="cb3-9"><a href></a>lc <span class="ot">&lt;-</span> <span class="fu">classify</span>(ndvi, rcl, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-10"><a href></a></span>
-<span id="cb3-11"><a href></a>lc <span class="ot">&lt;-</span> <span class="fu">ratify</span>(lc)</span>
-<span id="cb3-12"><a href></a><span class="fu">levels</span>(lc)[[<span class="dv">1</span>]]<span class="sc">$</span>landcover <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb3-13"><a href></a>  <span class="st">&quot;water&quot;</span>, <span class="st">&quot;Urban&quot;</span>,</span>
-<span id="cb3-14"><a href></a>  <span class="st">&quot;sparse vegetation&quot;</span>,</span>
-<span id="cb3-15"><a href></a>  <span class="st">&quot;dense vegetation&quot;</span>)</span>
-<span id="cb3-16"><a href></a></span>
-<span id="cb3-17"><a href></a><span class="fu">tm_shape</span>(lc) <span class="sc">+</span> <span class="fu">tm_raster</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href></a><span class="co"># A clear way to define the reclassify matrix</span></span>
+<span id="cb4-2"><a href></a>rcl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb4-3"><a href></a>  <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="co"># class 1</span></span>
+<span id="cb4-4"><a href></a>    <span class="dv">0</span>, <span class="fl">0.2</span>, <span class="dv">2</span>, <span class="co"># class 2</span></span>
+<span id="cb4-5"><a href></a>    <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="dv">3</span>, <span class="co"># class 3</span></span>
+<span id="cb4-6"><a href></a>    <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">4</span>), <span class="co"># class 4</span></span>
+<span id="cb4-7"><a href></a>  <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> T)</span>
+<span id="cb4-8"><a href></a></span>
+<span id="cb4-9"><a href></a>lc <span class="ot">&lt;-</span> <span class="fu">classify</span>(ndvi, rcl, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-10"><a href></a></span>
+<span id="cb4-11"><a href></a><span class="fu">plot</span>(lc)</span>
+<span id="cb4-12"><a href></a>lc</span>
+<span id="cb4-13"><a href></a></span>
+<span id="cb4-14"><a href></a><span class="co"># Convert to categorical map</span></span>
+<span id="cb4-15"><a href></a>lc <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(lc)</span>
+<span id="cb4-16"><a href></a><span class="fu">levels</span>(lc) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-17"><a href></a>  <span class="at">value =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb4-18"><a href></a>  <span class="at">landcover =</span> <span class="fu">c</span>(</span>
+<span id="cb4-19"><a href></a>    <span class="st">&quot;water&quot;</span>,</span>
+<span id="cb4-20"><a href></a>    <span class="st">&quot;Urban&quot;</span>,</span>
+<span id="cb4-21"><a href></a>    <span class="st">&quot;sparse vegetation&quot;</span>,</span>
+<span id="cb4-22"><a href></a>    <span class="st">&quot;dense vegetation&quot;</span></span>
+<span id="cb4-23"><a href></a>  )</span>
+<span id="cb4-24"><a href></a>)</span>
+<span id="cb4-25"><a href></a></span>
+<span id="cb4-26"><a href></a><span class="fu">plot</span>(lc)</span>
+<span id="cb4-27"><a href></a>lc</span>
+<span id="cb4-28"><a href></a><span class="fu">levels</span>(lc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="raster-calculation---neighborhood" class="slide level2">
@@ -1224,51 +1255,52 @@ margin-right: 0; }
 <li>Function <code>focal</code> - image filters: <code>focal(x, w, fun)</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href></a><span class="co"># Aggregate, result is a raster with coarse resolution</span></span>
-<span id="cb4-2"><a href></a>rainfall_af_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(rainfall_africa)</span>
-<span id="cb4-3"><a href></a>rainfall_agg <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(rainfall_af_mean, <span class="at">fact =</span> <span class="dv">8</span>, <span class="at">fun =</span> mean)</span>
-<span id="cb4-4"><a href></a></span>
-<span id="cb4-5"><a href></a><span class="co"># Zonal, result is a matrix </span></span>
-<span id="cb4-6"><a href></a>rainfall_zonal <span class="ot">&lt;-</span> <span class="fu">zonal</span>(rainfall_af_mean, cnts_rst, <span class="at">fun =</span> max)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="co"># Aggregate, result is a raster with coarse resolution</span></span>
+<span id="cb5-2"><a href></a>pop_tza_coarse <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(pop_tza, <span class="at">fact =</span> <span class="dv">8</span>, <span class="at">fun =</span> mean)</span>
+<span id="cb5-3"><a href></a></span>
+<span id="cb5-4"><a href></a><span class="co"># Zonal, result is a matrix! </span></span>
+<span id="cb5-5"><a href></a>cnts <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>()</span>
+<span id="cb5-6"><a href></a>cnts_rst <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(cnts, pop_global, <span class="st">&quot;name&quot;</span>)</span>
+<span id="cb5-7"><a href></a>pop_zonal <span class="ot">&lt;-</span> <span class="fu">zonal</span>(pop_global, cnts_rst, <span class="at">fun =</span> mean)</span>
+<span id="cb5-8"><a href></a></span>
+<span id="cb5-9"><a href></a><span class="co"># Observe values in pop_zonal, what might be wrong? </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="section" class="slide level2">
+<section id="section-1" class="slide level2">
 <h2></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="co"># Focal, result is a raster as well.</span></span>
-<span id="cb5-2"><a href></a><span class="do">## Use s2 NIR band as an example</span></span>
-<span id="cb5-3"><a href></a>fname <span class="ot">&lt;-</span> <span class="st">&#39;S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif&#39;</span></span>
-<span id="cb5-4"><a href></a>nir_band <span class="ot">&lt;-</span> <span class="fu">raster</span>(</span>
-<span id="cb5-5"><a href></a>  <span class="fu">file.path</span>(<span class="st">&#39;/Users/leisong/Downloads&#39;</span>, </span>
-<span id="cb5-6"><a href></a>            fname), <span class="dv">4</span>)</span>
-<span id="cb5-7"><a href></a><span class="co"># weight matrix could not the square, </span></span>
-<span id="cb5-8"><a href></a><span class="co"># but ncol and nrow must be uneven numbers</span></span>
-<span id="cb5-9"><a href></a><span class="do">## Reproduce Sobel edge detection</span></span>
-<span id="cb5-10"><a href></a>wx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb5-11"><a href></a>wy <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb5-12"><a href></a>nir_x <span class="ot">&lt;-</span> <span class="fu">focal</span>(nir_band, <span class="at">w =</span> wx)</span>
-<span id="cb5-13"><a href></a>nir_y <span class="ot">&lt;-</span> <span class="fu">focal</span>(nir_band, <span class="at">w =</span> wy)</span>
-<span id="cb5-14"><a href></a>nir_edge <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(nir_x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> nir_y<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb5-15"><a href></a><span class="fu">writeRaster</span>(nir_edge, <span class="st">&#39;/Users/leisong/downloads/edge.tif&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="co"># Focal, result is a raster as well.</span></span>
+<span id="cb6-2"><a href></a><span class="do">## Use s2 NIR band as an example</span></span>
+<span id="cb6-3"><a href></a>fname <span class="ot">&lt;-</span> <span class="st">&#39;your_class_note_folder/S2A_MSIL2A_20201014T154231_N0214_R011_T19TBG_20201014T200156_20m.tif&#39;</span></span>
+<span id="cb6-4"><a href></a>nir_band <span class="ot">&lt;-</span> <span class="fu">rast</span>(fname, <span class="at">lyrs =</span> <span class="dv">9</span>)</span>
+<span id="cb6-5"><a href></a></span>
+<span id="cb6-6"><a href></a><span class="co"># weight matrix could not the square, </span></span>
+<span id="cb6-7"><a href></a><span class="co"># but ncol and nrow must be uneven numbers</span></span>
+<span id="cb6-8"><a href></a></span>
+<span id="cb6-9"><a href></a><span class="do">## Reproduce Sobel edge detection</span></span>
+<span id="cb6-10"><a href></a>wx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-11"><a href></a>wy <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-12"><a href></a></span>
+<span id="cb6-13"><a href></a><span class="co"># Apply focal calculation</span></span>
+<span id="cb6-14"><a href></a>nir_x <span class="ot">&lt;-</span> <span class="fu">focal</span>(nir_band, <span class="at">w =</span> wx)</span>
+<span id="cb6-15"><a href></a>nir_y <span class="ot">&lt;-</span> <span class="fu">focal</span>(nir_band, <span class="at">w =</span> wy)</span>
+<span id="cb6-16"><a href></a></span>
+<span id="cb6-17"><a href></a><span class="co"># Simply band calculation</span></span>
+<span id="cb6-18"><a href></a>nir_edge <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(nir_x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> nir_y<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-19"><a href></a></span>
+<span id="cb6-20"><a href></a><span class="fu">writeRaster</span>(nir_edge, <span class="st">&#39;your_class_note_folder/edge.tif&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="raster---global" class="slide level2">
 <h2>Raster - Global</h2>
 <ul>
-<li>Statistics: e.g. <code>cellStats(rainfall_af_mean, sd)</code>, <code>hist(rainfall_af_mean)</code></li>
+<li>Statistics: e.g. <code>global(pop_global, FUN)</code>, <code>hist(pop_global)</code></li>
 <li>distance</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="co"># Calculate the distance to the farmers</span></span>
-<span id="cb6-2"><a href></a><span class="fu">library</span>(sf)</span>
-<span id="cb6-3"><a href></a>rst_template <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="fu">system.file</span>(<span class="st">&#39;extdata/demalb.tif&#39;</span>, <span class="at">package =</span> <span class="st">&#39;geospaar&#39;</span>))</span>
-<span id="cb6-4"><a href></a>farmers <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&#39;extdata/farmer_spatial.csv&#39;</span>, <span class="at">package =</span> <span class="st">&#39;geospaar&#39;</span>),</span>
-<span id="cb6-5"><a href></a>                    <span class="at">stringsAsFactors =</span> F) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&#39;x&#39;</span>, <span class="st">&#39;y&#39;</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-7"><a href></a>  <span class="fu">st_transform</span>(<span class="fu">crs</span>(rst_template)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-8"><a href></a>  <span class="fu">as_Spatial</span>()</span>
-<span id="cb6-9"><a href></a>farmers_rst <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(farmers, <span class="at">field =</span> <span class="dv">1</span>, rst_template)</span>
-<span id="cb6-10"><a href></a>dis_farmers <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">distance</span>(farmers_rst)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># Calculate the distance to the carnivore plant observations</span></span>
+<span id="cb7-2"><a href></a>car_plants_rst <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(car_plants, <span class="at">field =</span> <span class="dv">1</span>, pop_tza2)</span>
+<span id="cb7-3"><a href></a>dis_plants <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">distance</span>(car_plants_rst)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="homework" class="slide level2">

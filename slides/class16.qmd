@@ -63,7 +63,7 @@ countries <- rnaturalearth::ne_countries(scale = 110) %>%
     select(continent, name) %>% 
     st_transform(proj_use)
     
-car_plants <- read.csv("../docs/Riched_Carnivorous_Plant.csv") %>% 
+car_plants <- read.csv("https://sselp.github.io/sdawr//Riched_Carnivorous_Plant.csv") %>% 
     st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>% 
     st_transform(proj_use)
 
