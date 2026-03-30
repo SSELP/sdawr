@@ -1,0 +1,304 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 18"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/colombia-dem.png
+title-slide-attributes:
+  data-background-image: figures/colombia-dem.png
+  data-background-position: center
+  data-background-size: 50%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+sf_use_s2(FALSE)
+```
+
+- Terrain analysis
+- Interpolation and prediction
+
+## Get DEM data
+
+Then:
+
+- Crop DEM to extent of "36, 37, -7, -6 (xmin, xmax, ymin, ymax)". 
+- Project the cropped DEM to crs of "EPSG:32737".
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+library(terra)
+library(tidyterra)
+library(ggplot2)
+library(geodata)
+library(dplyr)
+library(sf)
+
+# terrain
+dem <- geodata::elevation_3s(lon = 36.5, lat = -6.5, path = tempdir())
+# add extra lines
+
+```
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+library(terra)
+library(tidyterra)
+library(ggplot2)
+
+# terrain
+dem <- geodata::elevation_3s(lon = 36.5, lat = -6.5, path = tempdir())
+dem <- crop(dem, ext(36, 37, -7, -6))
+dem <- project(dem, crs("EPSG:32737"))
+ggplot() + geom_spatraster(data = dem) +
+    scale_fill_terrain_c(name = "Elevation", na.value = "transparent") +
+    theme_void()
+```
+
+## Terrain analysis
+
+- Slope
+- Aspect (the direction in which a slope faces)
+- Hillshade
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+
+slope <- terrain(dem, v = "slope", unit = "radians", neighbors = 8)
+aspect <- terrain(dem, v = "aspect", neighbors = 8)
+
+hillshade <- shade(slope, aspect / 180 * pi, angle = 40, direction = 270)
+
+# Plot
+l_figs <- lapply(list(slope, aspect, hillshade), function(lyr){
+    ggplot() + geom_spatraster(data = lyr) +
+    scale_fill_terrain_c(na.value = "transparent") +
+    theme_void()
+})
+
+ggpubr::ggarrange(plotlist = l_figs, nrow = 1)
+```
+
+## Terrain analysis
+
+- Topographic variations
+
+  - Terrain Ruggedness Index (TRI)
+  - Topographic Position Index (TPI)
+  - Roughness
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# variations
+tpi <- terrain(dem, v = "TPI", neighbors = 8)
+tri <- terrain(dem, v = "TRI", neighbors = 8)
+roughness <- terrain(dem, v = "roughness", neighbors = 8)
+
+# Plot
+l_figs <- lapply(list(tpi, tri, roughness), function(lyr){
+    ggplot() + geom_spatraster(data = lyr) +
+    scale_fill_terrain_c(na.value = "transparent") +
+    theme_void()
+})
+
+ggpubr::ggarrange(plotlist = l_figs, nrow = 1)
+```
+
+## Terrain analysis
+
+- Flow direction
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+flowdir <- terrain(dem, v = "flowdir", neighbors = 4)
+
+# Plot
+ggplot() + geom_spatraster(data = flowdir) +
+    scale_fill_terrain_c(name = "Elevation", na.value = "transparent") +
+    theme_void()
+```
+
+## Practice
+
+Identify suitable areas for a hiking trail using terrain data:
+
+- **Slope** (classify slope into 4 classes using breaks at 5, 15, and 30 degrees)
+- **TRI** (classify TRI into 4 classes using breaks at 10, 30, and 50)
+- Add these two difficulty levels together
+- Plot the final result.
+- *Think about:* which areas seem suitable for a beginner hiking trail?
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+slope <- terrain(dem, v = "slope", neighbors = 8)
+slope_class <- classify(
+  slope,
+  rcl = matrix(c(
+    0, 5, 1,
+    5, 15, 2,
+    15, 30, 3,
+    30, Inf, 4
+  ), ncol = 3, byrow = TRUE)
+)
+
+tri_class <- classify(
+  tri,
+  rcl = matrix(c(
+    0, 10, 1,
+    10, 30, 2,
+    30, 60, 3,
+    60, Inf, 4
+  ), ncol = 3, byrow = TRUE)
+)
+
+trail_difficulty <- slope_class + tri_class
+plot(trail_difficulty)
+```
+
+## Interpolation and prediction
+
+**Tobler's First Law of Geography:** Everything is related to everything else, but near things are more related than distant things.
+
+Different approaches:
+
+- Nearest neighbor interpolation
+- Inverse distance weighted interpolation (IDW)
+
+*NOTE: we could do interpolation for any numeric variables, but it does not mean the interpolation always makes sense.*
+
+## Prepare some data
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Get the annual rainfall
+rainfall <- worldclim_country(country = "COL", var = "prec", res = 2.5, path = tempdir())
+rainfall <- sum(rainfall); names(rainfall) <- "mean_rainfall"
+plot(rainfall)
+
+# Get some pseudo samples
+set.seed(10)
+pts_rainfall <- spatSample(
+    rainfall, size = 200, na.rm = TRUE, xy = TRUE) %>% 
+    rename(rainfall = sum)
+
+# Visually check
+plot(rainfall, breaks = seq(0, 8000, 1000),
+     col = terrain.colors(length(seq(0, 8000, 1000))))
+plot(pts_rainfall %>% st_as_sf(coords = c("x", "y"), crs = 4326) %>% st_geometry(), 
+     add = TRUE, pch = 20, col = 'black', size = 1)
+```
+
+## Neareast neighbour interpolation
+
+- Use `gstat` package
+  - Step 1: create `gstat` object (like a model)
+  - Step 2: Do interpolation (like prediction)
+
+## Neareast neighbour interpolation
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+library(gstat)
+library(dplyr)
+
+# step 1 - Define a raster template for the result
+rst_template <- rainfall
+
+# Step 2 - Define gstat object that hold all necessary info for interpolation
+nn_gs <- gstat(formula = rainfall ~ 1, 
+               locations = ~x + y, data = pts_rainfall, 
+               nmax = 5, set = list(idp = 0))
+
+# Step 3 - Do the prediction
+rainfall_nn <- interpolate(rst_template, nn_gs)
+rainfall_nn <- mask(rainfall_nn, rst_template)
+
+# Step 4 - Evaluation
+plot(c(rainfall_nn$var1.pred, rainfall))
+```
+
+## Inverse distance weighted interpolation
+
+Nearest neighbor interpolation is a special case of IDW, which not use weights at all. In function `gstat`, we set `set = list(idp = 0)`.
+
+Now, it is **your turn** to create a map using IDW. And compare it with the real mean rainfall and nearest neighbor interpolation.
+
+- Just need to make one change in function `gstat`
+
+```{r}
+#| echo: false
+#| eval: false
+#| 
+# Step 2 - Define gstat
+idw_gs <- gstat(formula = rainfall ~ 1, 
+               locations = ~x + y, data = pts_rainfall, 
+               nmax = 5)
+
+# Step 3 - Do the prediction
+rainfall_idw <- interpolate(rst_template, idw_gs) 
+rainfall_idw <- mask(rainfall_idw, rst_template)
+```
+
+## Inverse distance weighted interpolation
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Revise the step 2 and step 3 to make rainfall_nn 
+# and save the result to rainfall_idw
+
+# Put together to compare
+imgs <- c(rainfall,
+          rainfall_nn$var1.pred,
+          rainfall_idw$var1.pred)
+names(imgs) <- c('Real mean rainfall',
+                 'NN interpolation',
+                 'IDW interpolation')
+
+# Introduce a new way to plot
+library(tmap)
+tm_shape(imgs) + 
+  tm_raster(title = 'Rainfall',
+            breaks = seq(0, 8000, 1000),
+            palette = "-RdYlGn", 
+            n = length(seq(0, 8000, 1000)))
+```
+
+## Homework
+
+- Assignment 5 (the last assignment) is due this Friday.
+- Team up and choose a topic for your final project (**!!**)

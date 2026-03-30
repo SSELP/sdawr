@@ -198,7 +198,13 @@ writeRaster(nir_edge, 'your_class_note_folder/edge.tif')
 ## Raster  - Global
 
 - Statistics: e.g. `global(pop_global, FUN)`, `hist(pop_global)`
+  
+  - Try to calculate the max value of `pop_global`.
+  
 - distance
+
+  - `rasterize` the vector first
+  - use `distance`
 
 ```{r}
 #| echo: true
