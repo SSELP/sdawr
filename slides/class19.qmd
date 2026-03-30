@@ -1,0 +1,213 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 19"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/colombia-dem.png
+title-slide-attributes:
+  data-background-image: figures/colombia-dem.png
+  data-background-position: center
+  data-background-size: 50%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Today
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(dplyr)
+library(here)
+library(sdadata)
+sf_use_s2(FALSE)
+```
+
+- Let’s run a case study on carnivorous plant distribution.
+
+## A typical workflow
+
+- Identify the response variable of interest (what you are interested)
+  - E.g. Carnivorous plant occurrence
+- Identify relevant explanatory variables
+  - E.g. climate drivers, topography, human disturbances, etc
+- Preprocess the data and conduct exploratory data analysis
+  - clean bad data (e.g. `NA` or missing)
+  - align the spatial extent
+  - reproject the layers
+  - and so on
+- Fit the model and tell a **story**
+
+## Response variable of interest
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Load libraries
+library(dplyr)
+library(sf)
+library(terra)
+
+# Read data (you may download your data from somewhere)
+car_plants <- read.csv("https://sselp.github.io/sdawr//Riched_Carnivorous_Plant.csv") %>% 
+    select(longitude, latitude, family, genus, species)
+
+# Pick a species that you like and have at least 100 occurrences
+car_plants %>% 
+    group_by(species) %>% summarise(n = n()) %>% 
+    filter(n >= 100) %>% pull(species)
+
+# Replace the species with your own interested one
+sp_occ <- car_plants %>% filter(species == "californica") %>% na.omit()
+
+# Convert to spatial
+sp_occ <- sp_occ %>% 
+    st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+# Always check any dataset before using it for the first time.
+head(sp_occ)
+plot(sp_occ$geometry)
+```
+
+## Explanatory variables
+
+What might be important for a carnivorous plant to survive?
+
+- Suitable climate
+- Topography
+- Special soil condition
+- Low human disturbance
+
+## Explanatory variables
+
+```{r}
+#| echo: true
+#| eval: false
+library(geodata)
+options(timeout = 600)
+
+# Climate
+clim <- worldclim_global(var = "bio", res = 2.5, path = tempdir())
+clim <- subset(clim, c(1, 5, 6, 12, 14, 15))
+names(clim) <- paste0("BIO", c(1, 5, 6, 12, 14, 15))
+
+# Elevation
+dem <- elevation_global(res = 2.5, path = tempdir())
+names(dem) <- "elevation"
+
+# soil layers
+soil_vars <- c(
+  soil_world("phh2o", depth = 5, path = tempdir()),
+  soil_world("soc",   depth = 5, path = tempdir()),
+  soil_world("sand",  depth = 5, path = tempdir()),
+  soil_world("clay",  depth = 5, path = tempdir()))
+
+names(soil_vars) <- c("phh2o", "soc", "sand", "clay")
+
+# Human footprint
+hfp <- footprint(path = tempdir())
+names(hfp) <- "human_footprint"
+
+# Put together, can we directly put them together?
+vars <- c(clim, dem, resample(soil_vars, clim), resample(hfp, clim))
+```
+
+## Match response and explanatory variables
+
+- Spatial data has too large extent
+- Duplicated records within one pixel
+- Records without spatial data (e.g. along coastlines)
+- and so on.
+
+## Match response and explanatory variables
+
+```{r}
+#| echo: true
+#| eval: false
+#| 
+# Crop the spatial data into the extent of plant records
+vars <- crop(vars, sp_occ)
+
+# Remove duplicated records from plant records
+nrow(sp_occ)
+sp_occ_rst <- rasterize(sp_occ, vars$BIO1, values = 1)
+sp_occ_dedup <- as.points(sp_occ_rst) %>% st_as_sf() %>% rename(occ = last)
+nrow(sp_occ_dedup) # remove quite a lot of records
+
+# Quickly check them
+plot(vars$BIO1)
+plot(sp_occ_dedup$geometry, add = T)
+```
+
+## Combine response and explanatory variables
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Link two variables together
+dat <- terra::extract(vars, sp_occ_dedup, ID = FALSE) %>% na.omit()
+
+# For species modeling, we need to get some background samples
+set.seed(123)
+background <- spatSample(vars, size = nrow(dat), na.rm = TRUE) %>% na.omit()
+
+# Put them together
+dat_all <- rbind(
+    dat %>% mutate(response = 1), # observation
+    background %>% mutate(response = 0)) # background
+```
+
+## Fit the model!
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Split the data into training and test
+set.seed(123)
+
+train_id <- sample(1:nrow(dat_all), size = 0.7 * nrow(dat_all))
+dat_train <- dat_all[train_id, ]
+dat_test  <- dat_all[-train_id, ]
+
+# Fit a linear model
+glm_fit <- glm(response ~ ., data = dat_train, family = binomial)
+
+# Predicted probabilities for the positive class
+prob <- predict(glm_fit, newdata = dat_test, type = "response")
+
+# Evaluation: calculate AUC
+library(pROC)
+
+roc_obj <- roc(dat_test$response, prob)
+auc_val <- auc(roc_obj)
+
+auc_val # Good model
+```
+
+## Predict the map!!
+
+```{r}
+#| echo: true
+#| eval: false
+
+pred_map <- predict(vars, glm_fit, type = "response")
+plot(pred_map, main = "Suitability map of californica") # Replace the name with yours
+```
+
+## Homework
+
+- Next week, we will talk about setting up the repo for your final project and introduce useful resources for your projects.
+- Assignment 5 (the last assignment) is due this Friday.
+- Team up and choose a topic for your final project (**!!**)

@@ -175,7 +175,7 @@ The class materials were designed by Lyndon Estes and Lei Song.
       <td style="text-align: center;">11</td>
       <td>Mar 30, Apr 1</td>
       <td>More on rasters</td>
-      <td class="current">[Class 18](class18.html), Class 19</td>
+      <td class="current">[Class 18](class18.html), [Class 19](class19.html)</td>
       <td style="color: #cc0033; font-weight: bold;">Assignment 5 (Apr 3)</td>
     </tr>
     <tr style="background-color: #f8f9fa; font-weight: bold;">
