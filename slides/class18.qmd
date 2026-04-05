@@ -66,6 +66,9 @@ dem <- geodata::elevation_3s(lon = 36.5, lat = -6.5, path = tempdir())
 library(terra)
 library(tidyterra)
 library(ggplot2)
+library(geodata)
+library(dplyr)
+library(sf)
 
 # terrain
 dem <- geodata::elevation_3s(lon = 36.5, lat = -6.5, path = tempdir())

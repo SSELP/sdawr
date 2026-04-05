@@ -1,0 +1,120 @@
+---
+title: "Spatial Data Analysis (450:320)"
+subtitle: "Class 20 - Git/GitHub"
+format:
+  revealjs:
+    code-block-height: 650px
+    theme: night
+    highlight-style: github
+    highlight-lines: true
+    incremental: false    
+    embed-resources: true
+resources:
+  - figures/colombia-dem.png
+title-slide-attributes:
+  data-background-image: figures/colombia-dem.png
+  data-background-position: center
+  data-background-size: 50%
+css: ["themes/default.css"]
+editor_options: 
+  chunk_output_type: console
+---
+
+## Reproducible research
+
+- Use version control.
+- Don't do things manually and teach the machine to do everything. 
+  - Let machine figure out number of row, col, or length programmatically. 
+  - Don't edit raw file manually.
+- Use functions, scripts, markdowns and packages.
+  - Do not save outputs usually, but use data + code.
+  - Here is an exception for us: if your data is huge, you could save out some necessary outputs to save time for the package to build.
+
+## Reproducible research
+
+- Comment your code properly.
+- Set seed for random functions
+- Avoid using full path. Easiest way is to use package `here` to deal with paths.
+- Keep track of software environment. `sessionInfo()`
+
+## Git commands
+
+- Initialize an empty Git repo
+
+  `git init`
+
+- Download a repository from GitHub to local freshly
+  
+  `git clone repo_url`
+  
+- Pull changes from remote to local on the same branch
+
+  `git pull`
+
+- Upload changes to remote
+
+  `git push` or `git push origin branch_name`
+
+## Git commands
+
+- Check current branch
+
+  `git branch`
+  
+- Create new branch
+
+  `git branch new_branch_name`
+  
+- Switch branch
+
+  `git checkout branch_name`
+
+## Git commands
+
+- Check the current state of the repo since last commit
+
+  `git status`
+
+- Stage and commit changes
+
+  ```
+  git add . # stage all changes
+  git add file_path # stage a specific file
+  git commit -m 'Commit message' # commit the staged changes
+  ```
+- Shortcut of doing both together
+
+  `git commit -am "Commit message"`
+  
+- Unstage a staged file
+  
+  `git checkout file_name`
+
+## Git commands
+
+- Merge changes from other branch
+
+  `git merge origin branch_name`
+  
+- Pick up one file from another branch
+
+  `git checkout branch_name file_name`
+
+## Git commands
+
+- Rename a branch locally and remotely
+
+  ```
+  git branch -m new_name
+  git push origin -u new_name
+  git push origin --delete old_name
+  ```
+
+- Delete a branch
+
+  ```
+  git branch -d branch_name
+  git push origin --delete branch_name
+  ```
+
+`M` and `D` can be used to force the process.
